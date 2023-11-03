@@ -20,7 +20,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'client/src/index.html',
+      template: './client/src/index.html',
       filename: './index.html',
     }),
 
@@ -32,6 +32,7 @@ const config = {
   module: {
     rules: [
       {
+        exclude: /node_modules/,
         test: /\.(js|jsx)$/i,
         loader: 'babel-loader',
       },
