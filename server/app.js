@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static(clientPath));
 // test get renders our index page
 app.get('/', (req, res) => {
-  res.render('index');
+  res.sendFile(path.join(clientPath, 'index.html'));
 });
 
 module.exports = app;
