@@ -1,0 +1,4 @@
+.eslint*
+**/node_modules
+**/lib
+**/client/dist

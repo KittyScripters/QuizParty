@@ -1,1 +1,1 @@
-//Sql new sequelize
+//Sql 
