@@ -1,1 +1,4 @@
 node_modules
+# will want to include .env files in this as well as our webpack bundle files
+.env
+dist
