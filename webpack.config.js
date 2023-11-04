@@ -1,40 +1,39 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-
+// Pls do not touch
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-const stylesHandler = MiniCssExtractPlugin.loader;
+const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
 const config = {
   entry: './client/src/index.jsx',
+  mode: 'development',
+  watch: true,
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'client/dist'),
+    path: path.resolve(__dirname, './client/dist'),
   },
   devServer: {
     open: true,
     host: 'localhost',
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './client/src/index.html',
-      filename: './index.html',
-    }),
-
-    new MiniCssExtractPlugin(),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
-  ],
+  plugins: [new HtmlWebpackPlugin({
+    template: './client/src/index.html',
+    filename: './index.html',
+  })],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       {
-        exclude: /node_modules/,
-        test: /\.(js|jsx)$/i,
-        loader: 'babel-loader',
+        test: /\.(js|jsx)$/,
+        use: {
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/i,
@@ -54,6 +53,8 @@ const config = {
 module.exports = () => {
   if (isProduction) {
     config.mode = 'production';
+        
+    config.plugins.push(new MiniCssExtractPlugin());
   } else {
     config.mode = 'development';
   }

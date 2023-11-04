@@ -52,5 +52,7 @@ module.exports = {
     'no-trailing-spaces': 0,
     'spaced-comment': 0,
     'no-console': 0,
+    'react/function-component-definition': 0,
+    'arrow-body-style': 0
   },
 };
