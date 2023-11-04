@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
-//express get request to access all the users in the database
+//get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
     .then((data) => {
@@ -38,7 +38,7 @@ app.get('/api/users/:id', (req, res) => {
     .catch((err) => {
       console.log('id', req.params.id);
       console.error('Could not GET user by id', err);
-    })
+    });
 });
 
 module.exports = app;
