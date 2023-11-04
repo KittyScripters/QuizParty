@@ -93,6 +93,49 @@ module.exports = {
         updatedAt: new Date(),
       },
     ]);
+    await queryInterface.bulkInsert('achievements', [
+      {
+        name: 'Top score of 50',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: 'Top score of 100',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: 'Top score periodt',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+    await queryInterface.bulkInsert('join_achievements', [
+      {
+        user_id: 1,
+        achievement_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 2,
+        achievement_id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 3,
+        achievement_id: 3,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        achievement_id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
