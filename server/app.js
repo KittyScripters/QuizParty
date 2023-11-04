@@ -14,4 +14,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
+app.get('/api/users', (req, res) => {
+  User.findAll()
+    .then((users) => res.status(200).res.send(users))
+    .catch((err) => console.error('Could not GET users', err));
+});
+
 module.exports = app;
