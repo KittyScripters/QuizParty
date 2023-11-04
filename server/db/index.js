@@ -120,14 +120,6 @@ const joinAchievement = db.define('join_achievement', {
 // });
 // testBoy.save();
 
-db.sync()
-  .then(() => {
-    console.log('Database synchronized');
-  })
-  .catch((err) => {
-    console.error('Database synchronization error: ', err);
-  });
-
 module.exports = {
   db,
   User,
