@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build:client": "webpack --config webpack.config.js --mode production",
-    "build:client-dev": "webpack --config webpack.config.js --mode development --watch"
+    "build:client-dev": "webpack --config webpack.config.js --mode development --watch",
+    "seed": "npx sequelize db:drop && npx sequelize db:create && node server/db/seed.js && npx sequelize db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,8 @@
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "react": "^18.2.0",
-    "sequelize": "^6.33.0"
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",

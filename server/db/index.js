@@ -60,7 +60,7 @@ const Question = db.define('question', {
   incorrect_answer_3: Sequelize.STRING,
 }, { timesstamps: true });
 
-const joinFollower = db.define('follower', {
+const joinFollower = db.define('join_follower', {
   following_user_id: {
     type: Sequelize.INTEGER, 
     references: { model: User, key: 'id' }, 
@@ -119,14 +119,6 @@ const joinAchievement = db.define('join_achievement', {
 //   politics_score: 13,
 // });
 // testBoy.save();
-
-db.sync()
-  .then(() => {
-    console.log('Database synchronized');
-  })
-  .catch((err) => {
-    console.error('Database synchronization error: ', err);
-  });
 
 module.exports = {
   db,
