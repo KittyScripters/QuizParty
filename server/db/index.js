@@ -12,9 +12,11 @@ const db = new Sequelize({
 
 db.authenticate()
   .then(() => {
-    console.log('db connected');
+    console.log('Database connection has been established successfully.');
   })
-  .catch((err) => console.error('db error: ', err));
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 const User = db.define('user', {
   id: {
@@ -115,6 +117,14 @@ const testBoy = User.build({
   politics_score: 13,
 });
 testBoy.save();
+
+db.sync()
+  .then(() => {
+    console.log('Database synchronized');
+  })
+  .catch((err) => {
+    console.error('Database synchronization error: ', err);
+  });
 
 module.exports = {
   db,

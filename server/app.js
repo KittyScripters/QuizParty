@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { db, User, Question } = require('./db/index');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
