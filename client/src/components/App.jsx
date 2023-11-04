@@ -10,12 +10,10 @@ import Play from './Play';
 import QuestionBuilder from './QuestionBuilder';
 import Login from './Login';
 
-// Parent App comp
 const App = () => {
   const [view, setView] = useState('Login');
   const [user, setUser] = useState({});
 
-  // eslint-disable-next-line func-style
   function handleCallbackResponse(response) {
     console.log('Encoded JWT info:', response.credential);
 
@@ -30,6 +28,7 @@ const App = () => {
     setUser({});
     document.getElementById('signInDiv').hidden = false;
   }
+
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
@@ -51,7 +50,12 @@ const App = () => {
 
   return (
     <div>
-      <div id="signInDiv" />
+      <div
+        id="signInDiv"
+        style={{
+          justifyContent: 'center',
+        }}
+      />
       {Object.keys(user).length !== 0 && (
         <div>
           <nav>
@@ -65,7 +69,7 @@ const App = () => {
           {view === 'Play' && <Play />}
           {view === 'QuestionBuilder' && <QuestionBuilder />}
           {view === 'Login' && <Login />}
-          <img src={user.picture} />
+          <img src={user.picture} alt="User" />
           <h2>{user.name}</h2>
           <button type="button" onClick={handleSignOut}>Logout</button>
         </div>
