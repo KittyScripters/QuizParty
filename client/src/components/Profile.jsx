@@ -15,14 +15,12 @@ import UpdateTab from './profileTabs/UpdateTab';
 
 // user's profile
 const Profile = () => {
-  // initial user state
   const [user, setUser] = useState({});
-  // initial questions state
   const [questions, setQuestions] = useState([]);
-  // initial view state
   const [view, setView] = useState('Profile');
+  const [achievementIds, setAchievementIds] = useState([]);
 
-  // useEffect => axios get user by id request => setUser
+  // USER STATE UPDATE
   useEffect(() => {
     // accessing user 1 "maidenwench"
     axios.get('api/users/1')
@@ -32,6 +30,7 @@ const Profile = () => {
       .catch((err) => console.error('Could not get PROFILE DATA', err));
   }, []);
 
+  // USER'S FAVORITE QUESTIONS UPDATE
   useEffect(() => {
     // accessing user's questions
     axios.get('/api/questions/1')
@@ -39,6 +38,17 @@ const Profile = () => {
         setQuestions(data);
       })
       .catch((err) => console.error('Could not GET user\'s questions', err));
+  }, []);
+
+  // USER'S ACHIEVEMENTS UPDATE
+  useEffect(() => {
+    //get the corresponding data from join_achievements => using user_id
+    axios.get('/api/join_achievements/1')
+      .then(({ data }) => {
+        console.log('join_achievement ids', data);
+        setAchievementIds(data);
+      })
+      .catch((err) => console.error('Could not GET join_achievement ids', err));
   }, []);
 
   return (
@@ -58,7 +68,7 @@ const Profile = () => {
       <div>
         <h1>View should go here</h1>
         {view === 'StatsTab' && <StatsTab stats={user} />}
-        {view === 'AchievementsTab' && <AchievementsTab />}
+        {view === 'AchievementsTab' && <AchievementsTab achievements={achievementIds} />}
         {view === 'FollowersTab' && <FollowersTab />}
         {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
         {view === 'UpdateTab' && <UpdateTab />}

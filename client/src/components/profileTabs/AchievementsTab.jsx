@@ -1,8 +1,10 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 
-const AchievementsTab = () => {
+const AchievementsTab = ({ achievements }) => {
+  console.log('achievements tab', achievements); // good data
+  const [list, setList] = useState([]);
   return (
     <div>
       <div>
