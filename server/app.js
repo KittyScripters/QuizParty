@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable object-shorthand */
 const express = require('express');
 const path = require('path');
@@ -52,6 +53,21 @@ app.get('/api/questions', (req, res) => {
     .catch((err) => {
       console.error('Could not GET questions', err);
       res.sendStatus(500);
+    });
+});
+
+//get questions by user_id => working in postman
+app.get('/api/questions/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  Question.findAll({ where: { user_id: user_id } })
+    .then((questions) => {
+      console.log('user 1 questions', questions);
+      res.status(200);
+      res.send(questions);
+    })
+    .catch((err) => {
+      console.log('id', req.params);
+      console.error('Could not GET questions by user_id', err);
     });
 });
 
