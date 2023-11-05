@@ -3,6 +3,7 @@ import axios from 'axios';
 import Question from './profileTabs/Question';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
+import FollowersTab from './profileTabs/FollowersTab'
 import QuestionsTab from './profileTabs/QuestionsTab';
 
 
@@ -45,6 +46,19 @@ const Profile = () => {
       <p className="bio">
         {user.bio}
       </p>
+      <div>
+        <button type="button" onClick={() => setView('StatsTab')}>Stats</button>
+        <button type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
+        <button type="button" onClick={() => setView('FollowersTab')}>Followers</button>
+        <button type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
+      </div>
+      <div>
+        <h1>View should go here</h1>
+        {view === 'StatsTab' && <StatsTab stats={user} />}
+        {view === 'AchievementsTab' && <AchievementsTab />}
+        {view === 'FollowersTab' && <FollowersTab />}
+        {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
+      </div>
     </div>
   );
 };
