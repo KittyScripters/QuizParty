@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 // user's profile
 const Profile = () => {
+  // initial user state
+  const [user, setUser] = useState('initial render');
+  // useEffect => axios get user by id request => setUser
+  useEffect(() => {
+    axios.get('api/users/1')
+      .then(({ data }) => {
+        setUser(data);
+        console.log('after useEffect', data);
+      })
+      .catch((err) => console.error('Could not get PROFILE DATA', err));
+  }, []);
+
   return (
     <div>
       <img alt="user" />
