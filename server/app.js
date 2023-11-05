@@ -42,4 +42,17 @@ app.get('/api/users/:id', (req, res) => {
     });
 });
 
+//get all Questions => working in postman
+app.get('/api/questions', (req, res) => {
+  Question.findAll()
+    .then((questions) => {
+      res.status(200);
+      res.send(questions);
+    })
+    .catch((err) => {
+      console.error('Could not GET questions', err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = app;
