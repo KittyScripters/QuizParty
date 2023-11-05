@@ -13,41 +13,41 @@ const Profile = () => {
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
   }, []);
-  console.log( 'after useEffect', user);
+  console.log('after useEffect', user);
   return (
     <div>
       <img alt="user" />
       <h2 className="userName">{user.username}</h2>
       <p className="bio">
-        User bio paragraph describing themselves
+        {user.bio}
       </p>
       <div>
         <table>
           <tr className="category">
             <th className="stats-headers">Total</th>
-            <th className="stats-headers">Art</th>
-            <th className="stats-headers">Celebs</th>
             <th className="stats-headers">Animals</th>
-            <th className="stats-headers">Music</th>
-            <th className="stats-headers">Sports</th>
+            <th className="stats-headers">Art</th>
             <th className="stats-headers">Books</th>
-            <th className="stats-headers">Mythology</th>
+            <th className="stats-headers">Celebrities</th>
             <th className="stats-headers">History</th>
+            <th className="stats-headers">Music</th>
+            <th className="stats-headers">Mythology</th>
             <th className="stats-headers">Nature</th>
             <th className="stats-headers">Politics</th>
+            <th className="stats-headers">Sports</th>
           </tr>
-          <tr>
-            <td className="stats-score">203</td>
-            <td className="stats-score">5</td>
-            <td className="stats-score">3</td>
-            <td className="stats-score">0</td>
-            <td className="stats-score">66</td>
-            <td className="stats-score">13</td>
-            <td className="stats-score">0</td>
-            <td className="stats-score">17</td>
-            <td className="stats-score">85</td>
-            <td className="stats-score">1</td>
-            <td className="stats-score">13</td>
+          <tr className="user-scores">
+            <td className="stats-score">{user.highscore}</td>
+            <td className="stats-score">{user.animals_score}</td>
+            <td className="stats-score">{user.art_score}</td>
+            <td className="stats-score">{user.books_score}</td>
+            <td className="stats-score">{user.celebrities_score}</td>
+            <td className="stats-score">{user.history_score}</td>
+            <td className="stats-score">{user.music_score}</td>
+            <td className="stats-score">{user.myth_score}</td>
+            <td className="stats-score">{user.nature_score}</td>
+            <td className="stats-score">{user.politics_score}</td>
+            <td className="stats-score">{user.sports_score}</td>
           </tr>
         </table>
         <table>
