@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Question from './profileTabs/Question';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
-import FollowersTab from './profileTabs/FollowersTab'
+import FollowersTab from './profileTabs/FollowersTab';
 import QuestionsTab from './profileTabs/QuestionsTab';
-
+import UpdateTab from './profileTabs/UpdateTab';
 
 /**
- * TODO: 
- * Create three tabs (components): Stats, Achievements, Questions
- * Then move the appropriate divs to the corresponding tabs
- * Refactor Profile.jsx into a table of the tabs below the profile pic/bio
- * Conditionally render each tab onClick
+ * TODO:
+ * Allow user to update their bio
+ * Allow user to remove questions from their favorite questions list
+ * Allow user to view their followers profiles
  */
 
 // user's profile
@@ -51,6 +49,7 @@ const Profile = () => {
         <button type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
         <button type="button" onClick={() => setView('FollowersTab')}>Followers</button>
         <button type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
+        <button type="button" onClick={() => setView('UpdateTab')}>Update</button>
       </div>
       <div>
         <h1>View should go here</h1>
@@ -58,6 +57,7 @@ const Profile = () => {
         {view === 'AchievementsTab' && <AchievementsTab />}
         {view === 'FollowersTab' && <FollowersTab />}
         {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
+        {view === 'UpdateTab' && <UpdateTab />}
       </div>
     </div>
   );
