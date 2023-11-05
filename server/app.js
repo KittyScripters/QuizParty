@@ -32,11 +32,12 @@ app.get('/api/users/:id', (req, res) => {
   const { id } = req.params;
   User.findOne({ where: { id: id } })
     .then((user) => {
+      console.log(user);
       res.status(200);
       res.send(user);
     })
     .catch((err) => {
-      console.log('id', req.params.id);
+      console.log('id', req.params);
       console.error('Could not GET user by id', err);
     });
 });

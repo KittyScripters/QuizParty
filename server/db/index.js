@@ -28,6 +28,7 @@ const User = db.define('user', {
   username: Sequelize.STRING,
   firstname: Sequelize.STRING,
   lastname: Sequelize.STRING,
+  bio: Sequelize.STRING,
   highscore: Sequelize.INTEGER,
   art_score: Sequelize.INTEGER,
   celebrities_score: Sequelize.INTEGER,
