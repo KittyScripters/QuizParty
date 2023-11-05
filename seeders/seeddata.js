@@ -88,7 +88,7 @@ module.exports = {
       {
         user_id: 1,
         difficulty: 'easy',
-        question: 'Virgin Trains, Virgin Atlantic and Virgin Racing, are all companies owned by which famous entrepreneur?   ',
+        question: 'Virgin Trains, Virgin Atlantic and Virgin Racing, are all companies owned by which famous entrepreneur?',
         category: 'General Knowledge',
         correct_answer: 'Richard Branson',
         incorrect_answer_1: 'Alan Sugar',
@@ -112,7 +112,7 @@ module.exports = {
       {
         user_id: 1,
         difficulty: 'easy',
-        question: 'Kanye West&#039;s &quot;Gold Digger&quot; featured which Oscar-winning actor?',
+        question: 'Kanye West\'s "Gold Digger" featured which Oscar-winning actor?',
         category: 'Sports',
         correct_answer: 'Jamie Foxx',
         incorrect_answer_1: 'Alec Baldwin',
@@ -124,7 +124,7 @@ module.exports = {
       {
         user_id: 1,
         difficulty: 'hard',
-        question: 'What was the religion of famous singer &quot;Freddie Mercury&quot;?',
+        question: 'What was the religion of famous singer "Freddie Mercury"?',
         category: 'Celebrities',
         correct_answer: 'Zoroastrianism',
         incorrect_answer_1: 'Paganism',
