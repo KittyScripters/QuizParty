@@ -8,7 +8,7 @@ import UpdateTab from './profileTabs/UpdateTab';
 
 /**
  * TODO:
- * Allow user to update their bio
+ * Allow user to update their bio => request working, page rendering incorrectly after submit
  * Allow user to remove questions from their favorite questions list
  * Allow user to view their followers profiles
  */
@@ -21,6 +21,7 @@ const Profile = () => {
   const [questions, setQuestions] = useState([]);
   // initial view state
   const [view, setView] = useState('Profile');
+
   // useEffect => axios get user by id request => setUser
   useEffect(() => {
     // accessing user 1 "maidenwench"
@@ -29,6 +30,7 @@ const Profile = () => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
+
     // accessing user's questions
     axios.get('/api/questions/1')
       .then(({ data }) => {

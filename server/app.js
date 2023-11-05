@@ -33,12 +33,10 @@ app.get('/api/users/:id', (req, res) => {
   const { id } = req.params;
   User.findOne({ where: { id: id } })
     .then((user) => {
-      console.log(user);
       res.status(200);
       res.send(user);
     })
     .catch((err) => {
-      console.log('id', req.params);
       console.error('Could not GET user by id', err);
     });
 });
@@ -61,13 +59,23 @@ app.get('/api/questions/:user_id', (req, res) => {
   const { user_id } = req.params;
   Question.findAll({ where: { user_id: user_id } })
     .then((questions) => {
-      console.log('user 1 questions', questions);
       res.status(200);
       res.send(questions);
     })
     .catch((err) => {
-      console.log('id', req.params);
       console.error('Could not GET questions by user_id', err);
+    });
+});
+
+//patch a user's bio column => working in postman
+app.patch('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const { bio } = req.body;
+  User.update({ bio: bio }, { where: { id: id } })
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
     });
 });
 
