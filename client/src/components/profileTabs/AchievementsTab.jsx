@@ -4,14 +4,11 @@ import React from 'react';
 
 const AchievementsTab = () => {
   return (
-    <table className="achievementsTable">
-      <tr>
-        <th>Achievements</th>
-      </tr>
-      <tr>
-        <td>Top Dog</td>
-      </tr>
-    </table>
+    <div>
+      <div>
+        <h4>Achievements</h4>
+      </div>
+    </div>
   );
 };
 

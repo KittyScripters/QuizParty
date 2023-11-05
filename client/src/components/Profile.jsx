@@ -30,7 +30,9 @@ const Profile = () => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
+  }, []);
 
+  useEffect(() => {
     // accessing user's questions
     axios.get('/api/questions/1')
       .then(({ data }) => {
