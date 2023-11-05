@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Question from './Question';
 
 // user's profile
 const Profile = () => {
   // initial user state
   const [user, setUser] = useState({});
+  // initial questions state
+  const [questions, setQuestions] = useState([]);
   // useEffect => axios get user by id request => setUser
   useEffect(() => {
+    // accessing user 1 "maidenwench"
     axios.get('api/users/1')
       .then(({ data }) => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
+    // accessing user's questions
+    axios.get('/api/questions/1')
+      .then(({ data }) => {
+        setQuestions(data);
+      })
+      .catch((err) => console.error('Could not GET user\'s questions', err));
   }, []);
   console.log('after useEffect', user);
+  console.log('questions current state', questions);
+
   return (
     <div>
       <img alt="user" />
@@ -62,7 +74,11 @@ const Profile = () => {
         </table>
       </div>
       <div>
-        <p>List of their questions from the database</p>
+        <ul className="userQuestions">
+          {questions.map((questionObj) => {
+            return <Question id={questionObj.id} question={questionObj.question} />;
+          })}
+        </ul>
       </div>
     </div>
   );
