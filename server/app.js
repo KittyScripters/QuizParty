@@ -8,7 +8,9 @@ const session = require('express-session');
 const passport = require('passport');
 require('./auth');
 const path = require('path');
-const { db, User, Question } = require('./db/index');
+const {
+  db, User, Question, joinFollower, 
+} = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -30,7 +32,38 @@ app.get('/', (req, res) => {
 
 app.get('/protected', isLoggedIn, (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
-  console.log(req.user);
+
+  // grab user's Google profile infor from req.user
+  const googleProfile = req.user;
+
+  // get the email from the Google profile
+  const { email } = googleProfile;
+
+  // Check if a user with the same email already exists in database
+  User.findOne({ where: { username: email } }) 
+    .then((existingUser) => {
+      if (existingUser) {
+        console.log('User already exists');
+      } else {
+        // create a new user in the database with the username set to the email
+        User.create({
+          username: email,
+          firstname: googleProfile.name.givenName,
+          lastname: googleProfile.name.familyName,
+        })
+          .then((newUser) => {
+            console.log(newUser, 'created successfully');
+          })
+          .catch((error) => {
+            console.error('Error creating user:', error);
+            res.status(500).send('Error creating user');
+          });
+      }
+    })
+    .catch((error) => {
+      console.error('Error checking existing user:', error);
+      res.status(500).send('Error checking existing user');
+    });
 });
 
 app.get(
@@ -43,7 +76,14 @@ app.get(
   passport.authenticate('google', {
     successRedirect: '/protected',
     failureRedirect: '/auth/google/failure',
-  }),
+  }), 
+  (req, res) => {
+    // set the current user id
+    req.session.userId = req.user.id; 
+
+    // redirect to the protected 
+    res.redirect('/protected');
+  },
 );
 
 app.get('/auth/google/failure', (req, res) => {
@@ -90,6 +130,42 @@ app.get('/leaderboard', (req, res) => {
     .catch((err) => {
       console.error('Unable to get leaderboard:', err);
     });
+});
+
+app.post('/follow/:userId', isLoggedIn, (req, res) => {
+  const { userId } = req.params;
+  console.log('this is user id', req.user.email);
+  console.log('this is curr user id', userId);
+
+  User.findOne({
+    where: {
+      username: req.user.email,
+    }, 
+  })
+    .then((data) => {
+      joinFollower.create({
+        followed_user_id: userId, 
+        following_user_id: data.id,    
+      })
+        .then(() => {
+          res.status(200).send('You are now following the user');
+        })
+        .catch((err) => {
+          console.error('Error following user:', err);
+          res.status(500).send('Error following user');
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get('/api/current-user', (req, res) => {
+  if (req.session.userId) {
+    res.json({ userId: req.session.userId });
+  } else {
+    res.json({ userId: null });
+  }
 });
 
 app.post('/createQuestion', (req, res) => {
