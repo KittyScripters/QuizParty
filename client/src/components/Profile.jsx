@@ -4,20 +4,20 @@ import axios from 'axios';
 // user's profile
 const Profile = () => {
   // initial user state
-  const [user, setUser] = useState('initial render');
+  const [user, setUser] = useState({});
   // useEffect => axios get user by id request => setUser
   useEffect(() => {
     axios.get('api/users/1')
       .then(({ data }) => {
         setUser(data);
-        console.log('after useEffect', data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
   }, []);
-
+  console.log( 'after useEffect', user);
   return (
     <div>
       <img alt="user" />
+      <h2 className="userName">{user.username}</h2>
       <p className="bio">
         User bio paragraph describing themselves
       </p>
