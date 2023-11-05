@@ -8,7 +8,6 @@ const { getLeaderBoard } = require('./dbHelpers/helpers');
 
 const getTrivaQuestions = require('./api/triviaApi');
 
-
 const clientPath = path.resolve(__dirname, '../client/dist');
 
 const app = express();
@@ -20,7 +19,6 @@ app.use(express.static(clientPath));
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
-
 
 //get the leaderboard from the database
 app.get('/leaderboard', (req, res) => {
@@ -38,7 +36,8 @@ app.get('/leaderboard', (req, res) => {
     // error handling
     .catch((err) => {
       console.error('Unable to get leaderboard:', err);
-
+    });
+});
 app.post('/createQuestion', (req, res) => {
   Question.create(req.body)
     .then((newQuestion) => {
@@ -66,7 +65,7 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
       console.error('Error in QuiznameGet:', err); 
       res.sendStatus(500).json({ error: 'server side error getting quiz names' });
     });
-  });
+});
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
@@ -137,7 +136,6 @@ app.post('/api/play', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-
     });
 });
 
