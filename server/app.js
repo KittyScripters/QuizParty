@@ -17,7 +17,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
-
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
@@ -88,5 +87,7 @@ app.post('/api/play', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+    });
+});
 
 module.exports = app;
