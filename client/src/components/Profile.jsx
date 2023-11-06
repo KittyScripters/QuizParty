@@ -10,8 +10,6 @@ import UpdateTab from './profileTabs/UpdateTab';
  * TODO:
  * Allow user to update their bio => request working, waiting on react router
  * Allow user to remove questions from their favorite questions list
- * Allow user to view their followers profiles
- * Access/render followers, favorite Questions, and personal questions
  */
 
 // user's profile
@@ -44,11 +42,15 @@ const Profile = () => {
 
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
-    axios.get(`/api/join_achievements/${userId}`)
-      .then(({ data }) => {
-        setAchievements(data);
+    axios.patch('/api/join_achievements')
+      .then(() => {
+        axios.get(`/api/join_achievements/${userId}`)
+          .then(({ data }) => {
+            setAchievements(data);
+          })
+          .catch((err) => console.error('Could not GET join_achievement ids', err));
       })
-      .catch((err) => console.error('Could not GET join_achievement ids', err));
+      .catch((err) => console.error('Could not PATCH achievements', err));
   }, [setAchievements]);
 
   useEffect(() => {

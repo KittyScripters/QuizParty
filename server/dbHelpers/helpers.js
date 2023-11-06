@@ -148,17 +148,18 @@ const checkTopCatScore = (users, category, attribute) => {
               joinAchievement.update(
                 { user_id: topScore.id },
                 { where: { achievement_id: title.id } },
-              )
-                .then(() => {
-                  joinAchievement.findOrCreate({
-                    where:
-                        { user_id: topScore.id, achievement_id: title.id },
-                    defaults: { user_id: topScore.id, achievement_id: title.id },
-                  });
-                })
-                .catch((err) => console.error(err));
+              );
             }
           });
+        })
+        .then(() => {
+          joinAchievement.findOne({ where: { user_id: topScore.id, achievement_id: title.id } })
+            .then((achievement) => {
+              if (achievement === null) {
+                joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
+              }
+            })
+            .catch((err) => console.error(err));
         });
     });
 };
