@@ -122,7 +122,7 @@ app.get('/api/questions/:user_id', (req, res) => {
 });
 
 //patch a user's achievements by getting all the scores
-app.get('/api/join_achievements', (req, res) => {
+app.patch('/api/join_achievements', (req, res) => {
   const attributes = [
     'id',
     'username',
@@ -208,7 +208,6 @@ app.get('/api/achievements', (req, res) => {
       res.sendStatus(500);
     });
 });
-
 
 //find all followers in join_followers
 app.get('/api/join_followers/:following_user_id', (req, res) => {
