@@ -2,9 +2,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-const Question = ({ id, question }) => {
+const Question = ({ question }) => {
   return (
-    <li key={id}>{question}</li>
+    <li>{question}</li>
   );
 };
 

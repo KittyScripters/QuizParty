@@ -21,6 +21,12 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
   const [followers, setFollowers] = useState([]);
+  const [favoriteQuestions, setFavoriteQuestions] = useState([]);
+
+  const counter = (array) => {
+    let count = 0;
+    array.forEach((item) => count++);
+  };
 
   // USER STATE UPDATE
   useEffect(() => {
@@ -60,6 +66,14 @@ const Profile = () => {
       .catch((err) => console.error(err));
   }, [setFollowers]);
 
+  useEffect(() => {
+    axios.get('/api/favorite_questions/1')
+      .then(({ data }) => {
+        setFavoriteQuestions(data);
+      });
+  }, [setFavoriteQuestions]);
+
+  console.log(favoriteQuestions);
   return (
     <div>
       <img alt="user" />
@@ -78,7 +92,7 @@ const Profile = () => {
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
         {view === 'FollowersTab' && <FollowersTab followers={followers} />}
-        {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
+        {view === 'QuestionsTab' && <QuestionsTab questions={favoriteQuestions} />}
         {view === 'UpdateTab' && <UpdateTab />}
       </div>
     </div>

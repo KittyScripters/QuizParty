@@ -193,12 +193,11 @@ app.get('/api/favorite_questions/:user_id', (req, res) => {
   // access the user_id field
   const { user_id } = req.params;
   // FavoriteQuestion model to find all of the user's favorite questions
-  FavoriteQuestion.findAll({ where: { user_id: user_id }, attributes: ['question'] })
+  FavoriteQuestion.findAll({ where: { user_id: user_id }, attributes: ['question', 'id'] })
     .then((questions) => {
       // mapping through the question objects and returning the question string
-      const results = questions.map((question) => question.question);
       res.status(200);
-      res.send(results);
+      res.send(questions);
     })
     .catch((err) => {
       console.error('Could not GET questions by user_id', err);
