@@ -25,7 +25,7 @@ const Profile = () => {
   // USER STATE UPDATE
   useEffect(() => {
     // accessing user 1 "maidenwench"
-    axios.get('api/users/1')
+    axios.get('api/users/31')
       .then(({ data }) => {
         setUser(data);
       })
@@ -35,7 +35,7 @@ const Profile = () => {
   // USER'S FAVORITE QUESTIONS UPDATE
   useEffect(() => {
     // accessing user's questions
-    axios.get('/api/questions/1')
+    axios.get('/api/questions/31')
       .then(({ data }) => {
         setQuestions(data);
       })
@@ -45,7 +45,7 @@ const Profile = () => {
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
     //get the corresponding data from join_achievements => using user_id
-    axios.get('/api/join_achievements/1')
+    axios.get('/api/join_achievements/31')
       .then(({ data }) => {
         console.log(data);
         setAchievements(data);
