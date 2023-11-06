@@ -14,8 +14,7 @@ const triviaCategories = [
   { id: 27, name: 'Animals' },
 ];
 
-const getTrivaQuestions = (req) => {
-  // add in logic to change string value to number value for category and difficulty
+const getTrivaQuestions = (req) => { 
   // https://opentdb.com/api.php?amount=5&category=20&difficulty=easy&type=multiple
 
   const { category } = req.options;
@@ -25,7 +24,6 @@ const getTrivaQuestions = (req) => {
   let categoryNum = 0;
 
   for (let i = 0; i < triviaCategories.length; i++) {
-    console.log(triviaCategories[i]);
     if (triviaCategories[i].name === category) {
       categoryNum = triviaCategories[i].id;
     }

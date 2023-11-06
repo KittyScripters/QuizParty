@@ -15,11 +15,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
-app.get('/api/play', (req, res) => {
+app.post('/api/play', (req, res) => { 
   return getTrivaQuestions(req.body)
-    .then((data) => {
-      console.log('get result', data);
-      res.status(200).send(data);
+    .then((questionsArr) => {
+      res.status(200).send(questionsArr);
     })
     .catch((err) => {
       console.error(err);

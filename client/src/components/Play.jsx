@@ -11,20 +11,19 @@ const Play = () => {
 
   //console.log(category, difficulty);
 
-  const handlePlayClick = () => { //get request
-    axios.get('/api/play', {
+  const handlePlayClick = () => { /// NOTE 1 
+    axios.post('/api/play', {
       options: {
         category,
         difficulty,
-        // category: category,
-        // difficulty: difficulty,
       },
     })
-      .then(() => {
-        //render them the page w component did mount
+      .then((response) => {
         console.log('GET trivia questions successful');
       })
       .catch((err) => {
+        // console.log('category', options.category);
+        // console.log('difficulty', options.difficulty);
         console.error('GET trivia questions NOT successful', err);
       });
   };
@@ -65,3 +64,10 @@ const Play = () => {
 };
 
 export default Play;
+
+/*  NOTES:
+  1. This has to be a post request instead of get bc I need to pass an obj with the 
+  parameters that the api search needs. You can't use a get request with a req.body
+  You can only send params and those are for the URL... not what I needed. 
+
+*/
