@@ -3,6 +3,7 @@
 const express = require('express');
 const path = require('path');
 const { db, User, Question } = require('./db/index');
+const getTrivaQuestions = require('./api/triviaApi');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -15,6 +16,7 @@ app.use(express.static(clientPath));
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
+
 
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
@@ -78,5 +80,13 @@ app.patch('/api/users/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+app.post('/api/play', (req, res) => { 
+  return getTrivaQuestions(req.body)
+    .then((questionsArr) => {
+      res.status(200).send(questionsArr);
+    })
+    .catch((err) => {
+      console.error(err);
 
 module.exports = app;
