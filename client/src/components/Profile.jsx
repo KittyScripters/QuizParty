@@ -17,7 +17,7 @@ import UpdateTab from './profileTabs/UpdateTab';
 // user's profile
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [questions, setQuestions] = useState([]);
+  const [userQuestions, setUserQuestions] = useState([]);
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
   const [followers, setFollowers] = useState([]);
@@ -36,27 +36,25 @@ const Profile = () => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
-  }, []);
+  }, [setUser]);
 
   // USER'S FAVORITE QUESTIONS UPDATE
   useEffect(() => {
-    // accessing user's questions
     axios.get('/api/questions/1')
       .then(({ data }) => {
-        setQuestions(data);
+        setUserQuestions(data);
       })
       .catch((err) => console.error('Could not GET user\'s questions', err));
-  }, []);
+  }, [setUserQuestions]);
 
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
-    //get the corresponding data from join_achievements => using user_id
     axios.get('/api/join_achievements/1')
       .then(({ data }) => {
         setAchievements(data);
       })
       .catch((err) => console.error('Could not GET join_achievement ids', err));
-  }, []);
+  }, [setAchievements]);
 
   useEffect(() => {
     axios.get('/api/join_followers/1')
@@ -73,7 +71,6 @@ const Profile = () => {
       });
   }, [setFavoriteQuestions]);
 
-  console.log(favoriteQuestions);
   return (
     <div>
       <img alt="user" />
@@ -92,7 +89,7 @@ const Profile = () => {
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
         {view === 'FollowersTab' && <FollowersTab followers={followers} />}
-        {view === 'QuestionsTab' && <QuestionsTab questions={favoriteQuestions} />}
+        {view === 'QuestionsTab' && <QuestionsTab userQuestions={userQuestions} favoriteQuestions={favoriteQuestions} />}
         {view === 'UpdateTab' && <UpdateTab />}
       </div>
     </div>
