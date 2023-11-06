@@ -111,7 +111,7 @@ app.get('/api/questions', (req, res) => {
 //get questions by user_id => working in postman
 app.get('/api/questions/:user_id', (req, res) => {
   const { user_id } = req.params;
-  Question.findAll({ where: { user_id: user_id } })
+  Question.findAll({ where: { user_id: user_id }, attributes: ['question', 'id'] })
     .then((questions) => {
       res.status(200);
       res.send(questions);
