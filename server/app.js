@@ -122,7 +122,7 @@ app.get('/api/questions/:user_id', (req, res) => {
 });
 
 //patch a user's achievements by getting all the scores
-app.patch('/api/join_achievements', (req, res) => {
+app.get('/api/join_achievements', (req, res) => {
   const attributes = [
     'id',
     'username',
@@ -141,9 +141,13 @@ app.patch('/api/join_achievements', (req, res) => {
   //get all users
   User.findAll({ attributes: attributes })
     .then((users) => {
-      //use helper function here
-      checkHighScores(users);
-      res.send(users);
+      // get all joined achievements
+      joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
+        .then((joinAchievements) => {
+          checkHighScores(users, joinAchievements);
+          res.send(joinAchievements);
+        })
+        .catch();
     })
     .catch((err) =>{
       console.error('Could not GET all users', err);
@@ -205,17 +209,6 @@ app.get('/api/achievements', (req, res) => {
     });
 });
 
-app.get('/api/join_achievements', (req, res) => {
-  joinAchievement.findAll()
-    .then((achievements) => {
-      res.status(200);
-      res.send(achievements);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-});
 
 //find all followers in join_followers
 app.get('/api/join_followers/:following_user_id', (req, res) => {

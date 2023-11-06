@@ -84,33 +84,54 @@ const getTriviaQuestions = (req) => {
 
 //PUT HELPERS
 
-const checkHighScores = (userObjects) => {
+const checkHighScores = (userObjects, joinAch) => {
+  let check = false;
+  //iterate through each userObject
   userObjects.forEach((user) => {
+    // determine if user's highscore > 50
     if (user.highscore > 50) {
+      //find the top score 50 achievement
       Achievement.findOne({ where: { name: 'Top score of 50' } })
         .then((achievement) => {
-          joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
-            .then((newJoin) => {
-              return newJoin;
-            })
-            .catch((err) => {
-              console.error('Could not GET achievement', err);
-            });
+          for (let i = 0; i < joinAch.length; i++) {
+            if (joinAch[i].user_id === user.id && joinAch[i].achievement_id === achievement.id) {
+              check = true;
+            }
+          }
+          if (check === false) {
+            // create the achievement for the user on join_achievements
+            joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
+              .then((newJoin) => {
+                return newJoin;
+              })
+              .catch((err) => {
+                console.error('Could not GET achievement', err);
+              });
+          }
         })
         .catch((err) => {
           console.error('Could not GET achievement', err);
         });
     }
     if (user.highscore > 100) {
+      //find the top score 50 achievement
       Achievement.findOne({ where: { name: 'Top score of 100' } })
         .then((achievement) => {
-          joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
-            .then((newJoin) => {
-              return newJoin;
-            })
-            .catch((err) => {
-              console.error('Could not GET achievement', err);
-            });
+          for (let i = 0; i < joinAch.length; i++) {
+            if (joinAch[i].user_id === user.id && joinAch[i].achievement_id === achievement.id) {
+              check = true;
+            }
+          }
+          if (check === false) {
+            // create the achievement for the user on join_achievements
+            joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
+              .then((newJoin) => {
+                return newJoin;
+              })
+              .catch((err) => {
+                console.error('Could not GET achievement', err);
+              });
+          }
         })
         .catch((err) => {
           console.error('Could not GET achievement', err);
