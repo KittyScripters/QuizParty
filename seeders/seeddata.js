@@ -56,6 +56,18 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        user_id: 1,
+        achievement_id: 6,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        achievement_id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
 
     await queryInterface.bulkInsert('join_followers', [
@@ -94,6 +106,18 @@ module.exports = {
       {
         user_id: 1,
         question: 'Who is Chuck Norris?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'I want to axe u a question?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'You\'re telling me a shrimp fried this rice?',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

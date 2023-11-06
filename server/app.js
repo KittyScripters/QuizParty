@@ -138,10 +138,9 @@ app.get('/api/join_achievements/:user_id', (req, res) => {
   joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
     .then((data) => {
       const achievements = data.map((achievement) => achievement.achievement_id);
-      Achievement.findAll({ where: { id: achievements } })
-        .then((thing) => {
-          const results = thing.map((result) => result.name);
-          res.send(results);
+      Achievement.findAll({ where: { id: achievements }, attributes: ['id', 'name'] })
+        .then((userAchievements) => {
+          res.status(200).send(userAchievements);
         });
     })
     .catch((err) => {

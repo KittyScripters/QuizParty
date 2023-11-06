@@ -17,11 +17,11 @@ const QuestionsTab = ({ favoriteQuestions, userQuestions }) => {
       </div>
       <div>
         <h4>My questions</h4>
-        <ol>
+        <ul>
           {userQuestions.map((question) => {
             return <UserQuestion key={question.id} question={question.question} />;
           })}
-        </ol>
+        </ul>
       </div>
     </div>
   );

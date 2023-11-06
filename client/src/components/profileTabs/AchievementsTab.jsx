@@ -11,7 +11,7 @@ const AchievementsTab = ({ achievements }) => {
         <h4>Achievements</h4>
         <div>
           {achievements.map((achievement) => {
-            return <Achievement key={achievement} achievement={achievement} />;
+            return <Achievement key={achievement.id} achievement={achievement.name} />;
           })}
         </div>
       </div>
