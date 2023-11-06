@@ -135,7 +135,6 @@ const checkHighScores = (userObjects, joinAch) => {
 };
 
 const checkTopCatScore = (users, category, attribute) => {
-  let check = true;
   const order = users.sort((a, b) => b[attribute] - a[attribute]);
   // topScore === user with the highest score
   const topScore = order[0];
@@ -149,14 +148,17 @@ const checkTopCatScore = (users, category, attribute) => {
               joinAchievement.update(
                 { user_id: topScore.id },
                 { where: { achievement_id: title.id } },
-              );
-            } else {
-              check = false;
+              )
+                .then(() => {
+                  joinAchievement.findOrCreate({
+                    where:
+                        { user_id: topScore.id, achievement_id: title.id },
+                    defaults: { user_id: topScore.id, achievement_id: title.id },
+                  });
+                })
+                .catch((err) => console.error(err));
             }
           });
-          if (!check) {
-            joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
-          }
         });
     });
 };

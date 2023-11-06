@@ -7,7 +7,9 @@ const {
 } = require('./db/index');
 const { joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
 
-const { getLeaderBoard, getTriviaQuestions, checkHighScores, checkTopCatScore } = require('./dbHelpers/helpers');
+const {
+  getLeaderBoard, getTriviaQuestions, checkHighScores, checkTopCatScore, 
+} = require('./dbHelpers/helpers');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -124,16 +126,17 @@ app.get('/api/questions/:user_id', (req, res) => {
 //patch a user's achievements by getting all the scores
 app.patch('/api/join_achievements', (req, res) => {
   const categories = [
-    'Top Art Score',
-    'Top Celebrities Score',
-    'Top Animals Score',
-    'Top Music Score',
-    'Top Sports Score',
-    'Top Book Score',
-    'Top Mythology Score',
-    'Top History Score',
-    'Top Nature Score',
-    'Top Politics Score',
+    ['Top Score', 'highscore'],
+    ['Top Art Score', 'art_score'],
+    ['Top Music Score', 'music_score'],
+    ['Top Book Score', 'book_score'],
+    ['Top Animals Score', 'animals_score'],
+    ['Top Celebrities Score', 'celebrities_score'],
+    ['Top Sports Score', 'sports_score'],
+    ['Top Mythology Score', 'mythology_score'],
+    ['Top History Score', 'history_score'],
+    ['Top Nature Score', 'nature_score'],
+    ['Top Politics Score', 'politics_score'],
   ];
   //get all users
   User.findAll()
@@ -142,24 +145,12 @@ app.patch('/api/join_achievements', (req, res) => {
       joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
         .then((joinAchievements) => {
           checkHighScores(users, joinAchievements);
+          categories.map((category) => checkTopCatScore(users, category[0], category[1]));
           res.status(200).send(joinAchievements);
         })
         .catch((err) => {
           console.error('Could not GET all joined achievements', err);
           res.sendStatus(500);
-        });
-      Achievement.findAll({ attributes: ['id', 'name'] })
-        .then((achievements) => {
-          checkTopCatScore(users, 'Top Score', 'highscore');
-          checkTopCatScore(users, 'Top Art Score', 'art_score');
-          checkTopCatScore(users, 'Top Music Score', 'music_score');
-          checkTopCatScore(users, 'Top Book Score', 'book_score');
-          checkTopCatScore(users, 'Top Animals Score', 'animals_score');
-          checkTopCatScore(users, 'Top Celebrities Score', 'celebrities_score');
-          checkTopCatScore(users, 'Top Sports Score', 'sports_score');
-          checkTopCatScore(users, 'Top Mythology Score', 'mythology_score');
-          checkTopCatScore(users, 'Top History Score', 'history_score');
-          checkTopCatScore(users, 'Top Politics Score', 'politics_score');
         });
     })
     .catch((err) => {
