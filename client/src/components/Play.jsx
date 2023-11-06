@@ -6,8 +6,8 @@ const Play = () => {
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState({});
-  const [questions, setQuestions] = useState(false);
-  // count + 1 
+  const [count, setCount] = useState(0);
+  const [showQuestion, setQuestions] = useState(false);
 
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
@@ -17,7 +17,17 @@ const Play = () => {
     setDifficulty(event.currentTarget.value);
   };
 
-  const displayQuestion = (question) => {
+  // const nextQuestion = () => {
+  //   setCurrentQuestion(resDataQuestions[1]);
+  //   displayQuestion(currentQuestion);
+  // }
+
+  const displayQuestion = (questions) => {
+    console.log(questions);
+
+    const updateCount = () => {
+      setCount(count + 1);
+    };
     /*
     create randomize function
     map array/ zip???? shuffle the array https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
@@ -25,23 +35,25 @@ const Play = () => {
   */
     return (
       <div className="Questions">
-        <div className="Question">{question.question}</div>
+        <div className="Question">{questions[count].question}</div>
         <input type="radio" id="Choice1" name="Choice" /> 
-        {question.correct_answer} 
+        {questions[count].correct_answer} 
         <br /> 
         <input type="radio" id="Choice2" name="Choice" /> 
-        {question.incorrect_answers[0]}
+        {questions[count].incorrect_answers[0]}
         <br /> 
         <input type="radio" id="Choice3" name="Choice" /> 
-        {question.incorrect_answers[1]} 
+        {questions[count].incorrect_answers[1]} 
         <br /> 
         <input type="radio" id="Choice4" name="Choice" /> 
-        {question.incorrect_answers[2]}
+        {questions[count].incorrect_answers[2]}
         <br /> 
-        {/* <div className="Choice2">{question.incorrect_answers[0]}</div> 
-        <div className="Choice3">{question.incorrect_answers[1]}</div> 
-        <div className="Choice4">{question.incorrect_answers[2]}</div>  */}
-        <button type="button">Next</button>
+        <button
+          type="button"
+          onClick={() => { updateCount(); displayQuestion(questions); }}
+        >
+          Next
+        </button>
       </div>
     );
   };
@@ -51,15 +63,11 @@ const Play = () => {
       .then((response) => {
         setQuestions(true);
         setResDataQuestions(response.data.results);
-        setCurrentQuestion(response.data.results[0]);
+        // setCurrentQuestion(response.data.results[0]);
         console.log('GET trivia questions successful');
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
   };
-
-  // const nextQuestion = () => {
-
-  // };
 
   return (
     <div>
@@ -85,8 +93,8 @@ const Play = () => {
       </select>
       <button type="button" onClick={() => handlePlayClick()}>Play!</button>
       <div className="Questions">
-        {questions
-          ? displayQuestion(currentQuestion)
+        {showQuestion
+          ? displayQuestion(resDataQuestions)
           : null}  
       </div>
           
