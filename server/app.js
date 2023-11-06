@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { db, User, Question } = require('./db/index');
-const { getTrivaQuestions } = require('./api/triviaApi');
+const getTrivaQuestions = require('./api/triviaApi');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -16,7 +16,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/play', (req, res) => {
-  getTrivaQuestions(req.body)
+  //const { options } = req.body;
+  console.log(req.body);
+  return getTrivaQuestions(req.body)
     .then((data) => {
       console.log('get result', data);
       res.status(200).send(data);

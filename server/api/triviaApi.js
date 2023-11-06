@@ -18,9 +18,10 @@ const getTrivaQuestions = (req) => {
   // add in logic to change string value to number value for category and difficulty
   // https://opentdb.com/api.php?amount=5&category=20&difficulty=easy&type=multiple
 
-  const { category } = req.body.options;
-  const { difficulty } = req.body.options.difficulty;
-  difficulty.toLowerCase();
+  const { category } = req.options;
+  const { difficulty } = req.options;
+
+  const lowerCaseDiff = difficulty.toLowerCase();
   let categoryNum = 0;
 
   for (let i = 0; i < triviaCategories.length; i++) {
@@ -31,7 +32,7 @@ const getTrivaQuestions = (req) => {
   }
 
   return axios.get(
-    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${difficulty}&type=multiple`, 
+    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple`, 
     {
       headers: {
         Accept: 'application/json',
@@ -46,3 +47,6 @@ const getTrivaQuestions = (req) => {
       console.error(err);
     });
 };
+
+
+module.exports = getTrivaQuestions;
