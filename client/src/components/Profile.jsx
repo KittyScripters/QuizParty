@@ -8,9 +8,10 @@ import UpdateTab from './profileTabs/UpdateTab';
 
 /**
  * TODO:
- * Allow user to update their bio => request working, page rendering incorrectly after submit
+ * Allow user to update their bio => request working, waiting on react router
  * Allow user to remove questions from their favorite questions list
  * Allow user to view their followers profiles
+ * Access/render followers, favorite Questions, and personal questions
  */
 
 // user's profile
