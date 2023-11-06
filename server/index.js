@@ -1,7 +1,7 @@
 // server index to set up port listen
 const app = require('./app');
 
-const PORT = 3001;
+const PORT = 3000;
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
