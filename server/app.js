@@ -150,7 +150,6 @@ app.patch('/api/join_achievements', (req, res) => {
         });
       Achievement.findAll({ attributes: ['id', 'name'] })
         .then((achievements) => {
-          const results = achievements.splice(2);
           checkTopCatScore(users, 'Top Score', 'highscore');
           checkTopCatScore(users, 'Top Art Score', 'art_score');
           checkTopCatScore(users, 'Top Music Score', 'music_score');
