@@ -2,9 +2,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-const Achievement = ({ id, achievement }) => {
+const Achievement = ({ achievement }) => {
   return (
-    <li key={id}>{achievement}</li>
+    <div key={achievement.id}>
+      {achievement.name}
+    </div>
   );
 };
 

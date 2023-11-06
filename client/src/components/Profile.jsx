@@ -45,7 +45,6 @@ const Profile = () => {
     //get the corresponding data from join_achievements => using user_id
     axios.get('/api/join_achievements/1')
       .then(({ data }) => {
-        console.log('join_achievement ids', data);
         setAchievementIds(data);
       })
       .catch((err) => console.error('Could not GET join_achievement ids', err));
@@ -66,7 +65,6 @@ const Profile = () => {
         <button type="button" onClick={() => setView('UpdateTab')}>Update</button>
       </div>
       <div>
-        <h1>View should go here</h1>
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievementIds} />}
         {view === 'FollowersTab' && <FollowersTab />}
