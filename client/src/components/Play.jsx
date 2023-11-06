@@ -5,7 +5,7 @@ const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState({});
+  // const [currentQuestion, setCurrentQuestion] = useState({});
   const [count, setCount] = useState(0);
   const [showQuestion, setQuestions] = useState(false);
 
@@ -17,40 +17,49 @@ const Play = () => {
     setDifficulty(event.currentTarget.value);
   };
 
-  // const nextQuestion = () => {
-  //   setCurrentQuestion(resDataQuestions[1]);
-  //   displayQuestion(currentQuestion);
-  // }
-
   const displayQuestion = (questions) => {
     console.log(questions);
+
+    const correctAnswer = [];
+    correctAnswer.push(questions[count].correct_answer);
+    const wrongAnswers = questions[count].incorrect_answers;
+    const combinedAnswers = correctAnswer.concat(wrongAnswers);
+   
+    const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
 
     const updateCount = () => {
       setCount(count + 1);
     };
-    /*
-    create randomize function
-    map array/ zip???? shuffle the array https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
-    compare correct answer to correct answer and figure color/hooray
-  */
+
+    const clearRadioButtonAfterEachQuestion = () => {
+      ['Choice1', 'Choice2', 'Choice3', 'Choice4'].forEach((id) => {
+        document.getElementById(id).checked = false;
+      });
+      return false;
+    };
+
     return (
       <div className="Questions">
         <div className="Question">{questions[count].question}</div>
         <input type="radio" id="Choice1" name="Choice" /> 
-        {questions[count].correct_answer} 
+        {randomizedAnswers[0]} 
         <br /> 
         <input type="radio" id="Choice2" name="Choice" /> 
-        {questions[count].incorrect_answers[0]}
+        {randomizedAnswers[1]}
         <br /> 
         <input type="radio" id="Choice3" name="Choice" /> 
-        {questions[count].incorrect_answers[1]} 
+        {randomizedAnswers[2]} 
         <br /> 
         <input type="radio" id="Choice4" name="Choice" /> 
-        {questions[count].incorrect_answers[2]}
+        {randomizedAnswers[3]}
         <br /> 
         <button
           type="button"
-          onClick={() => { updateCount(); displayQuestion(questions); }}
+          onClick={() => { 
+            updateCount(); 
+            displayQuestion(questions); 
+            clearRadioButtonAfterEachQuestion(); 
+          }}
         >
           Next
         </button>
@@ -63,7 +72,6 @@ const Play = () => {
       .then((response) => {
         setQuestions(true);
         setResDataQuestions(response.data.results);
-        // setCurrentQuestion(response.data.results[0]);
         console.log('GET trivia questions successful');
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
