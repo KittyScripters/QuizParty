@@ -1,116 +1,26 @@
 /* eslint-disable no-unused-vars */
+const { achievements } = require('../fakeData/fakeAchievementsData.json');
+const { results } = require('../fakeData/fakeUserData.json');
+const { questions } = require('../fakeData/fakeQuestionData.json');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('users', [
-      {
-        id: '1',
-        username: 'maidenwench',
-        firstname: 'Robert',
-        lastname: 'Bartleby',
-        highscore: 22,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '2',
-        username: 'copper',
-        firstname: 'James',
-        lastname: 'Smith',
-        highscore: 52,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '3',
-        username: 'paltryburn',
-        firstname: 'Beetlejuice',
-        lastname: 'Beetlejuice',
-        highscore: 34,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '4',
-        username: 'trampolineteam',
-        firstname: 'Kitty',
-        lastname: 'Scripter',
-        highscore: 15,
-        art_score: 25,
-        celebrities_score: 14,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
-    await queryInterface.bulkInsert('questions', [
-      {
-        user_id: 1,
-        difficulty: 'easy',
-        question: 'Virgin Trains, Virgin Atlantic and Virgin Racing, are all companies owned by which famous entrepreneur?   ',
-        category: 'General Knowledge',
-        correct_answer: 'Richard Branson',
-        incorrect_answer_1: 'Alan Sugar',
-        incorrect_answer_2: 'Donald Trump',
-        incorrect_answer_3: 'Bill Gates',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
-    await queryInterface.bulkInsert('achievements', [
-      {
-        name: 'Top score of 50',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: 'Top score of 100',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: 'Top score periodt',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+    await queryInterface.bulkInsert('users', results.map((user) => ({
+      ...user,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })));
+    await queryInterface.bulkInsert('questions', questions.map((question) => ({
+      ...question,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })));
+    await queryInterface.bulkInsert('achievements', achievements.map((achievement) => ({
+      ...achievement,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })));
     await queryInterface.bulkInsert('join_achievements', [
       {
         user_id: 1,

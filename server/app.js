@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { db, User, Question } = require('./db/index');
+const { getLeaderBoard } = require('./dbHelpers/helpers');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -16,13 +17,12 @@ app.get('/', (req, res) => {
 
 //get the leaderboard from the database
 app.get('/leaderboard', (req, res) => {
-  //use the User model to findAll users in the database
-  User.findAll({
-    //order them by highscore in descending order
-    order: [['highscore', 'DESC']],
-    //limit the results to 10
-    limit: 10,
-  })
+  //get the top number, with a default of 15 and the searchedUser from the query from
+  //  the client request
+  const { topNum = 10, searchedUser } = req.query;
+  
+  //invoke the imported getLeaderBoard function with the topNum and searchedUser as the arguments
+  getLeaderBoard(topNum, searchedUser)
   //then take the users 'leaderboard' and send them back to the client
     .then((users) => {
       // send back the users

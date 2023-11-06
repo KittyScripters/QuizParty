@@ -1,0 +1,22 @@
+{
+    "achievements": [
+    {
+      "name": "Top score of 50"
+    },
+    {
+      "name": "Top score of 100"
+    },
+    {
+      "name": "Top score periodt"
+    },
+    {
+        "name": "Top Art Score"
+    },
+    {
+        "name": "Top Music Score"
+    },
+    {
+        "name": "Top Book Score"
+    }
+  ]
+}
