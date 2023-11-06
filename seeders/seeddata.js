@@ -57,6 +57,27 @@ module.exports = {
         updatedAt: new Date(),
       },
     ]);
+
+    await queryInterface.bulkInsert('join_followers', [
+      {
+        following_user_id: 1,
+        followed_user_id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        following_user_id: 1,
+        followed_user_id: 3,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        following_user_id: 1,
+        followed_user_id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
