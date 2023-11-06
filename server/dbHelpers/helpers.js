@@ -140,10 +140,37 @@ const checkHighScores = (userObjects, joinAch) => {
   });
 };
 
+const checkTopCatScore = (users, achievements, category) => {
+  let check = true;
+  Achievement.findOne({ where: { name: category } })
+    .then((achievement) => {
+      const order = users.sort((a, b) => b[category] - a[category]);
+      achievements.forEach((ach) => {
+        // console.log('ach', ach);
+        // console.log('achievement', achievement);
+        if (ach.achievement_id === achievement.id && ach.user_id !== order[0].id) {
+          check = false;
+        }
+        if (check === false) {
+          joinAchievement.update(
+            { user_id: order[0].id },
+            { where: { achievement_id: achievement.id } },
+          )
+            .then((joinedAch) => {
+              return joinedAch;
+            })
+            .catch((err) => console.error('Could not UPDATE joined achievement', err));
+        }
+      });
+    })
+    .catch((err) => console.error('Could not GET achievement by category', err));
+};
+
 //DELETE HELPERS
 
 module.exports = {
   getLeaderBoard,
   getTriviaQuestions,
   checkHighScores,
+  checkTopCatScore,
 };

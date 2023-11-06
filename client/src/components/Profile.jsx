@@ -23,7 +23,7 @@ const Profile = () => {
   const [followers, setFollowers] = useState([]);
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
 
-  const userId = 15;
+  const userId = 30;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`api/users/${userId}`)

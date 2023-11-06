@@ -7,7 +7,7 @@ const {
 } = require('./db/index');
 const { joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
 
-const { getLeaderBoard, getTriviaQuestions, checkHighScores } = require('./dbHelpers/helpers');
+const { getLeaderBoard, getTriviaQuestions, checkHighScores, checkTopCatScore } = require('./dbHelpers/helpers');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -138,6 +138,18 @@ app.patch('/api/join_achievements', (req, res) => {
     'nature_score',
     'politics_score',
   ];
+  const categories = [
+    'Top Art Score',
+    'Top Celebrities Score',
+    'Top Animals Score',
+    'Top Music Score',
+    'Top Sports Score',
+    'Top Book Score',
+    'Top Mythology Score',
+    'Top History Score',
+    'Top Nature Score',
+    'Top Politics Score',
+  ];
   //get all users
   User.findAll({ attributes: attributes })
     .then((users) => {
@@ -145,12 +157,27 @@ app.patch('/api/join_achievements', (req, res) => {
       joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
         .then((joinAchievements) => {
           checkHighScores(users, joinAchievements);
-          res.send(joinAchievements);
+          res.status(200).send(joinAchievements);
         })
-        .catch();
+        .catch((err) => {
+          console.error('Could not GET all joined achievements', err);
+          res.sendStatus(500);
+        });
     })
-    .catch((err) =>{
+    .catch((err) => {
       console.error('Could not GET all users', err);
+      res.sendStatus(500);
+    });
+});
+
+//get joined achievements
+app.get('/api/join_achievements', (req, res) => {
+  joinAchievement.findAll()
+    .then((joined) => {
+      res.status(200).send(joined);
+    })
+    .catch((err) => {
+      console.error('Could not GET joined achievements', err);
       res.sendStatus(500);
     });
 });
@@ -197,8 +224,9 @@ app.get('/api/achievements/:id', (req, res) => {
     });
 });
 
+// get all the achievements => working in postman
 app.get('/api/achievements', (req, res) => {
-  Achievement.findAll({ where: { name: 'Top score of 100' } })
+  Achievement.findAll()
     .then((achievements) => {
       res.status(200);
       res.send(achievements);

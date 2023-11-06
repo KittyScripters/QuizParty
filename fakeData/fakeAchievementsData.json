@@ -17,6 +17,27 @@
     },
     {
         "name": "Top Book Score"
+    },
+    {
+      "name": "Top Animals Score"
+    },
+    {
+      "name": "Top Celebrities Score"
+    },
+    {
+      "name": "Top Sports Score"
+    },
+    {
+        "name": "Top Mythology Score"
+    },
+    {
+        "name": "Top History Score"
+    },
+    {
+        "name": "Top Nature Score"
+    },
+    {
+      "name": "Top Politics Score"
     }
   ]
 }
