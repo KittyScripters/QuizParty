@@ -1,5 +1,6 @@
 // server index to set up port listen
 const app = require('./app');
+require('dotenv').config();
 
 const PORT = 3001;
 

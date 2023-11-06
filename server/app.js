@@ -25,4 +25,22 @@ app.post('/createQuestion', (req, res) => {
     });
 });
 
+app.get('/getUserQuizNames/:userId', (req, res) => {
+  const { userId } = req.params;
+  Question.findAll({
+    where: {
+      user_id: userId,
+    },
+    attributes: ['question_set'],
+    group: ['question_set'],
+  })
+    .then((questionSets) => {
+      res.json({ questionSets });
+    })
+    .catch((err) => { 
+      console.error('Error in QuiznameGet:', err); 
+      res.sendStatus(500).json({ error: 'server side error getting quiz names' });
+    });
+});
+
 module.exports = app;
