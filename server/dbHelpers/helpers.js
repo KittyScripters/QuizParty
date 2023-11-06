@@ -142,7 +142,7 @@ const checkTopCatScore = (users, category, attribute) => {
   Achievement.findOne({ where: { name: category } })
     // title === achievement
     .then((title) => {
-      joinAchievement.findAll({ attributes: ['user_id', 'achievement_id']})
+      joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
         .then((joinAch) => {
           joinAch.forEach((ach) => {
             if (ach.achievement_id === title.id && ach.user_id !== topScore.id) {
