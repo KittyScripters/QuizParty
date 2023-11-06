@@ -54,6 +54,7 @@ module.exports = {
     'no-console': 0,
     'react/function-component-definition': 0,
     'arrow-body-style': 0,
-    'no-unused-vars': 0
+    'no-unused-vars': 0,
+    'no-plusplus': 0
   },
 };
