@@ -23,11 +23,6 @@ const Profile = () => {
   const [followers, setFollowers] = useState([]);
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
 
-  const counter = (array) => {
-    let count = 0;
-    array.forEach((item) => count++);
-  };
-
   // USER STATE UPDATE
   useEffect(() => {
     // accessing user 1 "maidenwench"

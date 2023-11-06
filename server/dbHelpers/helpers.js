@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const { User } = require('../db/index');
+const { User, joinAchievement, Achievement } = require('../db/index');
 //GET HELPERS
 
 //get leaderboard helper
@@ -84,9 +84,44 @@ const getTriviaQuestions = (req) => {
 
 //PUT HELPERS
 
+const checkHighScores = (userObjects) => {
+  userObjects.forEach((user) => {
+    if (user.highscore > 100) {
+      Achievement.findOne({ where: { name: 'Top score of 100' } })
+        .then((achievement) => {
+          joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
+            .then((newJoin) => {
+              console.log(newJoin);
+            })
+            .catch((err) => {
+              console.error('Could not GET achievement', err);
+            });
+        })
+        .catch((err) => {
+          console.error('Could not GET achievement', err);
+        });
+    } else if (user.highscore > 50) {
+      Achievement.findOne({ where: { name: 'Top score of 50' } })
+        .then((achievement) => {
+          joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
+            .then((newJoin) => {
+              console.log(newJoin);
+            })
+            .catch((err) => {
+              console.error('Could not GET achievement', err);
+            });
+        })
+        .catch((err) => {
+          console.error('Could not GET achievement', err);
+        });
+    }
+  });
+};
+
 //DELETE HELPERS
 
 module.exports = {
   getLeaderBoard,
   getTriviaQuestions,
+  checkHighScores,
 };

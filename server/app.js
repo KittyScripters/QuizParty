@@ -7,7 +7,7 @@ const {
 } = require('./db/index');
 const { joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
 
-const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
+const { getLeaderBoard, getTriviaQuestions, checkHighScores } = require('./dbHelpers/helpers');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -121,6 +121,36 @@ app.get('/api/questions/:user_id', (req, res) => {
     });
 });
 
+//patch a user's achievements by getting all the scores
+app.patch('/api/join_achievements', (req, res) => {
+  const attributes = [
+    'id',
+    'username',
+    'highscore',
+    'art_score',
+    'celebrities_score',
+    'animals_score',
+    'music_score',
+    'sports_score',
+    'books_score',
+    'mythology_score',
+    'history_score',
+    'nature_score',
+    'politics_score',
+  ];
+  //get all users
+  User.findAll({ attributes: attributes })
+    .then((users) => {
+      //use helper function here
+      checkHighScores(users);
+      res.send(users);
+    })
+    .catch((err) =>{
+      console.error('Could not GET all users', err);
+      res.sendStatus(500);
+    });
+});
+
 //patch a user's bio column => working in postman
 app.patch('/api/users/:id', (req, res) => {
   const { id } = req.params;
@@ -156,6 +186,30 @@ app.get('/api/achievements/:id', (req, res) => {
     .then((achievement) => {
       res.status(200);
       res.send(achievement);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.get('/api/achievements', (req, res) => {
+  Achievement.findAll({ where: { name: 'Top score of 100' } })
+    .then((achievements) => {
+      res.status(200);
+      res.send(achievements);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.get('/api/join_achievements', (req, res) => {
+  joinAchievement.findAll()
+    .then((achievements) => {
+      res.status(200);
+      res.send(achievements);
     })
     .catch((err) => {
       console.error(err);
