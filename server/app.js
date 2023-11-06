@@ -204,6 +204,47 @@ app.get('/api/favorite_questions/:user_id', (req, res) => {
     });
 });
 
+//delete request for user's favorite questions => working in postman
+app.delete('/api/favorite_questions/:id', (req, res) => {
+  const { id } = req.params;
+  FavoriteQuestion.destroy({ where: { id: id } })
+    .then((favQuestion) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Could not DELETE favorite question', err);
+      res.sendStatus(500);
+    });
+});
+
+//delete request for user's created questions => working in postman
+app.delete('/api/questions/:id', (req, res) => {
+  const { id } = req.params;
+  Question.destroy({ where: { id: id } })
+    .then((userQuestion) => {
+      console.log(userQuestion);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Could not DELETE user question', err);
+      res.sendStatus(500);
+    });
+});
+
+//delete request for followers => working in postman
+app.delete('/api/join_followers/:followed_user_id', (req, res) => {
+  const { followed_user_id } = req.params;
+  joinFollower.destroy({ where: { followed_user_id: followed_user_id }, attributes: ['following_user_id'] })
+    .then((follower) => {
+      console.log(follower);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Could not DELETE follower', err);
+      res.sendStatus(500);
+    });
+});
+
 app.post('/api/play', (req, res) => { 
   return getTriviaQuestions(req.body)
     .then((questionsArr) => {
