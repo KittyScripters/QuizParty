@@ -5,7 +5,7 @@ const path = require('path');
 const {
   db, User, Question, Achievement, 
 } = require('./db/index');
-const { joinAchievement, joinFollower } = require('./db/index');
+const { joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -184,6 +184,24 @@ app.get('/api/join_followers/:following_user_id', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get favorite questions by user_id
+app.get('/api/favorite_questions/:user_id', (req, res) => {
+  // access the user_id field
+  const { user_id } = req.params;
+  // FavoriteQuestion model to find all of the user's favorite questions
+  FavoriteQuestion.findAll({ where: { user_id: user_id }, attributes: ['question'] })
+    .then((questions) => {
+      // mapping through the question objects and returning the question string
+      const results = questions.map((question) => question.question);
+      res.status(200);
+      res.send(results);
+    })
+    .catch((err) => {
+      console.error('Could not GET questions by user_id', err);
       res.sendStatus(500);
     });
 });

@@ -78,6 +78,26 @@ module.exports = {
         updatedAt: new Date(),
       },
     ]);
+    await queryInterface.bulkInsert('favorite_questions', [
+      {
+        user_id: 1,
+        question: 'This is a sample question?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'Why did the chicken cross the road?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'Who is Chuck Norris?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
