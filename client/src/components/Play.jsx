@@ -18,7 +18,6 @@ const Play = () => {
   };
 
   const displayQuestion = (question) => {
-    console.log(question);
     /*
     create randomize function
     map array/ zip???? shuffle the array https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
@@ -27,10 +26,21 @@ const Play = () => {
     return (
       <div className="Questions">
         <div className="Question">{question.question}</div>
-        <div className="Choice1">{question.correct_answer}</div> 
-        <div className="Choice2">{question.incorrect_answers[0]}</div> 
+        <input type="radio" id="Choice1" name="Choice" /> 
+        {question.correct_answer} 
+        <br /> 
+        <input type="radio" id="Choice2" name="Choice" /> 
+        {question.incorrect_answers[0]}
+        <br /> 
+        <input type="radio" id="Choice3" name="Choice" /> 
+        {question.incorrect_answers[1]} 
+        <br /> 
+        <input type="radio" id="Choice4" name="Choice" /> 
+        {question.incorrect_answers[2]}
+        <br /> 
+        {/* <div className="Choice2">{question.incorrect_answers[0]}</div> 
         <div className="Choice3">{question.incorrect_answers[1]}</div> 
-        <div className="Choice4">{question.incorrect_answers[2]}</div> 
+        <div className="Choice4">{question.incorrect_answers[2]}</div>  */}
         <button type="button">Next</button>
       </div>
     );
@@ -55,7 +65,7 @@ const Play = () => {
     <div>
       <h3>Choose your Category and Difficulty Level</h3>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
-        <option>Category</option>
+        {/* <option>Category</option> */}
         <option>Animals</option>
         <option>Art</option>
         <option>Books</option>
@@ -68,7 +78,7 @@ const Play = () => {
         <option>Sports</option>
       </select>
       <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
-        <option>Difficulty</option>
+        {/* <option>Difficulty</option> */}
         <option>Easy</option>
         <option>Medium</option>
         <option>Hard</option>
