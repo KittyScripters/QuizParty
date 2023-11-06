@@ -5,10 +5,11 @@ const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
-  // const [currentQuestion, setCurrentQuestion] = useState({});
   const [count, setCount] = useState(0);
   const [showQuestion, setQuestions] = useState(false);
   const [showSubmit, setSubmit] = useState(false);
+  const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
+  // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
@@ -18,9 +19,17 @@ const Play = () => {
     setDifficulty(event.currentTarget.value);
   };
 
-  const displayQuestion = (questions) => {
-    console.log(count);
+  const onAnswerSelection = (e) => {
+    const selection = e.currentTarget.value;
+    if (selection === resDataQuestions[count].correct_answer) {
+      console.log('correct');
+      setCorrectAnswerCount(correctAnswerCount + 1);
+    } else {
+      console.log('WRONG');
+    }
+  };
 
+  const displayQuestion = (questions) => {
     const { question } = questions[count]; // need to decode this!
     const correctAnswer = [];
     correctAnswer.push(questions[count].correct_answer);
@@ -40,42 +49,48 @@ const Play = () => {
       return false;
     };
 
-    const handleQuizSubmit = () => {
+    const renderSubmitButton = () => {
       if (count === questions.length - 2) {
         setSubmit(true);
-        // alert('congrats ur done'); 
       }
     };
 
     return (
       <div className="Questions">
         <div className="Question">{question}</div>
-        <input type="radio" id="Choice1" name="Choice" /> 
+        <input type="radio" id="Choice1" name="Choice" value={randomizedAnswers[0]} onChange={(e) => { onAnswerSelection(e); }} /> 
         {randomizedAnswers[0]} 
         <br /> 
-        <input type="radio" id="Choice2" name="Choice" /> 
+        <input type="radio" id="Choice2" name="Choice" value={randomizedAnswers[1]} onChange={(e) => { onAnswerSelection(e); }} />  
         {randomizedAnswers[1]}
         <br /> 
-        <input type="radio" id="Choice3" name="Choice" /> 
+        <input type="radio" id="Choice3" name="Choice" value={randomizedAnswers[2]} onChange={(e) => { onAnswerSelection(e); }} />  
         {randomizedAnswers[2]} 
         <br /> 
-        <input type="radio" id="Choice4" name="Choice" /> 
+        <input type="radio" id="Choice4" name="Choice" value={randomizedAnswers[3]} onChange={(e) => { onAnswerSelection(e); }} />  
         {randomizedAnswers[3]}
         <br /> 
         <button
           type="button"
-          onClick={() => { 
+          onClick={(e) => { 
             updateCount(); 
             displayQuestion(questions); 
             resetRadioButton(); 
-            handleQuizSubmit();
+            renderSubmitButton();
+            onAnswerSelection(e);
           }}
         >
           Next
         </button>
         <div className="HandleSubmit">
           {showSubmit
-            ? <button type="button"> Submit Results </button>
+            ? (
+              <div> 
+                <button type="button" onClick={() => { console.log('how do I exit this view and render the play page'); }}>
+                  Submit Results
+                </button>
+              </div>
+            )
             : null}
         </div>
       </div>
@@ -93,7 +108,7 @@ const Play = () => {
   };
 
   return (
-    <div>
+    <div className="MainPlay">
       <h3>Choose your Category and Difficulty Level</h3>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
         {/* <option>Category</option> */}
