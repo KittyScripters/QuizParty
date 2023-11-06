@@ -3,7 +3,7 @@
 const express = require('express');
 const path = require('path');
 const { db, User, Question, Achievement } = require('./db/index');
-const { joinAchievement } = require('./db/index');
+const { joinAchievement, joinFollower } = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -154,6 +154,19 @@ app.get('/api/achievements/:id', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get followers by id
+app.get('/api/join_followers/:following_user_id', (req, res) => {
+  const { following_user_id } = req.params;
+  joinFollower.findAll({ where: { following_user_id: following_user_id } })
+    .then((followers) => {
+      res.status(200).send(followers);
+    })
+    .catch((err) => {
+      console.error('Could not GET users', err);
       res.sendStatus(500);
     });
 });
