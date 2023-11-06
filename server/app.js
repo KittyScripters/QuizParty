@@ -146,12 +146,6 @@ app.get('/api/join_achievements/:user_id', (req, res) => {
           res.send(results);
         });
     })
-    
-    // .then((data) => {
-    //   console.log('serverside ach:', data);
-    //   res.status(200);
-    //   res.send(data);
-    // })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
@@ -172,15 +166,27 @@ app.get('/api/achievements/:id', (req, res) => {
     });
 });
 
-//get followers by id
+//find all followers in join_followers
 app.get('/api/join_followers/:following_user_id', (req, res) => {
+  //following_user_id parameter
   const { following_user_id } = req.params;
-  joinFollower.findAll({ where: { following_user_id: following_user_id } })
-    .then((followers) => {
-      res.status(200).send(followers);
+  // use joinFollower model to find all followers of user
+  joinFollower.findAll({ where: { following_user_id: following_user_id }, attributes: ['followed_user_id'], group: ['followed_user_id'] })
+    .then((data) => {
+      //map through the data array and return only the follower_user_id values
+      const followers = data.map((follower) => follower.followed_user_id);
+      //pass in the mapped values in the User model and find all where the id's match
+      User.findAll({ where: { id: followers } })
+        .then((followData) => {
+          //map the refined followers array and return only the username
+          const results = followData.map((follower) => follower.username);
+          //send back the results
+          console.log(results);
+          res.status(200).send(results);
+        });
     })
     .catch((err) => {
-      console.error('Could not GET users', err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
