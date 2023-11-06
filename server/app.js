@@ -138,11 +138,9 @@ app.get('/api/join_achievements/:user_id', (req, res) => {
   joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
     .then((data) => {
       const achievements = data.map((achievement) => achievement.achievement_id);
-      console.log(achievements);
       Achievement.findAll({ where: { id: achievements } })
         .then((thing) => {
           const results = thing.map((result) => result.name);
-          console.log(results);
           res.send(results);
         });
     })
@@ -181,7 +179,6 @@ app.get('/api/join_followers/:following_user_id', (req, res) => {
           //map the refined followers array and return only the username
           const results = followData.map((follower) => follower.username);
           //send back the results
-          console.log(results);
           res.status(200).send(results);
         });
     })

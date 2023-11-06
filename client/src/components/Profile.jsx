@@ -20,6 +20,7 @@ const Profile = () => {
   const [questions, setQuestions] = useState([]);
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
+  const [followers, setFollowers] = useState([]);
 
   // USER STATE UPDATE
   useEffect(() => {
@@ -46,11 +47,18 @@ const Profile = () => {
     //get the corresponding data from join_achievements => using user_id
     axios.get('/api/join_achievements/1')
       .then(({ data }) => {
-        console.log(data);
         setAchievements(data);
       })
       .catch((err) => console.error('Could not GET join_achievement ids', err));
   }, []);
+
+  useEffect(() => {
+    axios.get('/api/join_followers/1')
+      .then(({ data }) => {
+        setFollowers(data);
+      })
+      .catch((err) => console.error(err));
+  }, [setFollowers]);
 
   return (
     <div>
@@ -69,7 +77,7 @@ const Profile = () => {
       <div>
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
-        {view === 'FollowersTab' && <FollowersTab />}
+        {view === 'FollowersTab' && <FollowersTab followers={followers} />}
         {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
         {view === 'UpdateTab' && <UpdateTab />}
       </div>
