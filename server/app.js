@@ -16,8 +16,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/play', (req, res) => {
-  //const { options } = req.body;
-  console.log(req.body);
   return getTrivaQuestions(req.body)
     .then((data) => {
       console.log('get result', data);

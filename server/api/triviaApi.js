@@ -48,5 +48,4 @@ const getTrivaQuestions = (req) => {
     });
 };
 
-
 module.exports = getTrivaQuestions;

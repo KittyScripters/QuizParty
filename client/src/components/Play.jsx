@@ -1,13 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-/**
-   * send get request to the API to load the selected choices (category and difficulty)
-   * choices will come from selection 
-   * selections will be handled by onChange on the SELECT input not option
-   * update state to whatever the value is
-   * CREATE NEW BRANCH
-*/ 
 const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
@@ -21,8 +14,10 @@ const Play = () => {
   const handlePlayClick = () => { //get request
     axios.get('/api/play', {
       options: {
-        category: { category },
-        difficulty: { difficulty },
+        category,
+        difficulty,
+        // category: category,
+        // difficulty: difficulty,
       },
     })
       .then(() => {
@@ -41,10 +36,6 @@ const Play = () => {
   const onDifficultySelection = (event) => {
     setDifficulty(event.currentTarget.value);
   };
-
-  // const componentDidMount = () => {
-  //   handlePlayClick();
-  // };  
 
   return (
     <div>
