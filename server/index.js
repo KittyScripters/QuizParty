@@ -1,11 +1,7 @@
 // server index to set up port listen
 const app = require('./app');
 
-const PORT = 3001;
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const PORT = 3000;
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
