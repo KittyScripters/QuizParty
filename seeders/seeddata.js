@@ -87,13 +87,12 @@ module.exports = {
     await queryInterface.bulkInsert('questions', [
       {
         user_id: 1,
-        difficulty: 'easy',
-        question: 'Virgin Trains, Virgin Atlantic and Virgin Racing, are all companies owned by which famous entrepreneur?',
-        category: 'General Knowledge',
+        question: 'Virgin Trains, Virgin Atlantic and Virgin Racing, are all companies owned by which famous entrepreneur?   ',
         correct_answer: 'Richard Branson',
         incorrect_answer_1: 'Alan Sugar',
         incorrect_answer_2: 'Donald Trump',
         incorrect_answer_3: 'Bill Gates',
+        question_set: 'test',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

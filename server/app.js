@@ -17,6 +17,35 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
+
+app.post('/createQuestion', (req, res) => {
+  Question.create(req.body)
+    .then((newQuestion) => {
+      res.status(201).json(newQuestion);
+    })
+    .catch((err) => {
+      console.error('error submitting question: ', err);
+      res.sendStatus(500).json({ error: 'server side error saving question' });
+    });
+});
+
+app.get('/getUserQuizNames/:userId', (req, res) => {
+  const { userId } = req.params;
+  Question.findAll({
+    where: {
+      user_id: userId,
+    },
+    attributes: ['question_set'],
+    group: ['question_set'],
+  })
+    .then((questionSets) => {
+      res.json({ questionSets });
+    })
+    .catch((err) => { 
+      console.error('Error in QuiznameGet:', err); 
+      res.sendStatus(500).json({ error: 'server side error getting quiz names' });
+    });
+  });
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
