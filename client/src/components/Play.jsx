@@ -4,29 +4,10 @@ import React, { useEffect, useState } from 'react';
 const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
-
-  // useEffect(() => {
-  //   `You clicked ${category}`
-  // });
-
-  //console.log(category, difficulty);
-
-  const handlePlayClick = () => { /// NOTE 1 
-    axios.post('/api/play', {
-      options: {
-        category,
-        difficulty,
-      },
-    })
-      .then((response) => {
-        console.log('GET trivia questions successful');
-      })
-      .catch((err) => {
-        // console.log('category', options.category);
-        // console.log('difficulty', options.difficulty);
-        console.error('GET trivia questions NOT successful', err);
-      });
-  };
+  const [resDataQuestions, setResDataQuestions] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState({});
+  const [questions, setQuestions] = useState(false);
+  // count + 1 
 
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
@@ -35,6 +16,40 @@ const Play = () => {
   const onDifficultySelection = (event) => {
     setDifficulty(event.currentTarget.value);
   };
+
+  const displayQuestion = (question) => {
+    console.log(question);
+    /*
+    create randomize function
+    map array/ zip???? shuffle the array https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
+    compare correct answer to correct answer and figure color/hooray
+  */
+    return (
+      <div className="Questions">
+        <div className="Question">{question.question}</div>
+        <div className="Choice1">{question.correct_answer}</div> 
+        <div className="Choice2">{question.incorrect_answers[0]}</div> 
+        <div className="Choice3">{question.incorrect_answers[1]}</div> 
+        <div className="Choice4">{question.incorrect_answers[2]}</div> 
+        <button type="button">Next</button>
+      </div>
+    );
+  };
+
+  const handlePlayClick = () => { // NOTE 1
+    axios.post('/api/play', { options: { category, difficulty } })
+      .then((response) => {
+        setQuestions(true);
+        setResDataQuestions(response.data.results);
+        setCurrentQuestion(response.data.results[0]);
+        console.log('GET trivia questions successful');
+      })
+      .catch((err) => console.error('GET trivia questions NOT successful', err));
+  };
+
+  // const nextQuestion = () => {
+
+  // };
 
   return (
     <div>
@@ -52,13 +67,19 @@ const Play = () => {
         <option>Politics</option>
         <option>Sports</option>
       </select>
-      <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)} value="">
+      <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
         <option>Difficulty</option>
         <option>Easy</option>
         <option>Medium</option>
         <option>Hard</option>
       </select>
       <button type="button" onClick={() => handlePlayClick()}>Play!</button>
+      <div className="Questions">
+        {questions
+          ? displayQuestion(currentQuestion)
+          : null}  
+      </div>
+          
     </div>
   );
 };
