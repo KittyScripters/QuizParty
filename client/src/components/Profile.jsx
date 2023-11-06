@@ -15,13 +15,10 @@ import UpdateTab from './profileTabs/UpdateTab';
 // user's profile
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [userQuestions, setUserQuestions] = useState([]);
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
-  const [followers, setFollowers] = useState([]);
-  const [favoriteQuestions, setFavoriteQuestions] = useState([]);
 
-  const userId = 30;
+  const userId = 1;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`api/users/${userId}`)
@@ -30,15 +27,6 @@ const Profile = () => {
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
   }, [setUser]);
-
-  // USER'S FAVORITE QUESTIONS UPDATE
-  useEffect(() => {
-    axios.get(`/api/questions/${userId}`)
-      .then(({ data }) => {
-        setUserQuestions(data);
-      })
-      .catch((err) => console.error('Could not GET user\'s questions', err));
-  }, [setUserQuestions]);
 
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
@@ -52,21 +40,6 @@ const Profile = () => {
       })
       .catch((err) => console.error('Could not PATCH achievements', err));
   }, [setAchievements]);
-
-  useEffect(() => {
-    axios.get(`/api/join_followers/${userId}`)
-      .then(({ data }) => {
-        setFollowers(data);
-      })
-      .catch((err) => console.error(err));
-  }, [setFollowers]);
-
-  useEffect(() => {
-    axios.get(`/api/favorite_questions/${userId}`)
-      .then(({ data }) => {
-        setFavoriteQuestions(data);
-      });
-  }, [setFavoriteQuestions]);
 
   return (
     <div>
@@ -85,8 +58,8 @@ const Profile = () => {
       <div>
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
-        {view === 'FollowersTab' && <FollowersTab followers={followers} />}
-        {view === 'QuestionsTab' && <QuestionsTab userQuestions={userQuestions} favoriteQuestions={favoriteQuestions} />}
+        {view === 'FollowersTab' && <FollowersTab userId={userId} />}
+        {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
         {view === 'UpdateTab' && <UpdateTab />}
       </div>
     </div>

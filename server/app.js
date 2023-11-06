@@ -239,7 +239,7 @@ app.get('/api/join_followers/:following_user_id', (req, res) => {
       User.findAll({ where: { id: followers } })
         .then((followData) => {
           //map the refined followers array and return only the username
-          const results = followData.map((follower) => follower.username);
+          const results = followData.map((follower) => [follower.id, follower.username]);
           //send back the results
           res.status(200).send(results);
         });
@@ -284,8 +284,7 @@ app.delete('/api/favorite_questions/:id', (req, res) => {
 app.delete('/api/questions/:id', (req, res) => {
   const { id } = req.params;
   Question.destroy({ where: { id: id } })
-    .then((userQuestion) => {
-      console.log(userQuestion);
+    .then(() => {
       res.sendStatus(200);
     })
     .catch((err) => {
@@ -295,11 +294,11 @@ app.delete('/api/questions/:id', (req, res) => {
 });
 
 //delete request for followers => working in postman
-app.delete('/api/join_followers/:followed_user_id', (req, res) => {
+app.delete('/api/join_followers/:following_user_id/:followed_user_id', (req, res) => {
   const { followed_user_id } = req.params;
-  joinFollower.destroy({ where: { followed_user_id: followed_user_id }, attributes: ['following_user_id'] })
+  const { following_user_id } = req.params;
+  joinFollower.destroy({ where: {  following_user_id: following_user_id, followed_user_id: followed_user_id } })
     .then((follower) => {
-      console.log(follower);
       res.sendStatus(200);
     })
     .catch((err) => {
