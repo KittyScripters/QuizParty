@@ -8,6 +8,7 @@ const Play = () => {
   // const [currentQuestion, setCurrentQuestion] = useState({});
   const [count, setCount] = useState(0);
   const [showQuestion, setQuestions] = useState(false);
+  const [showSubmit, setSubmit] = useState(false);
 
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
@@ -18,8 +19,9 @@ const Play = () => {
   };
 
   const displayQuestion = (questions) => {
-    console.log(questions);
+    console.log(count);
 
+    const { question } = questions[count]; // need to decode this!
     const correctAnswer = [];
     correctAnswer.push(questions[count].correct_answer);
     const wrongAnswers = questions[count].incorrect_answers;
@@ -31,16 +33,23 @@ const Play = () => {
       setCount(count + 1);
     };
 
-    const clearRadioButtonAfterEachQuestion = () => {
+    const resetRadioButton = () => {
       ['Choice1', 'Choice2', 'Choice3', 'Choice4'].forEach((id) => {
         document.getElementById(id).checked = false;
       });
       return false;
     };
 
+    const handleQuizSubmit = () => {
+      if (count === questions.length - 2) {
+        setSubmit(true);
+        // alert('congrats ur done'); 
+      }
+    };
+
     return (
       <div className="Questions">
-        <div className="Question">{questions[count].question}</div>
+        <div className="Question">{question}</div>
         <input type="radio" id="Choice1" name="Choice" /> 
         {randomizedAnswers[0]} 
         <br /> 
@@ -58,11 +67,17 @@ const Play = () => {
           onClick={() => { 
             updateCount(); 
             displayQuestion(questions); 
-            clearRadioButtonAfterEachQuestion(); 
+            resetRadioButton(); 
+            handleQuizSubmit();
           }}
         >
           Next
         </button>
+        <div className="HandleSubmit">
+          {showSubmit
+            ? <button type="button"> Submit Results </button>
+            : null}
+        </div>
       </div>
     );
   };
@@ -105,7 +120,7 @@ const Play = () => {
           ? displayQuestion(resDataQuestions)
           : null}  
       </div>
-          
+         
     </div>
   );
 };
