@@ -23,10 +23,10 @@ const Profile = () => {
   const [followers, setFollowers] = useState([]);
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
 
+  const userId = 15;
   // USER STATE UPDATE
   useEffect(() => {
-    // accessing user 1 "maidenwench"
-    axios.get('api/users/1')
+    axios.get(`api/users/${userId}`)
       .then(({ data }) => {
         setUser(data);
       })
@@ -35,7 +35,7 @@ const Profile = () => {
 
   // USER'S FAVORITE QUESTIONS UPDATE
   useEffect(() => {
-    axios.get('/api/questions/1')
+    axios.get(`/api/questions/${userId}`)
       .then(({ data }) => {
         setUserQuestions(data);
       })
@@ -44,7 +44,7 @@ const Profile = () => {
 
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
-    axios.get('/api/join_achievements/1')
+    axios.get(`/api/join_achievements/${userId}`)
       .then(({ data }) => {
         setAchievements(data);
       })
@@ -52,7 +52,7 @@ const Profile = () => {
   }, [setAchievements]);
 
   useEffect(() => {
-    axios.get('/api/join_followers/1')
+    axios.get(`/api/join_followers/${userId}`)
       .then(({ data }) => {
         setFollowers(data);
       })
@@ -60,7 +60,7 @@ const Profile = () => {
   }, [setFollowers]);
 
   useEffect(() => {
-    axios.get('/api/favorite_questions/1')
+    axios.get(`/api/favorite_questions/${userId}`)
       .then(({ data }) => {
         setFavoriteQuestions(data);
       });

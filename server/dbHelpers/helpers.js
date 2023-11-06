@@ -86,12 +86,12 @@ const getTriviaQuestions = (req) => {
 
 const checkHighScores = (userObjects) => {
   userObjects.forEach((user) => {
-    if (user.highscore > 100) {
-      Achievement.findOne({ where: { name: 'Top score of 100' } })
+    if (user.highscore > 50) {
+      Achievement.findOne({ where: { name: 'Top score of 50' } })
         .then((achievement) => {
           joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
             .then((newJoin) => {
-              console.log(newJoin);
+              return newJoin;
             })
             .catch((err) => {
               console.error('Could not GET achievement', err);
@@ -100,12 +100,13 @@ const checkHighScores = (userObjects) => {
         .catch((err) => {
           console.error('Could not GET achievement', err);
         });
-    } else if (user.highscore > 50) {
-      Achievement.findOne({ where: { name: 'Top score of 50' } })
+    }
+    if (user.highscore > 100) {
+      Achievement.findOne({ where: { name: 'Top score of 100' } })
         .then((achievement) => {
           joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
             .then((newJoin) => {
-              console.log(newJoin);
+              return newJoin;
             })
             .catch((err) => {
               console.error('Could not GET achievement', err);
