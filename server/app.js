@@ -123,21 +123,6 @@ app.get('/api/questions/:user_id', (req, res) => {
 
 //patch a user's achievements by getting all the scores
 app.patch('/api/join_achievements', (req, res) => {
-  const attributes = [
-    'id',
-    'username',
-    'highscore',
-    'art_score',
-    'celebrities_score',
-    'animals_score',
-    'music_score',
-    'sports_score',
-    'books_score',
-    'mythology_score',
-    'history_score',
-    'nature_score',
-    'politics_score',
-  ];
   const categories = [
     'Top Art Score',
     'Top Celebrities Score',
@@ -151,7 +136,7 @@ app.patch('/api/join_achievements', (req, res) => {
     'Top Politics Score',
   ];
   //get all users
-  User.findAll({ attributes: attributes })
+  User.findAll()
     .then((users) => {
       // get all joined achievements
       joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
@@ -162,6 +147,20 @@ app.patch('/api/join_achievements', (req, res) => {
         .catch((err) => {
           console.error('Could not GET all joined achievements', err);
           res.sendStatus(500);
+        });
+      Achievement.findAll({ attributes: ['id', 'name'] })
+        .then((achievements) => {
+          const results = achievements.splice(2);
+          checkTopCatScore(users, 'Top Score', 'highscore');
+          checkTopCatScore(users, 'Top Art Score', 'art_score');
+          checkTopCatScore(users, 'Top Music Score', 'music_score');
+          checkTopCatScore(users, 'Top Book Score', 'book_score');
+          checkTopCatScore(users, 'Top Animals Score', 'animals_score');
+          checkTopCatScore(users, 'Top Celebrities Score', 'celebrities_score');
+          checkTopCatScore(users, 'Top Sports Score', 'sports_score');
+          checkTopCatScore(users, 'Top Mythology Score', 'mythology_score');
+          checkTopCatScore(users, 'Top History Score', 'history_score');
+          checkTopCatScore(users, 'Top Politics Score', 'politics_score');
         });
     })
     .catch((err) => {

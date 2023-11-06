@@ -86,11 +86,8 @@ const getTriviaQuestions = (req) => {
 
 const checkHighScores = (userObjects, joinAch) => {
   let check = false;
-  //iterate through each userObject
   userObjects.forEach((user) => {
-    // determine if user's highscore > 50
     if (user.highscore > 50) {
-      //find the top score 50 achievement
       Achievement.findOne({ where: { name: 'Top score of 50' } })
         .then((achievement) => {
           for (let i = 0; i < joinAch.length; i++) {
@@ -99,7 +96,6 @@ const checkHighScores = (userObjects, joinAch) => {
             }
           }
           if (check === false) {
-            // create the achievement for the user on join_achievements
             joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
               .then((newJoin) => {
                 return newJoin;
@@ -114,7 +110,6 @@ const checkHighScores = (userObjects, joinAch) => {
         });
     }
     if (user.highscore > 100) {
-      //find the top score 50 achievement
       Achievement.findOne({ where: { name: 'Top score of 100' } })
         .then((achievement) => {
           for (let i = 0; i < joinAch.length; i++) {
@@ -123,7 +118,6 @@ const checkHighScores = (userObjects, joinAch) => {
             }
           }
           if (check === false) {
-            // create the achievement for the user on join_achievements
             joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
               .then((newJoin) => {
                 return newJoin;
@@ -140,30 +134,31 @@ const checkHighScores = (userObjects, joinAch) => {
   });
 };
 
-const checkTopCatScore = (users, achievements, category) => {
+const checkTopCatScore = (users, category, attribute) => {
   let check = true;
+  const order = users.sort((a, b) => b[attribute] - a[attribute]);
+  // topScore === user with the highest score
+  const topScore = order[0];
   Achievement.findOne({ where: { name: category } })
-    .then((achievement) => {
-      const order = users.sort((a, b) => b[category] - a[category]);
-      achievements.forEach((ach) => {
-        // console.log('ach', ach);
-        // console.log('achievement', achievement);
-        if (ach.achievement_id === achievement.id && ach.user_id !== order[0].id) {
-          check = false;
-        }
-        if (check === false) {
-          joinAchievement.update(
-            { user_id: order[0].id },
-            { where: { achievement_id: achievement.id } },
-          )
-            .then((joinedAch) => {
-              return joinedAch;
-            })
-            .catch((err) => console.error('Could not UPDATE joined achievement', err));
-        }
-      });
-    })
-    .catch((err) => console.error('Could not GET achievement by category', err));
+    // title === achievement
+    .then((title) => {
+      joinAchievement.findAll({ attributes: ['user_id', 'achievement_id']})
+        .then((joinAch) => {
+          joinAch.forEach((ach) => {
+            if (ach.achievement_id === title.id && ach.user_id !== topScore.id) {
+              joinAchievement.update(
+                { user_id: topScore.id },
+                { where: { achievement_id: title.id } },
+              );
+            } else {
+              check = false;
+            }
+          });
+          if (!check) {
+            joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
+          }
+        });
+    });
 };
 
 //DELETE HELPERS
