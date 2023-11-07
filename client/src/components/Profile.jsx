@@ -25,8 +25,6 @@ const Profile = () => {
       .catch((err) => console.error('Could not get PROFILE DATA', err));
   }, [setUser]);
 
-  // console.log('user', user.username);
-
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
     axios.patch('/api/join_achievements')
