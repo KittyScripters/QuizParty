@@ -188,7 +188,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { resetPlayStates(); updateHighScore() }}>
+              <button type="button" onClick={() => { resetPlayStates(); }}>
                 Submit Results
               </button>
             </div>
