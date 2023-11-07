@@ -17,7 +17,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
-
 app.post('/createQuestion', (req, res) => {
   Question.create(req.body)
     .then((newQuestion) => {
@@ -39,13 +38,15 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
     group: ['question_set'],
   })
     .then((questionSets) => {
-      res.json({ questionSets });
+      console.log('qs in server: ', questionSets);
+      const quizNames = questionSets.map((questionSet) => questionSet.question_set);
+      res.send(quizNames);
     })
     .catch((err) => { 
       console.error('Error in QuiznameGet:', err); 
       res.sendStatus(500).json({ error: 'server side error getting quiz names' });
     });
-  });
+});
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
