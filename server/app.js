@@ -17,12 +17,12 @@ app.get('/', (req, res) => {
 
 //get the leaderboard from the database
 app.get('/leaderboard', (req, res) => {
-  //get the top number, with a default of 15 and the searchedUser from the query from
+  //get the top number, and the searchedUser from the query from
   //  the client request
-  const { topNum = 10, searchedUser } = req.query;
-  
+  const { topNum, search } = req.query;
+  // console.log('req.query', req.query);
   //invoke the imported getLeaderBoard function with the topNum and searchedUser as the arguments
-  getLeaderBoard(topNum, searchedUser)
+  getLeaderBoard(topNum, search)
   //then take the users 'leaderboard' and send them back to the client
     .then((users) => {
       // send back the users
