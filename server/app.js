@@ -2,8 +2,8 @@
 /* eslint-disable object-shorthand */
 const express = require('express');
 const path = require('path');
-const { db, User, Question } = require('./db/index');
-
+const { db, User, Question, Achievement } = require('./db/index');
+const { joinAchievement, joinFollower } = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -126,6 +126,47 @@ app.patch('/api/users/:id', (req, res) => {
     .then(() => res.sendStatus(200))
     .catch((err) => {
       console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get achievements id with user's id => works in postman
+app.get('/api/join_achievements/:user_id', (req, res) => {
+  const { user_id} = req.params;
+  joinAchievement.findAll({ where: { user_id: user_id } })
+    .then((achievements) => {
+      res.status(200);
+      res.send(achievements);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get achievement by id => working in postman
+app.get('/api/achievements/:id', (req, res) => {
+  const { id } = req.params;
+  Achievement.findOne({ where: { id: id } })
+    .then((achievement) => {
+      res.status(200);
+      res.send(achievement);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get followers by id
+app.get('/api/join_followers/:following_user_id', (req, res) => {
+  const { following_user_id } = req.params;
+  joinFollower.findAll({ where: { following_user_id: following_user_id } })
+    .then((followers) => {
+      res.status(200).send(followers);
+    })
+    .catch((err) => {
+      console.error('Could not GET users', err);
       res.sendStatus(500);
     });
 });
