@@ -133,7 +133,12 @@ const Play = () => {
       <button type="button" onClick={() => handlePlayClick()}>Play!</button>
       <div className="Questions">
         {showQuestion
-          ? displayQuestion(resDataQuestions)
+          ? (
+            <div>
+              <b>Question {count + 1} of {resDataQuestions.length}</b><br />
+              {displayQuestion(resDataQuestions)}
+            </div>
+          )
           : null}  
       </div>
       <div className="HandleSubmit">
