@@ -5,29 +5,13 @@ import axios from 'axios';
 import Achievement from './Achievement';
 
 const AchievementsTab = ({ achievements }) => {
-  //map through this state variable to pass into Achievement
-  const [list, setList] = useState(achievements);
-  //useEffect to mount the list of achievements
-  // useEffect(() => {
-  //   const results = [];
-  //   achievements.forEach((item) => {
-  //     axios.get(`/api/achievements/${item.achievement_id}`)
-  //       .then(({ data }) => {
-  //         results.push(data);
-  //         setList(results);
-  //       })
-  //       .catch((err) => console.error(err));
-  //   });
-  // }, []);
-  console.log('current state', list);
-
   return (
     <div>
       <div>
         <h4>Achievements</h4>
         <div>
-          {list.map((achievement) => {
-            return <Achievement key={achievement} achievement={achievement} />;
+          {achievements.map((achievement) => {
+            return <Achievement key={achievement.id} achievement={achievement.name} />;
           })}
         </div>
       </div>

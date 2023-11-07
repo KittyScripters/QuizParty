@@ -56,6 +56,18 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        user_id: 1,
+        achievement_id: 6,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        achievement_id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
 
     await queryInterface.bulkInsert('join_followers', [
@@ -74,6 +86,38 @@ module.exports = {
       {
         following_user_id: 1,
         followed_user_id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+    await queryInterface.bulkInsert('favorite_questions', [
+      {
+        user_id: 1,
+        question: 'This is a sample question?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'Why did the chicken cross the road?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'Who is Chuck Norris?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'I want to axe u a question?',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        user_id: 1,
+        question: 'You\'re telling me a shrimp fried this rice?',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

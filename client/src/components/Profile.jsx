@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Outlet } from 'react-router-dom';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
 import FollowersTab from './profileTabs/FollowersTab';
@@ -11,25 +12,28 @@ import NavBar from './NavBar';
  * TODO:
  * Allow user to update their bio => request working, waiting on react router
  * Allow user to remove questions from their favorite questions list
- * Allow user to view their followers profiles
- * Access/render followers, favorite Questions, and personal questions
  */
 
 // user's profile
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [questions, setQuestions] = useState([]);
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
 
+  const userId = 1;
   // USER STATE UPDATE
   useEffect(() => {
+<<<<<<< HEAD
     // accessing user 1 "maidenwench"
     axios.get('api/users/31')
+=======
+    axios.get(`api/users/${userId}`)
+>>>>>>> 4dd2c3da43510c35cd16e4de1300f57d7a5700c3
       .then(({ data }) => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
+<<<<<<< HEAD
   }, []);
 
   // USER'S FAVORITE QUESTIONS UPDATE
@@ -49,9 +53,22 @@ const Profile = () => {
       .then(({ data }) => {
         console.log(data);
         setAchievements(data);
+=======
+  }, [setUser]);
+
+  // USER'S ACHIEVEMENTS UPDATE
+  useEffect(() => {
+    axios.patch('/api/join_achievements')
+      .then(() => {
+        axios.get(`/api/join_achievements/${userId}`)
+          .then(({ data }) => {
+            setAchievements(data);
+          })
+          .catch((err) => console.error('Could not GET join_achievement ids', err));
+>>>>>>> 4dd2c3da43510c35cd16e4de1300f57d7a5700c3
       })
-      .catch((err) => console.error('Could not GET join_achievement ids', err));
-  }, []);
+      .catch((err) => console.error('Could not PATCH achievements', err));
+  }, [setAchievements]);
 
   return (
     <div>
@@ -71,10 +88,13 @@ const Profile = () => {
         <button type="button" onClick={() => setView('UpdateTab')}>Update</button>
       </div>
       <div>
+        <Outlet />
+      </div>
+      <div>
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
-        {view === 'FollowersTab' && <FollowersTab />}
-        {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
+        {view === 'FollowersTab' && <FollowersTab userId={userId} />}
+        {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
         {view === 'UpdateTab' && <UpdateTab />}
       </div>
     </div>

@@ -1,5 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+const handleLogout = () => {
+  axios.get('/logout')
+    .then((response) => {
+      if (response.status === 200) {
+        window.location.href = '/'; 
+      }
+    })
+    .catch((error) => {
+      console.error('Error logging out:', error);
+    });
+};
 
 const NavBar = () => {
   return (
@@ -19,7 +32,11 @@ const NavBar = () => {
             <Link to="/protected/question-builder">QuestionBuilder</Link>
           </li>
           <li>
-            <Link to="/logout">Logout</Link>
+            <Link to="/login">
+              <button type="button" onClick={() => { handleLogout(); }}>
+                Logout
+              </button>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -27,14 +44,3 @@ const NavBar = () => {
   );
 };
 export default NavBar;
-
-
-
-
-
-
-
-
-
-
-
