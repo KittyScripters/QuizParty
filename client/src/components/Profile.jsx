@@ -14,7 +14,7 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
 
-  const userId = 23;
+  const userId = 31;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`/api/users/${userId}`)
