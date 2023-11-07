@@ -6,6 +6,7 @@ const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
+  const [randomAnswers, setRandomAnswers] = useState([]);
   const [count, setCount] = useState(0);
   const [showQuestion, setShowQuestions] = useState(false);
   const [nextButton, setNextButton] = useState(true);
@@ -13,6 +14,7 @@ const Play = () => {
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
+  // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
   const onCategorySelection = (event) => {
@@ -30,17 +32,22 @@ const Play = () => {
     } 
   };
 
-  const displayQuestion = (questions) => {
-    console.log('score', score);
-    const { question } = questions[count]; // need to decode this!
+  const randomizeAnswers = (resDataQ) => {
     const correctAnswer = [];
-    correctAnswer.push(questions[count].correct_answer);
+    correctAnswer.push(resDataQ.correct_answer);
     console.log('correct A', correctAnswer);
-    const wrongAnswers = questions[count].incorrect_answers;
+    const wrongAnswers = resDataQ.incorrect_answers;
     const combinedAnswers = correctAnswer.concat(wrongAnswers);
    
     const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
+    setRandomAnswers(randomizedAnswers); // this is not updating! 
+  };
 
+  const displayQuestion = (questions, answers) => {
+    console.log('answers func', answers);
+    console.log('score', score);
+    const { question } = questions[count]; // need to decode this!
+    
     const updateCount = () => {
       setCount(count + 1);
     };
@@ -74,17 +81,17 @@ const Play = () => {
     return (
       <div className="Questions">
         <div className="Question">{question}</div>
-        <input type="radio" id="Choice1" name="Choice" value={randomizedAnswers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
-        {randomizedAnswers[0]} 
+        <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
+        {answers[0]} 
         <br /> 
-        <input type="radio" id="Choice2" name="Choice" value={randomizedAnswers[1]} onClick={(e) => { setTrueFalse(e); }} />  
-        {randomizedAnswers[1]}
+        <input type="radio" id="Choice2" name="Choice" value={answers[1]} onClick={(e) => { setTrueFalse(e); }} />  
+        {answers[1]}
         <br /> 
-        <input type="radio" id="Choice3" name="Choice" value={randomizedAnswers[2]} onClick={(e) => { setTrueFalse(e); }} />  
-        {randomizedAnswers[2]} 
+        <input type="radio" id="Choice3" name="Choice" value={answers[2]} onClick={(e) => { setTrueFalse(e); }} />  
+        {answers[2]} 
         <br /> 
-        <input type="radio" id="Choice4" name="Choice" value={randomizedAnswers[3]} onClick={(e) => { setTrueFalse(e); }} />  
-        {randomizedAnswers[3]}
+        <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
+        {answers[3]}
         <br /> 
         <div className="NextButton">
           {nextButton
@@ -92,9 +99,10 @@ const Play = () => {
               <div> 
                 <button
                   type="button"
-                  onClick={(e) => { 
+                  onClick={() => { 
                     updateCount(); 
-                    displayQuestion(questions); 
+                    randomizeAnswers(questions[count + 1]);
+                    displayQuestion(questions, answers); 
                     resetRadioButton(); 
                     onSubmitButton();
                     setQuestionScore();
@@ -116,6 +124,7 @@ const Play = () => {
         setShowScore(false);
         setScore(0);
         setResDataQuestions(response.data.results);
+        randomizeAnswers(response.data.results[count]);
         console.log('GET trivia questions successful');
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
@@ -126,6 +135,7 @@ const Play = () => {
     setShowScore(true); 
     setCount(0); 
     setSubmitButton(false); 
+    setNextButton(true);
   };
  
   return (
@@ -150,13 +160,13 @@ const Play = () => {
         <option>Medium</option>
         <option>Hard</option>
       </select>
-      <button type="button" onClick={() => handlePlayClick()}>Play!</button>
+      <button type="button" onClick={() => handlePlayClick()}>Start!</button>
       <div className="Questions">
         {showQuestion
           ? (
             <div>
               <b>Question {count + 1} of {resDataQuestions.length}</b><br />
-              {displayQuestion(resDataQuestions)}
+              { displayQuestion(resDataQuestions, randomAnswers) }
             </div>
           )
           : null}  
@@ -175,6 +185,17 @@ const Play = () => {
       <div className="ShowScore">
         {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length}; </div> : null}
       </div>
+      {/* <div className="Play Again">
+        {playAgainButton
+          ? (
+            <div> 
+              <button type="button" onClick={() => { resetPlayStates(); }}>
+                Submit Results
+              </button>
+            </div>
+          )
+          : null}
+      </div> */}
     </div>
   );
 };
