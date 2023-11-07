@@ -28,6 +28,7 @@ const User = db.define('user', {
   username: Sequelize.STRING,
   firstname: Sequelize.STRING,
   lastname: Sequelize.STRING,
+  bio: Sequelize.STRING,
   highscore: Sequelize.INTEGER,
   art_score: Sequelize.INTEGER,
   celebrities_score: Sequelize.INTEGER,
@@ -52,12 +53,11 @@ const Question = db.define('question', {
     references: { model: User, key: 'id' }, 
   },
   question: Sequelize.STRING,
-  difficulty: Sequelize.STRING,
-  category: Sequelize.STRING,
   correct_answer: Sequelize.STRING,
   incorrect_answer_1: Sequelize.STRING,
   incorrect_answer_2: Sequelize.STRING,
   incorrect_answer_3: Sequelize.STRING,
+  question_set: Sequelize.STRING,
 }, { timesstamps: true });
 
 const joinFollower = db.define('join_follower', {
@@ -101,24 +101,6 @@ const joinAchievement = db.define('join_achievement', {
     references: { model: Achievement, key: 'id' },
   },
 }, { timesstamps: true });
-
-// const testBoy = User.build({
-//   username: 'maidenwench',
-//   firstname: 'Robert',
-//   lastname: 'Bartleby',
-//   highscore: 22,
-//   art_score: 5,
-//   celebrities_score: 3,
-//   animals_score: 0,
-//   music_score: 66,
-//   sports_score: 13,
-//   books_score: 0,
-//   myth_score: 17,
-//   history_score: 85,
-//   nature_score: 1,
-//   politics_score: 13,
-// });
-// testBoy.save();
 
 module.exports = {
   db,
