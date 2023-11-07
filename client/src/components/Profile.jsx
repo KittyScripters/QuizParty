@@ -14,15 +14,18 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
 
-  const userId = 1;
+  const userId = 31;
   // USER STATE UPDATE
   useEffect(() => {
-    axios.get(`api/users/${userId}`)
+    axios.get(`/api/users/${userId}`)
       .then(({ data }) => {
+        console.log('data', data);
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
   }, [setUser]);
+
+  // console.log('user', user.username);
 
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
@@ -44,9 +47,9 @@ const Profile = () => {
       </div>
       <img alt="user" />
       <h2 className="userName">{user.username}</h2>
-      <p className="bio">
+      <div className="bio">
         {user.bio}
-      </p>
+      </div>
       <div>
         <button type="button" onClick={() => setView('StatsTab')}>Stats</button>
         <button type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
@@ -62,7 +65,7 @@ const Profile = () => {
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
         {view === 'FollowersTab' && <FollowersTab userId={userId} />}
         {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
-        {view === 'UpdateTab' && <UpdateTab />}
+        {view === 'UpdateTab' && <UpdateTab userId={userId} />}
       </div>
     </div>
   );

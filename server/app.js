@@ -336,7 +336,9 @@ app.patch('/api/users/:id', (req, res) => {
   const { id } = req.params;
   const { bio } = req.body;
   User.update({ bio: bio }, { where: { id: id } })
-    .then(() => res.sendStatus(200))
+    .then(() => {
+      res.sendStatus(200)
+    })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
