@@ -19,7 +19,6 @@ const Profile = () => {
   useEffect(() => {
     axios.get(`/api/users/${userId}`)
       .then(({ data }) => {
-        console.log('data', data);
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));

@@ -11,7 +11,6 @@ const FollowersTab = ({ userId }) => {
   useEffect(() => {
     axios.get(`/api/join_followers/${userId}`)
       .then(({ data }) => {
-        console.log(data);
         setFollowers(data);
       })
       .catch((err) => console.error(err));
@@ -27,14 +26,12 @@ const FollowersTab = ({ userId }) => {
           .catch((err) => console.error(err));
       });
   };
-  console.log('state', followers);
 
   return (
     <div>
       <h4>Following: {followers.length}</h4>
       <div>
         {followers.map((follower) => {
-          console.log(follower);
           return (
             <div key={follower.id}>
               <button type="button" onClick={() => deleteFollower(follower.id)}>Delete</button>
