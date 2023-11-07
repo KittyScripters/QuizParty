@@ -7,6 +7,7 @@ import FollowersTab from './profileTabs/FollowersTab';
 import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
 import NavBar from './NavBar';
+import { Link } from 'react-router-dom';
 
 // user's profile
 const Profile = () => {
@@ -14,7 +15,7 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
 
-  const userId = 31;
+  const userId = 23;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`/api/users/${userId}`)
@@ -49,7 +50,9 @@ const Profile = () => {
         {user.bio}
       </div>
       <div>
-        <button type="button" onClick={() => setView('StatsTab')}>Stats</button>
+        <Link to="/protected/profile/statstab">
+          <button type="button" onClick={() => setView('StatsTab')}>Stats</button>
+        </Link>
         <button type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
         <button type="button" onClick={() => setView('FollowersTab')}>Followers</button>
         <button type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
