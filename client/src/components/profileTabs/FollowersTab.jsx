@@ -32,7 +32,7 @@ const FollowersTab = ({ userId }) => {
 
   return (
     <div>
-      <h4>{followers.length} Followers</h4>
+      <h4>Following: {followers.length}</h4>
       <div>
         {followers.map((follower) => {
           console.log(follower);
