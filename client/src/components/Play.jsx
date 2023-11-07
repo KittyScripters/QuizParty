@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -7,8 +8,11 @@ const Play = () => {
   const [resDataQuestions, setResDataQuestions] = useState([]);
   const [count, setCount] = useState(0);
   const [showQuestion, setQuestions] = useState(false);
-  const [showSubmit, setSubmit] = useState(false);
-  const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
+  const [nextButton, setNextButton] = useState(true);
+  const [submitButton, setSubmitButton] = useState(false);
+  const [showScore, setShowScore] = useState(false);
+  const [score, setScore] = useState(0);
+  // const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
   const onCategorySelection = (event) => {
@@ -23,10 +27,17 @@ const Play = () => {
     const selection = e.currentTarget.value;
     if (selection === resDataQuestions[count].correct_answer) {
       console.log('correct');
-      setCorrectAnswerCount(correctAnswerCount + 1);
+      // setScore(score + 1);
     } else {
       console.log('WRONG');
     }
+  };
+
+  const onSubmitButton = () => {
+    if (count === resDataQuestions.length - 2) {
+      setNextButton(false);
+      setSubmitButton(true);
+    } 
   };
 
   const displayQuestion = (questions) => {
@@ -49,12 +60,6 @@ const Play = () => {
       return false;
     };
 
-    const renderSubmitButton = () => {
-      if (count === questions.length - 2) {
-        setSubmit(true);
-      }
-    };
-
     return (
       <div className="Questions">
         <div className="Question">{question}</div>
@@ -70,25 +75,21 @@ const Play = () => {
         <input type="radio" id="Choice4" name="Choice" value={randomizedAnswers[3]} onChange={(e) => { onAnswerSelection(e); }} />  
         {randomizedAnswers[3]}
         <br /> 
-        <button
-          type="button"
-          onClick={(e) => { 
-            updateCount(); 
-            displayQuestion(questions); 
-            resetRadioButton(); 
-            renderSubmitButton();
-            onAnswerSelection(e);
-          }}
-        >
-          Next
-        </button>
-        <div className="HandleSubmit">
-          {showSubmit
+        <div className="NextButton">
+          {nextButton
             ? (
               <div> 
-                <button type="button" onClick={() => { console.log('how do I exit this view and render the play page'); }}>
-                  Submit Results
-                </button>
+                <button
+                  type="button"
+                  onClick={(e) => { 
+                    updateCount(); 
+                    displayQuestion(questions); 
+                    resetRadioButton(); 
+                    onSubmitButton();
+                    onAnswerSelection(e);
+                  }}
+                > Next 
+                </button>  
               </div>
             )
             : null}
@@ -135,7 +136,20 @@ const Play = () => {
           ? displayQuestion(resDataQuestions)
           : null}  
       </div>
-         
+      <div className="HandleSubmit">
+        {submitButton
+          ? (
+            <div> 
+              <button type="button" onClick={() => { setQuestions(false); setShowScore(true); setSubmitButton(false); console.log('how do I exit this view and render the play page'); }}>
+                Submit Results
+              </button>
+            </div>
+          )
+          : null}
+      </div>
+      <div className="ShowScore">
+        {showScore ? <div> You scored {score} out of {resDataQuestions.length}; </div> : null}
+      </div>
     </div>
   );
 };
