@@ -17,7 +17,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
-
 app.post('/createQuestion', (req, res) => {
   Question.create(req.body)
     .then((newQuestion) => {
@@ -45,7 +44,7 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
       console.error('Error in QuiznameGet:', err); 
       res.sendStatus(500).json({ error: 'server side error getting quiz names' });
     });
-  });
+});
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
@@ -116,6 +115,22 @@ app.post('/api/play', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/:user_id', (req, res) => {
+  const { id } = req.params;
+  const { categoryScore } = req.body;
+  console.log(categoryScore);
+  User.increment(categoryScore, { where: { id: id } })
+    .then((HS) => {
+      console.log(HS);
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error('Could not GET questions by user_id', err);
+      res.sendStatus(500);
     });
 });
 

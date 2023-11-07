@@ -50,13 +50,6 @@ const Play = () => {
       setCount(count + 1);
     };
 
-    const resetRadioButton = () => {
-      ['Choice1', 'Choice2', 'Choice3', 'Choice4'].forEach((id) => {
-        document.getElementById(id).checked = false;
-      });
-      return false;
-    };
-
     const setTrueFalse = (e) => {
       const selection = e.currentTarget.value;
       if (selection === questions[count].correct_answer) {
@@ -73,9 +66,16 @@ const Play = () => {
       setcorrectAnswerSelection(false);
     };
 
-    return (
+    const resetRadioButton = () => {
+      ['Choice1', 'Choice2', 'Choice3', 'Choice4'].forEach((id) => {
+        document.getElementById(id).checked = false;
+      });
+      return false;
+    };
+
+    return ( // map this out instead
       <div className="Questions">
-        <div className="Question">{question}</div>
+        <div className="Question">{question}</div> 
         <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
         {answers[0]} 
         <br /> 
@@ -120,7 +120,6 @@ const Play = () => {
         setScore(0);
         setResDataQuestions(response.data.results);
         randomizeAnswers(response.data.results[count]);
-        console.log('GET trivia questions successful');
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
   };
@@ -133,11 +132,30 @@ const Play = () => {
     setNextButton(true);
   };
  
+  // const updateHighScore = () => {
+  //   const categoryLC = category.toLowerCase();
+
+  //   if ((score + 1) === 5) {
+  //     axios.put(`/play/highscore/${1}`, {
+  //       categoryScore: `${categoryLC}_score`,
+  //     })
+  //       .then(() => {
+  //         console.log('score', score);
+  //         console.log('update high score sent to db');
+  //       })
+  //       .catch((err) => console.error('GET trivia questions NOT successful', err));
+  //   } 
+  // };
+  
   return (
     <div className="MainPlay">
-      <h3>Choose your Category and Difficulty Level</h3>
+      <h2>Ready to Play?</h2>
+      {/* <p>Each game set will have 5 questions.</p> 
+      <p>Answer all 5 correctly from any category to add to your highscore.</p>
+      <p>When you are finished, reselect categories and difficulty and try again!</p> */}
+      <h4>Select your Category and Difficulty Level Below:</h4>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
-        {/* <option>Category</option> */}
+        <option>Category</option>
         <option>Animals</option>
         <option>Art</option>
         <option>Books</option>
@@ -150,7 +168,7 @@ const Play = () => {
         <option>Sports</option>
       </select>
       <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
-        {/* <option>Difficulty</option> */}
+        <option>Difficulty</option>
         <option>Easy</option>
         <option>Medium</option>
         <option>Hard</option>
@@ -170,7 +188,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { resetPlayStates(); }}>
+              <button type="button" onClick={() => { resetPlayStates(); updateHighScore() }}>
                 Submit Results
               </button>
             </div>
@@ -178,19 +196,8 @@ const Play = () => {
           : null}
       </div>
       <div className="ShowScore">
-        {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length}; </div> : null}
+        {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length} </div> : null}
       </div>
-      {/* <div className="Play Again">
-        {playAgainButton
-          ? (
-            <div> 
-              <button type="button" onClick={() => { resetPlayStates(); }}>
-                Submit Results
-              </button>
-            </div>
-          )
-          : null}
-      </div> */}
     </div>
   );
 };
