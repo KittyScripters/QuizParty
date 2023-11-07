@@ -8,12 +8,6 @@ import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
 import NavBar from './NavBar';
 
-/**
- * TODO:
- * Allow user to update their bio => request working, waiting on react router
- * Allow user to remove questions from their favorite questions list
- */
-
 // user's profile
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -23,37 +17,11 @@ const Profile = () => {
   const userId = 1;
   // USER STATE UPDATE
   useEffect(() => {
-<<<<<<< HEAD
-    // accessing user 1 "maidenwench"
-    axios.get('api/users/31')
-=======
     axios.get(`api/users/${userId}`)
->>>>>>> 4dd2c3da43510c35cd16e4de1300f57d7a5700c3
       .then(({ data }) => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
-<<<<<<< HEAD
-  }, []);
-
-  // USER'S FAVORITE QUESTIONS UPDATE
-  useEffect(() => {
-    // accessing user's questions
-    axios.get('/api/questions/31')
-      .then(({ data }) => {
-        setQuestions(data);
-      })
-      .catch((err) => console.error('Could not GET user\'s questions', err));
-  }, []);
-
-  // USER'S ACHIEVEMENTS UPDATE
-  useEffect(() => {
-    //get the corresponding data from join_achievements => using user_id
-    axios.get('/api/join_achievements/31')
-      .then(({ data }) => {
-        console.log(data);
-        setAchievements(data);
-=======
   }, [setUser]);
 
   // USER'S ACHIEVEMENTS UPDATE
@@ -65,7 +33,6 @@ const Profile = () => {
             setAchievements(data);
           })
           .catch((err) => console.error('Could not GET join_achievement ids', err));
->>>>>>> 4dd2c3da43510c35cd16e4de1300f57d7a5700c3
       })
       .catch((err) => console.error('Could not PATCH achievements', err));
   }, [setAchievements]);
