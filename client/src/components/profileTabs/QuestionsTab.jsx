@@ -7,10 +7,6 @@ const QuestionsTab = ({ userId }) => {
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
   const [userQuestions, setUserQuestions] = useState([]);
 
-  console.log(favoriteQuestions);
-  console.log(userQuestions);
-  console.log(userId);
-
   useEffect(() => {
     axios.get(`/api/favorite_questions/${userId}`)
       .then(({ data }) => {
