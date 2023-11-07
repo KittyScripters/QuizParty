@@ -4,9 +4,9 @@ const express = require('express');
 const path = require('path');
 const { db, User, Question } = require('./db/index');
 
-const { getLeaderBoard } = require('./dbHelpers/helpers');
 
-const getTrivaQuestions = require('./api/triviaApi');
+const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
+
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -38,6 +38,7 @@ app.get('/leaderboard', (req, res) => {
       console.error('Unable to get leaderboard:', err);
     });
 });
+
 app.post('/createQuestion', (req, res) => {
   Question.create(req.body)
     .then((newQuestion) => {
@@ -130,7 +131,7 @@ app.patch('/api/users/:id', (req, res) => {
 });
 
 app.post('/api/play', (req, res) => { 
-  return getTrivaQuestions(req.body)
+  return getTriviaQuestions(req.body)
     .then((questionsArr) => {
       res.status(200).send(questionsArr);
     })

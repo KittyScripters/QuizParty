@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const { User } = require('../db/index');
 //GET HELPERS
 
@@ -30,6 +32,54 @@ const getLeaderBoard = (topNum, search) => {
       console.error('Unable to get leaderboard:', err);
     });
 };
+
+//get for trivia questions
+const getTriviaQuestions = (req) => { 
+  // https://opentdb.com/api.php?amount=5&category=20&difficulty=easy&type=multiple
+  
+  const triviaCategories = [
+    { id: 10, name: 'Books' },
+    { id: 12, name: 'Music' },
+    { id: 17, name: 'Nature' },
+    { id: 20, name: 'Mythology' },
+    { id: 21, name: 'Sports' },
+    { id: 22, name: 'Geography' },
+    { id: 23, name: 'History' },
+    { id: 24, name: 'Politics' },
+    { id: 25, name: 'Art' },
+    { id: 26, name: 'Celebrities' },
+    { id: 27, name: 'Animals' },
+  ];
+
+  const { category } = req.options;
+  const { difficulty } = req.options;
+
+  const lowerCaseDiff = difficulty.toLowerCase();
+  let categoryNum = 0;
+
+  for (let i = 0; i < triviaCategories.length; i++) {
+    if (triviaCategories[i].name === category) {
+      categoryNum = triviaCategories[i].id;
+    }
+  }
+
+  return axios.get(
+    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple`, 
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    },
+  )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
 //POST HELPERS
 
 //PUT HELPERS
@@ -38,4 +88,5 @@ const getLeaderBoard = (topNum, search) => {
 
 module.exports = {
   getLeaderBoard,
+  getTriviaQuestions,
 };
