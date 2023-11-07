@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -5,10 +6,15 @@ const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
+  const [randomAnswers, setRandomAnswers] = useState([]);
   const [count, setCount] = useState(0);
-  const [showQuestion, setQuestions] = useState(false);
-  const [showSubmit, setSubmit] = useState(false);
-  const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
+  const [showQuestion, setShowQuestions] = useState(false);
+  const [nextButton, setNextButton] = useState(true);
+  const [submitButton, setSubmitButton] = useState(false);
+  const [showScore, setShowScore] = useState(false);
+  const [score, setScore] = useState(0);
+  const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
+  // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
   const onCategorySelection = (event) => {
@@ -19,27 +25,45 @@ const Play = () => {
     setDifficulty(event.currentTarget.value);
   };
 
-  const onAnswerSelection = (e) => {
-    const selection = e.currentTarget.value;
-    if (selection === resDataQuestions[count].correct_answer) {
-      console.log('correct');
-      setCorrectAnswerCount(correctAnswerCount + 1);
-    } else {
-      console.log('WRONG');
-    }
+  const onSubmitButton = () => {
+    if (count === resDataQuestions.length - 2) {
+      setNextButton(false);
+      setSubmitButton(true);
+    } 
   };
 
-  const displayQuestion = (questions) => {
-    const { question } = questions[count]; // need to decode this!
+  const randomizeAnswers = (resDataQ) => {
     const correctAnswer = [];
-    correctAnswer.push(questions[count].correct_answer);
-    const wrongAnswers = questions[count].incorrect_answers;
+    correctAnswer.push(resDataQ.correct_answer);
+    console.log('correct A', correctAnswer);
+    const wrongAnswers = resDataQ.incorrect_answers;
     const combinedAnswers = correctAnswer.concat(wrongAnswers);
    
     const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
+    setRandomAnswers(randomizedAnswers); // this is not updating! 
+  };
 
+  const displayQuestion = (questions, answers) => {
+    const { question } = questions[count]; // need to decode this!
+    
     const updateCount = () => {
       setCount(count + 1);
+    };
+
+    const setTrueFalse = (e) => {
+      const selection = e.currentTarget.value;
+      if (selection === questions[count].correct_answer) {
+        setcorrectAnswerSelection(true);
+      } else {
+        setcorrectAnswerSelection(false);
+      }
+    };
+  
+    const setQuestionScore = () => {
+      if (correctAnswerSelection === true) {
+        setScore(score + 1);
+      }
+      setcorrectAnswerSelection(false);
     };
 
     const resetRadioButton = () => {
@@ -49,46 +73,37 @@ const Play = () => {
       return false;
     };
 
-    const renderSubmitButton = () => {
-      if (count === questions.length - 2) {
-        setSubmit(true);
-      }
-    };
-
-    return (
+    return ( // map this out instead
       <div className="Questions">
-        <div className="Question">{question}</div>
-        <input type="radio" id="Choice1" name="Choice" value={randomizedAnswers[0]} onChange={(e) => { onAnswerSelection(e); }} /> 
-        {randomizedAnswers[0]} 
+        <div className="Question">{question}</div> 
+        <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
+        {answers[0]} 
         <br /> 
-        <input type="radio" id="Choice2" name="Choice" value={randomizedAnswers[1]} onChange={(e) => { onAnswerSelection(e); }} />  
-        {randomizedAnswers[1]}
+        <input type="radio" id="Choice2" name="Choice" value={answers[1]} onClick={(e) => { setTrueFalse(e); }} />  
+        {answers[1]}
         <br /> 
-        <input type="radio" id="Choice3" name="Choice" value={randomizedAnswers[2]} onChange={(e) => { onAnswerSelection(e); }} />  
-        {randomizedAnswers[2]} 
+        <input type="radio" id="Choice3" name="Choice" value={answers[2]} onClick={(e) => { setTrueFalse(e); }} />  
+        {answers[2]} 
         <br /> 
-        <input type="radio" id="Choice4" name="Choice" value={randomizedAnswers[3]} onChange={(e) => { onAnswerSelection(e); }} />  
-        {randomizedAnswers[3]}
+        <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
+        {answers[3]}
         <br /> 
-        <button
-          type="button"
-          onClick={(e) => { 
-            updateCount(); 
-            displayQuestion(questions); 
-            resetRadioButton(); 
-            renderSubmitButton();
-            onAnswerSelection(e);
-          }}
-        >
-          Next
-        </button>
-        <div className="HandleSubmit">
-          {showSubmit
+        <div className="NextButton">
+          {nextButton
             ? (
               <div> 
-                <button type="button" onClick={() => { console.log('how do I exit this view and render the play page'); }}>
-                  Submit Results
-                </button>
+                <button
+                  type="button"
+                  onClick={() => { 
+                    updateCount(); 
+                    randomizeAnswers(questions[count + 1]);
+                    displayQuestion(questions, answers); 
+                    resetRadioButton(); 
+                    onSubmitButton();
+                    setQuestionScore();
+                  }}
+                > Next 
+                </button>  
               </div>
             )
             : null}
@@ -100,18 +115,47 @@ const Play = () => {
   const handlePlayClick = () => { // NOTE 1
     axios.post('/api/play', { options: { category, difficulty } })
       .then((response) => {
-        setQuestions(true);
+        setShowQuestions(true);
+        setShowScore(false);
+        setScore(0);
         setResDataQuestions(response.data.results);
-        console.log('GET trivia questions successful');
+        randomizeAnswers(response.data.results[count]);
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
   };
 
+  const resetPlayStates = () => {
+    setShowQuestions(false); 
+    setShowScore(true); 
+    setCount(0); 
+    setSubmitButton(false); 
+    setNextButton(true);
+  };
+ 
+  // const updateHighScore = () => {
+  //   const categoryLC = category.toLowerCase();
+
+  //   if ((score + 1) === 5) {
+  //     axios.put(`/play/highscore/${1}`, {
+  //       categoryScore: `${categoryLC}_score`,
+  //     })
+  //       .then(() => {
+  //         console.log('score', score);
+  //         console.log('update high score sent to db');
+  //       })
+  //       .catch((err) => console.error('GET trivia questions NOT successful', err));
+  //   } 
+  // };
+  
   return (
     <div className="MainPlay">
-      <h3>Choose your Category and Difficulty Level</h3>
+      <h2>Ready to Play?</h2>
+      {/* <p>Each game set will have 5 questions.</p> 
+      <p>Answer all 5 correctly from any category to add to your highscore.</p>
+      <p>When you are finished, reselect categories and difficulty and try again!</p> */}
+      <h4>Select your Category and Difficulty Level Below:</h4>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
-        {/* <option>Category</option> */}
+        <option>Category</option>
         <option>Animals</option>
         <option>Art</option>
         <option>Books</option>
@@ -124,18 +168,36 @@ const Play = () => {
         <option>Sports</option>
       </select>
       <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
-        {/* <option>Difficulty</option> */}
+        <option>Difficulty</option>
         <option>Easy</option>
         <option>Medium</option>
         <option>Hard</option>
       </select>
-      <button type="button" onClick={() => handlePlayClick()}>Play!</button>
+      <button type="button" onClick={() => handlePlayClick()}>Start!</button>
       <div className="Questions">
         {showQuestion
-          ? displayQuestion(resDataQuestions)
+          ? (
+            <div>
+              <b>Question {count + 1} of {resDataQuestions.length}</b><br />
+              { displayQuestion(resDataQuestions, randomAnswers) }
+            </div>
+          )
           : null}  
       </div>
-         
+      <div className="HandleSubmit">
+        {submitButton
+          ? (
+            <div> 
+              <button type="button" onClick={() => { resetPlayStates(); updateHighScore() }}>
+                Submit Results
+              </button>
+            </div>
+          )
+          : null}
+      </div>
+      <div className="ShowScore">
+        {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length} </div> : null}
+      </div>
     </div>
   );
 };

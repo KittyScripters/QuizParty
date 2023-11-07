@@ -1,62 +1,40 @@
 {
-    "results": [
+    "questions": [
         {
             "category": "General Knowledge",
-            "type": "multiple",
             "difficulty": "easy",
             "question": "Virgin Trains, Virgin Atlantic and Virgin Racing, are all companies owned by which famous entrepreneur?   ",
             "correct_answer": "Richard Branson",
-            "incorrect_answers": [
-                "Alan Sugar",
-                "Donald Trump",
-                "Bill Gates"
-            ]
+            "incorrect_answer_1": "Alan Sugar",
+            "incorrect_answer_2": "Donald Trump",
+            "incorrect_answer_3": "Bill Gates"
         },
         {
             "category": "General Knowledge",
-            "type": "multiple",
             "difficulty": "easy",
             "question": "Red Vines is a brand of what type of candy?",
             "correct_answer": "Licorice",
-            "incorrect_answers": [
-                "Lollipop",
-                "Chocolate",
-                "Bubblegum"
-            ]
+            "incorrect_answer_1": "Lollipop",
+            "incorrect_answer_2": "Chocolate",
+            "incorrect_answer_3": "Bubblegum"
         },
         {
             "category": "General Knowledge",
-            "type": "boolean",
-            "difficulty": "easy",
-            "question": "A pasodoble is a type of Italian pasta sauce.",
-            "correct_answer": "False",
-            "incorrect_answers": [
-                "True"
-            ]
-        },
-        {
-            "category": "General Knowledge",
-            "type": "multiple",
             "difficulty": "easy",
             "question": "When someone is cowardly, they are said to have what color belly?",
             "correct_answer": "Yellow",
-            "incorrect_answers": [
-                "Green",
-                "Red",
-                "Blue"
-            ]
+            "incorrect_answer_1": "Green",
+            "incorrect_answer_2": "Red",
+            "incorrect_answer_3": "Blue"
         },
         {
             "category": "General Knowledge",
-            "type": "multiple",
             "difficulty": "easy",
             "question": "Which of the following is not the host of a program on NPR?",
             "correct_answer": "Ben Shapiro",
-            "incorrect_answers": [
-                "Terry Gross",
-                "Ira Glass",
-                "Peter Sagal"
-            ]
+            "incorrect_answer_1": "Terry Gross",
+            "incorrect_answer_2": "Ira Glass",
+            "incorrect_answer_3": "Peter Sagal"
         }
     ]
 }
