@@ -4,7 +4,9 @@ const express = require('express');
 const path = require('path');
 const { db, User, Question } = require('./db/index');
 
+
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
+
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
