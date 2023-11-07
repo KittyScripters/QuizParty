@@ -74,7 +74,7 @@ const routes = [
         path: '/protected/profile/updatetab',
         element: <UpdateTab />,
         errorElement: <ErrorPage />,
-      }
+      },
     ],
   },
   {
