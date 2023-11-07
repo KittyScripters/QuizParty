@@ -102,7 +102,7 @@ const joinAchievement = db.define('join_achievement', {
   },
 }, { timesstamps: true });
 
-const FavoriteQuestion = db.define('question', {
+const FavoriteQuestion = db.define('favorite_question', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
