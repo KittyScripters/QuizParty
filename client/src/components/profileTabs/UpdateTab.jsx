@@ -5,16 +5,6 @@ import axios from 'axios';
 
 const UpdateTab = ({ userId }) => {
   const [text, setText] = useState('');
-  // allow the user to type
-  const handleChange = (e) => {
-    setText(e.target.value);
-  };
-  // allow the user to submit with enter key
-  const handleEnter = (event, update) => {
-    if (event.key === 'Enter') {
-      updateBio(update)
-    }
-  }
   //allow user to update their bio on the database
   const updateBio = (update) => {
     axios.patch(`/api/users/${userId}`, { bio: update })
@@ -22,6 +12,16 @@ const UpdateTab = ({ userId }) => {
         console.log('you changed your bio to: ', update);
       })
       .catch((err) => console.error('Could not PATCH bio', err));
+  };
+  // allow the user to type
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+  // allow the user to submit with enter key
+  const handleEnter = (event, update) => {
+    if (event.key === 'Enter') {
+      updateBio(update);
+    }
   };
   return (
     <div>
