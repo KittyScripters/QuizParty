@@ -7,8 +7,8 @@ const QuestionsTab = ({ questions }) => {
   return (
     <div className="questionsList">
       <ul className="userQuestions">
-        {questions.map((questionObj) => {
-          return <Question id={questionObj.id} question={questionObj.question} />;
+        {questions.map((question) => {
+          return <Question key={question.id} id={question.id} question={question.question} />;
         })}
       </ul>
     </div>
