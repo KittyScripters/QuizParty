@@ -44,8 +44,6 @@ const Play = () => {
   };
 
   const displayQuestion = (questions, answers) => {
-    console.log('answers func', answers);
-    console.log('score', score);
     const { question } = questions[count]; // need to decode this!
     
     const updateCount = () => {
@@ -62,15 +60,12 @@ const Play = () => {
     const setTrueFalse = (e) => {
       const selection = e.currentTarget.value;
       if (selection === questions[count].correct_answer) {
-        console.log('correct');
         setcorrectAnswerSelection(true);
       } else {
-        console.log('WRONG');
         setcorrectAnswerSelection(false);
       }
     };
-    console.log(correctAnswerSelection);
-
+  
     const setQuestionScore = () => {
       if (correctAnswerSelection === true) {
         setScore(score + 1);
