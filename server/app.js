@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
+
 //get the leaderboard from the database
 app.get('/leaderboard', (req, res) => {
   //get the top number, and the searchedUser from the query from
@@ -38,7 +39,6 @@ app.get('/leaderboard', (req, res) => {
       console.error('Unable to get leaderboard:', err);
     });
 });
-
 
 app.post('/createQuestion', (req, res) => {
   Question.create(req.body)
@@ -61,7 +61,9 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
     group: ['question_set'],
   })
     .then((questionSets) => {
-      res.json({ questionSets });
+      console.log('qs in server: ', questionSets);
+      const quizNames = questionSets.map((questionSet) => questionSet.question_set);
+      res.send(quizNames);
     })
     .catch((err) => { 
       console.error('Error in QuiznameGet:', err); 

@@ -56,6 +56,7 @@ module.exports = {
     'arrow-body-style': 0,
     'no-unused-vars': 0,
     'no-plusplus': 0,
+    "react/prop-types": 0,
     'react/jsx-one-expression-per-line' : 0,
   },
 };
