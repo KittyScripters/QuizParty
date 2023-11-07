@@ -1,89 +1,22 @@
 /* eslint-disable no-unused-vars */
+const { achievements } = require('../fakeData/fakeAchievementsData.json');
+const { results } = require('../fakeData/fakeUserData.json');
+const { questions } = require('../fakeData/fakeQuestionData.json');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('users', [
-      {
-        id: '1',
-        username: 'maidenwench',
-        firstname: 'Robert',
-        lastname: 'Bartleby',
-        bio: 'This is is the sample bio for username: maidenwench',
-        highscore: 22,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '2',
-        username: 'copper',
-        firstname: 'James',
-        lastname: 'Smith',
-        bio: 'This is is the sample bio for username: copper',
-        highscore: 22,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '3',
-        username: 'paltryburn',
-        firstname: 'Beetlejuice',
-        lastname: 'Beetlejuice',
-        bio: 'This is is the sample bio for username: paltryburn',
-        highscore: 22,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '4',
-        username: 'trampolineteam',
-        firstname: 'Kitty',
-        lastname: 'Scripter',
-        bio: 'This is is the sample bio for username: trampolineteam',
-        highscore: 22,
-        art_score: 5,
-        celebrities_score: 3,
-        animals_score: 0,
-        music_score: 66,
-        sports_score: 13,
-        books_score: 0,
-        myth_score: 17,
-        history_score: 85,
-        nature_score: 1,
-        politics_score: 13,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+    await queryInterface.bulkInsert('users', results.map((user) => ({
+      ...user,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })));
+    await queryInterface.bulkInsert('achievements', achievements.map((achievement) => ({
+      ...achievement,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })));
+
     await queryInterface.bulkInsert('questions', [
       {
         user_id: 1,
@@ -97,23 +30,7 @@ module.exports = {
         updatedAt: new Date(),
       },
     ]);
-    await queryInterface.bulkInsert('achievements', [
-      {
-        name: 'Top score of 50',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: 'Top score of 100',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: 'Top score period',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+  
     await queryInterface.bulkInsert('join_achievements', [
       {
         user_id: 1,

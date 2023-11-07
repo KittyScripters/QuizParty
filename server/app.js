@@ -3,7 +3,11 @@
 const express = require('express');
 const path = require('path');
 const { db, User, Question } = require('./db/index');
+
+const { getLeaderBoard } = require('./dbHelpers/helpers');
+
 const getTrivaQuestions = require('./api/triviaApi');
+
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -17,6 +21,23 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
 
+
+//get the leaderboard from the database
+app.get('/leaderboard', (req, res) => {
+  //get the top number, and the searchedUser from the query from
+  //  the client request
+  const { topNum, search } = req.query;
+  // console.log('req.query', req.query);
+  //invoke the imported getLeaderBoard function with the topNum and searchedUser as the arguments
+  getLeaderBoard(topNum, search)
+  //then take the users 'leaderboard' and send them back to the client
+    .then((users) => {
+      // send back the users
+      res.send(users);
+    })
+    // error handling
+    .catch((err) => {
+      console.error('Unable to get leaderboard:', err);
 
 app.post('/createQuestion', (req, res) => {
   Question.create(req.body)
@@ -116,6 +137,7 @@ app.post('/api/play', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+
     });
 });
 
