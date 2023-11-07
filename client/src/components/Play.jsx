@@ -7,12 +7,12 @@ const Play = () => {
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
   const [count, setCount] = useState(0);
-  const [showQuestion, setQuestions] = useState(false);
+  const [showQuestion, setShowQuestions] = useState(false);
   const [nextButton, setNextButton] = useState(true);
   const [submitButton, setSubmitButton] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
-  // const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
+  const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
   const onCategorySelection = (event) => {
@@ -23,16 +23,6 @@ const Play = () => {
     setDifficulty(event.currentTarget.value);
   };
 
-  const onAnswerSelection = (e) => {
-    const selection = e.currentTarget.value;
-    if (selection === resDataQuestions[count].correct_answer) {
-      console.log('correct');
-      // setScore(score + 1);
-    } else {
-      console.log('WRONG');
-    }
-  };
-
   const onSubmitButton = () => {
     if (count === resDataQuestions.length - 2) {
       setNextButton(false);
@@ -41,9 +31,11 @@ const Play = () => {
   };
 
   const displayQuestion = (questions) => {
+    console.log('score', score);
     const { question } = questions[count]; // need to decode this!
     const correctAnswer = [];
     correctAnswer.push(questions[count].correct_answer);
+    console.log('correct A', correctAnswer);
     const wrongAnswers = questions[count].incorrect_answers;
     const combinedAnswers = correctAnswer.concat(wrongAnswers);
    
@@ -60,19 +52,38 @@ const Play = () => {
       return false;
     };
 
+    const setTrueFalse = (e) => {
+      const selection = e.currentTarget.value;
+      if (selection === questions[count].correct_answer) {
+        console.log('correct');
+        setcorrectAnswerSelection(true);
+      } else {
+        console.log('WRONG');
+        setcorrectAnswerSelection(false);
+      }
+    };
+    console.log(correctAnswerSelection);
+
+    const setQuestionScore = () => {
+      if (correctAnswerSelection === true) {
+        setScore(score + 1);
+      }
+      setcorrectAnswerSelection(false);
+    };
+
     return (
       <div className="Questions">
         <div className="Question">{question}</div>
-        <input type="radio" id="Choice1" name="Choice" value={randomizedAnswers[0]} onChange={(e) => { onAnswerSelection(e); }} /> 
+        <input type="radio" id="Choice1" name="Choice" value={randomizedAnswers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
         {randomizedAnswers[0]} 
         <br /> 
-        <input type="radio" id="Choice2" name="Choice" value={randomizedAnswers[1]} onChange={(e) => { onAnswerSelection(e); }} />  
+        <input type="radio" id="Choice2" name="Choice" value={randomizedAnswers[1]} onClick={(e) => { setTrueFalse(e); }} />  
         {randomizedAnswers[1]}
         <br /> 
-        <input type="radio" id="Choice3" name="Choice" value={randomizedAnswers[2]} onChange={(e) => { onAnswerSelection(e); }} />  
+        <input type="radio" id="Choice3" name="Choice" value={randomizedAnswers[2]} onClick={(e) => { setTrueFalse(e); }} />  
         {randomizedAnswers[2]} 
         <br /> 
-        <input type="radio" id="Choice4" name="Choice" value={randomizedAnswers[3]} onChange={(e) => { onAnswerSelection(e); }} />  
+        <input type="radio" id="Choice4" name="Choice" value={randomizedAnswers[3]} onClick={(e) => { setTrueFalse(e); }} />  
         {randomizedAnswers[3]}
         <br /> 
         <div className="NextButton">
@@ -86,7 +97,7 @@ const Play = () => {
                     displayQuestion(questions); 
                     resetRadioButton(); 
                     onSubmitButton();
-                    onAnswerSelection(e);
+                    setQuestionScore();
                   }}
                 > Next 
                 </button>  
@@ -101,13 +112,22 @@ const Play = () => {
   const handlePlayClick = () => { // NOTE 1
     axios.post('/api/play', { options: { category, difficulty } })
       .then((response) => {
-        setQuestions(true);
+        setShowQuestions(true);
+        setShowScore(false);
+        setScore(0);
         setResDataQuestions(response.data.results);
         console.log('GET trivia questions successful');
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
   };
 
+  const resetPlayStates = () => {
+    setShowQuestions(false); 
+    setShowScore(true); 
+    setCount(0); 
+    setSubmitButton(false); 
+  };
+ 
   return (
     <div className="MainPlay">
       <h3>Choose your Category and Difficulty Level</h3>
@@ -145,7 +165,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { setQuestions(false); setShowScore(true); setSubmitButton(false); console.log('how do I exit this view and render the play page'); }}>
+              <button type="button" onClick={() => { resetPlayStates(); }}>
                 Submit Results
               </button>
             </div>
@@ -153,7 +173,7 @@ const Play = () => {
           : null}
       </div>
       <div className="ShowScore">
-        {showScore ? <div> You scored {score} out of {resDataQuestions.length}; </div> : null}
+        {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length}; </div> : null}
       </div>
     </div>
   );
