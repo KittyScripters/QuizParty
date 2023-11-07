@@ -402,10 +402,8 @@ app.get('/api/join_followers/:following_user_id', (req, res) => {
       //pass in the mapped values in the User model and find all where the id's match
       User.findAll({ where: { id: followers } })
         .then((followData) => {
-          //map the refined followers array and return only the username
-          const results = followData.map((follower) => [follower.id, follower.username]);
           //send back the results
-          res.status(200).send(results);
+          res.status(200).send(followData);
         });
     })
     .catch((err) => {

@@ -19,7 +19,7 @@ const UpdateTab = ({ userId }) => {
   const updateBio = (update) => {
     axios.patch(`/api/users/${userId}`, { bio: update })
       .then(() => {
-        setView('Profile');
+        console.log('you changed your bio to: ', update);
       })
       .catch((err) => console.error('Could not PATCH bio', err));
   };
