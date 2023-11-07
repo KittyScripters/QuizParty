@@ -5,45 +5,7 @@ import EditExistingQuiz from './questionBuilderComponents/editExistingQuiz';
 
 const QuestionBuilder = () => {
   const [QBview, QBsetView] = useState('create');
-  const [question, setQuestion] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState('');
-  const [incorrectAnswer1, setincorrectAnswer1] = useState('');
-  const [incorrectAnswer2, setincorrectAnswer2] = useState('');
-  const [incorrectAnswer3, setincorrectAnswer3] = useState('');
-  
   const [quizNames, setQuizNames] = useState([]);
-  
-  const clearForm = () => {
-    setQuestion('');
-    setCorrectAnswer('');
-    setincorrectAnswer1('');
-    setincorrectAnswer2('');
-    setincorrectAnswer3('');
-  };
-  
-  const submitValue = () => {
-    const postQuestion = (questionContents) => {
-      axios.post('/createQuestion', questionContents)
-        .then((response) => {
-          console.log('Question Posted From QB: ', response.data);
-          clearForm();
-        })
-        .catch((err) => {
-          console.error('error saving question: ', err);
-        });
-    };
-
-    const questionBuilderValues = {
-      question,
-      correct_answer: correctAnswer,
-      incorrect_answer_1: incorrectAnswer1,
-      incorrect_answer_2: incorrectAnswer2,
-      incorrect_answer_3: incorrectAnswer3,
-      
-      user_id: 1,
-    };
-    postQuestion(questionBuilderValues);
-  };
 
   useEffect(() => {
     axios.get('/getUserQuizNames/1')
@@ -78,12 +40,7 @@ const QuestionBuilder = () => {
     </>
   )}
       {QBview === 'existingQuizes' && <EditExistingQuiz quizNames={quizNames} />}
-      {QBview === 'addQuestion'
-  && (
-    <span>
-      <QuestionAddForm />
-    </span>
-  )}
+      {QBview === 'addQuestion'&& <QuestionAddForm />}
     </span>
   );
 };

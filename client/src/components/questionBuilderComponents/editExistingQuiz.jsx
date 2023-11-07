@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EditExistingQuiz = ({ quizNames }) => {
+const EditExistingQuiz = ({ quizNames, id }) => {
   console.log('quiznames in edit existing quiz:', quizNames);
   return (
     <div>
@@ -9,8 +9,8 @@ const EditExistingQuiz = ({ quizNames }) => {
         
         {quizNames.map((quizName) => {
           return (
-            <div>
-              <button type="button" key={quizName}>{quizName}</button>
+            <div key={quizName}>
+              <button type="button">{quizName}</button>
             </div>
           );
         })}
