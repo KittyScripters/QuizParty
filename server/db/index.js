@@ -36,7 +36,7 @@ const User = db.define('user', {
   music_score: Sequelize.INTEGER,
   sports_score: Sequelize.INTEGER,
   books_score: Sequelize.INTEGER,
-  myth_score: Sequelize.INTEGER,
+  mythology_score: Sequelize.INTEGER,
   history_score: Sequelize.INTEGER,
   nature_score: Sequelize.INTEGER,
   politics_score: Sequelize.INTEGER,
