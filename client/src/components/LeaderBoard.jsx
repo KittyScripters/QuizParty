@@ -14,7 +14,7 @@ const LeaderBoard = () => {
     const params = { topNum, search };
     console.log('params', params);
     //get /leaderboard
-    axios.get('/leaderboard', { params })
+    axios.get('/api/leaderboard', { params })
     // then, log success and set the leaderboard state to true and the data to the response data so
     // it can be mapped over and rendered
       .then((res) => {
@@ -29,9 +29,9 @@ const LeaderBoard = () => {
       });
   };
   // currently using useEffect to render the leaderboard on page load
-  useEffect(() => {
-    getLeaderBoard(topNum, null);
-  }, [topNum, search]);
+  // useEffect(() => {
+  //   getLeaderBoard(topNum, null);
+  // }, [topNum, search]);
   useEffect(() => {
     console.log('leaderboarddata state', leaderBoardData);
   }, [leaderBoardData]);

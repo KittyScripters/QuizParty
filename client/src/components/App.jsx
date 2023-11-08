@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 
+import { Outlet, Link } from 'react-router-dom';
 import LeaderBoard from './LeaderBoard';
 import Profile from './Profile';
 import Play from './Play';
@@ -16,19 +17,27 @@ const App = () => {
     <div>
       
       <div>
-        <nav>
-          <button type="button" onClick={() => setView('LeaderBoard')}>Leaderboard</button>
-          <button type="button" onClick={() => setView('Profile')}>Profile</button>
-          <button type="button" onClick={() => setView('Play')}>Play</button>
-          <button type="button" onClick={() => setView('QuestionBuilder')}>Create A Quiz</button>
-          <Logout />
-        </nav>
-        {view === 'LeaderBoard' && <LeaderBoard />}
-        {view === 'Profile' && <Profile />}
-        {view === 'Play' && <Play />}
-        {view === 'QuestionBuilder' && <QuestionBuilder />}
-        
+        <Outlet />
       </div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Login</Link>
+          </li>
+          <li>
+            <Link to="/leaderboard">LeaderBoard</Link>
+          </li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/play">Play</Link>
+          </li>
+          <li>
+            <Link to="/logout">Logout</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

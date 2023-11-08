@@ -20,61 +20,61 @@ function isLoggedIn(req, res, next) {
 
 const app = express();
 
-app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 // use json parser middleware
-app.get('/', (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
-
-app.get('/protected', isLoggedIn, (req, res) => {
-  res.sendFile(path.join(clientPath, 'index.html'));
-  console.log(req.user);
-});
-
-app.get(
-  '/auth/google',
-  passport.authenticate('google', { scope: ['email', 'profile'] }),
-);
-
-app.get(
-  '/google/callback',
-  passport.authenticate('google', {
-    successRedirect: '/protected',
-    failureRedirect: '/auth/google/failure',
-  }),
-);
-
-app.get('/auth/google/failure', (req, res) => {
-  res.send('Failed to authenticate..');
-});
-
-app.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error('Error logging out:', err);
-    }
-    req.session.destroy((error) => {
-      if (error) {
-        console.error('Error destroying session:', error);
-      }
-      res.send('Goodbye!');
-    });
-  });
-});
-
 app.use(express.json());
 // serve up the site using express.static and passing in the clientpath
 app.use(express.static(clientPath));
 // test get renders our index page
 
-// app.get('/', (req, res) => {
-//   //res.sendFile(path.join(clientPath, 'index.html'));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
+  // res.send('<a href="/auth/google">Authenticate with Google</a>');
+});
+
+// app.get('/protected', isLoggedIn, (req, res) => {
+//   // console.log(req.user);
+// });
+
+// app.get(
+//   '/auth/google',
+//   passport.authenticate('google', { scope: ['email', 'profile'] }),
+// );
+
+// app.get(
+//   '/google/callback',
+//   passport.authenticate('google', {
+//     successRedirect: '/protected',
+//     failureRedirect: '/auth/google/failure',
+//   }),
+// );
+
+// app.get('/auth/google/failure', (req, res) => {
+//   res.send('Failed to authenticate..');
+// });
+
+// app.get('/logout', (req, res) => {
+//   req.logout((err) => {
+//     if (err) {
+//       console.error('Error logging out:', err);
+//     }
+//     req.session.destroy((error) => {
+//       if (error) {
+//         console.error('Error destroying session:', error);
+//       }
+//       res.send('Goodbye!');
+//     });
+//   });
 // });
 
 //get the leaderboard from the database
-app.get('/leaderboard', (req, res) => {
+app.get('/api/leaderboard', (req, res) => {
   //get the top number, and the searchedUser from the query from
   //  the client request
   const { topNum, search } = req.query;
