@@ -1,17 +1,37 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Achievement from './Achievement';
 
-const AchievementsTab = () => {
+const AchievementsTab = ({ achievements }) => {
+  //map through this state variable to pass into Achievement
+  const [list, setList] = useState(achievements);
+  //useEffect to mount the list of achievements
+  // useEffect(() => {
+  //   const results = [];
+  //   achievements.forEach((item) => {
+  //     axios.get(`/api/achievements/${item.achievement_id}`)
+  //       .then(({ data }) => {
+  //         results.push(data);
+  //         setList(results);
+  //       })
+  //       .catch((err) => console.error(err));
+  //   });
+  // }, []);
+  console.log('current state', list);
+
   return (
-    <table className="achievementsTable">
-      <tr>
-        <th>Achievements</th>
-      </tr>
-      <tr>
-        <td>Top Dog</td>
-      </tr>
-    </table>
+    <div>
+      <div>
+        <h4>Achievements</h4>
+        <div>
+          {list.map((achievement) => {
+            return <Achievement key={achievement} achievement={achievement} />;
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

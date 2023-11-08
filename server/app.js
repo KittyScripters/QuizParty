@@ -113,7 +113,9 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
     group: ['question_set'],
   })
     .then((questionSets) => {
-      res.json({ questionSets });
+      console.log('qs in server: ', questionSets);
+      const quizNames = questionSets.map((questionSet) => questionSet.question_set);
+      res.send(quizNames);
     })
     .catch((err) => { 
       console.error('Error in QuiznameGet:', err); 
@@ -182,6 +184,58 @@ app.patch('/api/users/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
+// const quizNames = questionSets.map((questionSet) => questionSet.question_set);
+app.get('/api/join_achievements/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
+    .then((data) => {
+      const achievements = data.map((achievement) => achievement.achievement_id);
+      console.log(achievements);
+      Achievement.findAll({ where: { id: achievements } })
+        .then((thing) => {
+          const results = thing.map((result) => result.name);
+          console.log(results);
+          res.send(results);
+        });
+    })
+    
+    // .then((data) => {
+    //   console.log('serverside ach:', data);
+    //   res.status(200);
+    //   res.send(data);
+    // })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get achievement by id => working in postman
+app.get('/api/achievements/:id', (req, res) => {
+  const { id } = req.params;
+  Achievement.findOne({ where: { id: id } })
+    .then((achievement) => {
+      res.status(200);
+      res.send(achievement);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+//get followers by id
+app.get('/api/join_followers/:following_user_id', (req, res) => {
+  const { following_user_id } = req.params;
+  joinFollower.findAll({ where: { following_user_id: following_user_id } })
+    .then((followers) => {
+      res.status(200).send(followers);
+    })
+    .catch((err) => {
+      console.error('Could not GET users', err);
+      res.sendStatus(500);
+    });
+});
 
 app.post('/api/play', (req, res) => { 
   return getTriviaQuestions(req.body)
@@ -190,6 +244,22 @@ app.post('/api/play', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/:user_id', (req, res) => {
+  const { id } = req.params;
+  const { categoryScore } = req.body;
+  console.log(categoryScore);
+  User.increment(categoryScore, { where: { id: id } })
+    .then((HS) => {
+      console.log(HS);
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error('Could not GET questions by user_id', err);
+      res.sendStatus(500);
     });
 });
 
