@@ -190,11 +190,13 @@ const Play = () => {
   };
   
   //this is increasing the count if the game set has been completed!!! not if all correct
-  const updateCategoryPlayCount = () => {
+  const updateCategoryHighScore = () => {
     const categoryLC = category.toLowerCase();
-    axios.put(`/play/categoryCount/${1}`, { categoryScore: `${categoryLC}_score` })
-      .then(() => console.log('game category count increased by 1'))
-      .catch((err) => console.error('GET trivia questions NOT successful', err));
+    if ((score + 1) === 5) {
+      axios.put(`/play/categoryCount/${1}`, { categoryScore: `${categoryLC}_score` })
+        .then(() => console.log('category highscore by 1'))
+        .catch((err) => console.error('GET trivia questions NOT successful', err));
+    }
   };
 
   return (
@@ -239,7 +241,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { updateHighScore(); updateCategoryPlayCount(); resetPlayStates(); }}>
+              <button type="button" onClick={() => { updateHighScore(); updateCategoryHighScore(); resetPlayStates(); }}>
                 Submit Results
               </button>
             </div>
