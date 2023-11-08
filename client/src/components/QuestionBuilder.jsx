@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import QuestionAddForm from './questionBuilderComponents/questionAddForm';
 import EditExistingQuiz from './questionBuilderComponents/editExistingQuiz';
+import NavBar from './NavBar';
 
 const QuestionBuilder = () => {
   const [QBview, QBsetView] = useState('create');
@@ -18,6 +19,9 @@ const QuestionBuilder = () => {
 
   return (
     <span>
+      <div>
+        <NavBar />
+      </div>
       
       {QBview === 'create'
   && (

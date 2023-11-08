@@ -5,6 +5,7 @@ import StatsTab from './profileTabs/StatsTab';
 import FollowersTab from './profileTabs/FollowersTab';
 import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
+import NavBar from './NavBar';
 
 /**
  * TODO:
@@ -54,6 +55,9 @@ const Profile = () => {
 
   return (
     <div>
+      <div>
+        <NavBar />
+      </div>
       <img alt="user" />
       <h2 className="userName">{user.username}</h2>
       <p className="bio">

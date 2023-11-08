@@ -9,10 +9,8 @@ const passport = require('passport');
 require('./auth');
 const path = require('path');
 
-const {
-  db, User, Question, Achievement, FavoriteQuestion, 
-} = require('./db/index');
-const { joinAchievement, joinFollower } = require('./db/index');
+const { db, User, Question, Achievement, joinAchievement, joinFollower } = require('./db/index');
+
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -28,13 +26,18 @@ app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 // use json parser middleware
+app.use(express.json());
+// serve up the site using express.static and passing in the clientpath
+app.use(express.static(clientPath));
+// test get renders our index page
+
 app.get('/', (req, res) => {
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
 app.get('/protected', isLoggedIn, (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
-  console.log(req.user);
+  // console.log(req.user);
 });
 
 app.get(
@@ -68,13 +71,8 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.use(express.json());
-// serve up the site using express.static and passing in the clientpath
-app.use(express.static(clientPath));
-// test get renders our index page
-
 //get the leaderboard from the database
-app.get('/leaderboard', (req, res) => {
+app.get('/api/leaderboard', (req, res) => {
   //get the top number, and the searchedUser from the query from
   //  the client request
   const { topNum, search } = req.query;
@@ -200,7 +198,6 @@ joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement
         });
 
     })
-    
     // .then((data) => {
     //   console.log('serverside ach:', data);
     //   res.status(200);
@@ -298,6 +295,7 @@ app.put('/play/highscore/medium/:user_id', (req, res) => {
     });
 });
 
+
 app.put('/play/highscore/hard/:user_id', (req, res) => {
   const { user_id } = req.params;
   const { highScore } = req.body;
@@ -309,4 +307,10 @@ app.put('/play/highscore/hard/:user_id', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+//MAKE SURE THIS IS LAST
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
+});
+
 module.exports = app;
