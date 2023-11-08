@@ -13,6 +13,7 @@ const Play = () => {
   const [submitButton, setSubmitButton] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(false);
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
@@ -117,6 +118,7 @@ const Play = () => {
       .then((response) => {
         setShowQuestions(true);
         setShowScore(false);
+        setHighScore(false);
         setScore(0);
         setResDataQuestions(response.data.results);
         randomizeAnswers(response.data.results[count]);
@@ -132,29 +134,35 @@ const Play = () => {
     setNextButton(true);
   };
  
-  // increasing highscore based on difficulty!!
+  // increasing highscore based on difficulty!! 
+  //(can also increase category score based on completion)
   const updateHighScore = () => {
-    // const categoryLC = category.toLowerCase();
-    // const highscore = score;
-
     if (difficulty === 'Easy' && (score + 1) === 5) {
       axios.put(`/play/highscore/easy/${1}`, {
-        // categoryScore: `${categoryLC}_score`,
         highScore: 'highscore',
       })
-        .then(() => console.log('highscore increased by 1'))
+        .then(() => {
+          console.log('highscore increased by 1');
+          setHighScore(true);
+        })
         .catch((err) => console.error('update easy highscore failed', err));
     }
 
     if (difficulty === 'Medium' && (score + 1) === 5) {
       axios.put(`/play/highscore/medium/${1}`, { highScore: 'highscore' })
-        .then(() => console.log('highscore increased by 2'))
+        .then(() => {
+          console.log('highscore increased by 2');
+          setHighScore(true);
+        })
         .catch((err) => console.error('update med highscore failed', err));
     }
 
     if (difficulty === 'Hard' && (score + 1) === 5) {
       axios.put(`/play/highscore/hard/${1}`, { highScore: 'highscore' })
-        .then(() => console.log('highscore increased by 3'))
+        .then(() => {
+          console.log('highscore increased by 3');
+          setHighScore(true);
+        })
         .catch((err) => console.error('update hard highscore failed', err));
     }
   };
@@ -172,7 +180,8 @@ const Play = () => {
       <h2>Ready to Play?</h2>
       {/* <p>Each game set will have 5 questions.</p> 
       <p>Answer all 5 correctly from any category to add to your highscore.</p>
-      <p>When you are finished, reselect categories and difficulty and try again!</p> */}
+      <p>When you are finished, reselect categories and difficulty and try again!</p> 
+      <p>Hint: The harder the questions, the higher your highscore increases. </p>*/}
       <h4>Select your Category and Difficulty Level Below:</h4>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
         <option>Category</option>
@@ -208,7 +217,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { resetPlayStates(); updateHighScore(); updateCategoryPlayCount(); }}>
+              <button type="button" onClick={() => { updateHighScore(); updateCategoryPlayCount(); resetPlayStates(); }}>
                 Submit Results
               </button>
             </div>
@@ -216,7 +225,8 @@ const Play = () => {
           : null}
       </div>
       <div className="ShowScore">
-        {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length} </div> : null}
+        {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
+        {highScore ? <div> Congrats! New high score! </div> : null}
       </div>
     </div>
   );
