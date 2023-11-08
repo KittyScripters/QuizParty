@@ -132,20 +132,20 @@ const Play = () => {
     setNextButton(true);
   };
  
-  // const updateHighScore = () => {
-  //   const categoryLC = category.toLowerCase();
+  const updateHighScore = () => {
+    const categoryLC = category.toLowerCase();
 
-  //   if ((score + 1) === 5) {
-  //     axios.put(`/play/highscore/${1}`, {
-  //       categoryScore: `${categoryLC}_score`,
-  //     })
-  //       .then(() => {
-  //         console.log('score', score);
-  //         console.log('update high score sent to db');
-  //       })
-  //       .catch((err) => console.error('GET trivia questions NOT successful', err));
-  //   } 
-  // };
+    if ((score + 1) === 5) {
+      axios.put(`/play/highscore/${1}`, {
+        categoryScore: `${categoryLC}_score`,
+      })
+        .then(() => {
+          console.log('score', score);
+          console.log('update high score sent to db');
+        })
+        .catch((err) => console.error('GET trivia questions NOT successful', err));
+    } 
+  };
   
   return (
     <div className="MainPlay">
@@ -188,7 +188,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { resetPlayStates(); }}>
+              <button type="button" onClick={() => { resetPlayStates(); updateHighScore(); }}>
                 Submit Results
               </button>
             </div>

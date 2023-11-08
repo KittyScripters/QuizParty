@@ -2,11 +2,12 @@
 /* eslint-disable object-shorthand */
 const express = require('express');
 const path = require('path');
-const { db, User, Question, Achievement } = require('./db/index');
+const {
+  db, User, Question, Achievement, 
+} = require('./db/index');
 const { joinAchievement, joinFollower } = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
-
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -19,7 +20,6 @@ app.use(express.static(clientPath));
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
-
 
 //get the leaderboard from the database
 app.get('/leaderboard', (req, res) => {
@@ -135,7 +135,7 @@ app.patch('/api/users/:id', (req, res) => {
 
 //get achievements id with user's id => works in postman
 app.get('/api/join_achievements/:user_id', (req, res) => {
-  const { user_id} = req.params;
+  const { user_id } = req.params;
   joinAchievement.findAll({ where: { user_id: user_id } })
     .then((achievements) => {
       res.status(200);
@@ -186,10 +186,10 @@ app.post('/api/play', (req, res) => {
 });
 
 app.put('/play/highscore/:user_id', (req, res) => {
-  const { id } = req.params;
+  const { user_id } = req.params;
   const { categoryScore } = req.body;
-  console.log(categoryScore);
-  User.increment(categoryScore, { where: { id: id } })
+
+  User.increment(categoryScore, { where: { id: user_id } })
     .then((HS) => {
       console.log(HS);
       res.sendStatus(201);
