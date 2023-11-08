@@ -8,7 +8,9 @@ const session = require('express-session');
 const passport = require('passport');
 require('./auth');
 const path = require('path');
+
 const { db, User, Question, Achievement, joinAchievement, joinFollower } = require('./db/index');
+
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -183,7 +185,8 @@ app.patch('/api/users/:id', (req, res) => {
 // const quizNames = questionSets.map((questionSet) => questionSet.question_set);
 app.get('/api/join_achievements/:user_id', (req, res) => {
   const { user_id } = req.params;
-  joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
+
+joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
     .then((data) => {
       const achievements = data.map((achievement) => achievement.achievement_id);
       console.log(achievements);
@@ -193,6 +196,7 @@ app.get('/api/join_achievements/:user_id', (req, res) => {
           console.log(results);
           res.send(results);
         });
+
     })
     // .then((data) => {
     //   console.log('serverside ach:', data);
@@ -243,17 +247,63 @@ app.post('/api/play', (req, res) => {
     });
 });
 
-app.put('/play/highscore/:user_id', (req, res) => {
-  const { id } = req.params;
-  const { categoryScore } = req.body;
-  console.log(categoryScore);
-  User.increment(categoryScore, { where: { id: id } })
-    .then((HS) => {
-      console.log(HS);
-      res.sendStatus(201);
-    })
+app.post('/play/favoriteQuestions/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { favQuestion } = req.body;
+
+  FavoriteQuestion.create({ question: favQuestion, user_id: user_id })
+    .then(() => res.sendStatus(201))
     .catch((err) => {
-      console.error('Could not GET questions by user_id', err);
+      console.error('Could not update fav questions by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/categoryCount/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { categoryScore } = req.body;
+
+  User.increment(categoryScore, { where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update category count by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/easy/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update easy highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/medium/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { by: 2, where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update med highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+
+app.put('/play/highscore/hard/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { by: 3, where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update hard highscore by user_id', err);
       res.sendStatus(500);
     });
 });
