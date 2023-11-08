@@ -102,6 +102,19 @@ const joinAchievement = db.define('join_achievement', {
   },
 }, { timesstamps: true });
 
+const FavoriteQuestion = db.define('favorite_question', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  user_id: {
+    type: Sequelize.INTEGER, 
+    references: { model: User, key: 'id' }, 
+  },
+  question: Sequelize.STRING,
+}, { timesstamps: true });
+
 module.exports = {
   db,
   User,
@@ -110,4 +123,5 @@ module.exports = {
   Achievement,
   joinFavoriteQuestion,
   joinAchievement,
+  FavoriteQuestion,
 };
