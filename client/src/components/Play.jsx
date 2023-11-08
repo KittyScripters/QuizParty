@@ -203,9 +203,9 @@ const Play = () => {
     <div className="MainPlay">
       <h2>Ready to Play?</h2>
       <p>Each game set will have 5 questions.</p> 
-      {/* <p>Answer all 5 correctly from any category to add to your highscore.</p>
+      <p>Answer all 5 correctly from any category to add to your highscore.</p>
       <p>When you are finished, reselect categories and difficulty and try again!</p> 
-      <p>Hint: The harder the questions, the higher your highscore increases. </p> */}
+      <p>Hint: The harder the questions, the higher your highscore increases. </p>
       <h4>Select your Category and Difficulty Level Below:</h4>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
         <option>Category</option>
