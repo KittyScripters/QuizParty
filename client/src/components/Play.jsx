@@ -13,7 +13,9 @@ const Play = () => {
   const [submitButton, setSubmitButton] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(false);
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
+  const [favoritesButton, setFavoritesButton] = useState(false);
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
@@ -66,6 +68,14 @@ const Play = () => {
       setcorrectAnswerSelection(false);
     };
 
+    const addToFavorites = () => {
+      axios.post(`/play/favoriteQuestions/${2}`, {
+        favQuestion: question,
+      })
+        .then(() => console.log('Updated db with fav question'))
+        .catch((err) => console.error('Failed to update db with fav question', err));
+    };
+
     const resetRadioButton = () => {
       ['Choice1', 'Choice2', 'Choice3', 'Choice4'].forEach((id) => {
         document.getElementById(id).checked = false;
@@ -88,6 +98,17 @@ const Play = () => {
         <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
         {answers[3]}
         <br /> 
+        <div className="Favorites">
+          {favoritesButton
+            ? (
+              <div> 
+                <button type="button" onClick={() => addToFavorites()}>
+                  Add Question To Favorites
+                </button>
+              </div>
+            )
+            : null}
+        </div>
         <div className="NextButton">
           {nextButton
             ? (
@@ -117,7 +138,9 @@ const Play = () => {
       .then((response) => {
         setShowQuestions(true);
         setShowScore(false);
+        setHighScore(false);
         setScore(0);
+        setFavoritesButton(true);
         setResDataQuestions(response.data.results);
         randomizeAnswers(response.data.results[count]);
       })
@@ -130,29 +153,59 @@ const Play = () => {
     setCount(0); 
     setSubmitButton(false); 
     setNextButton(true);
+    setFavoritesButton(false);
   };
  
-  // const updateHighScore = () => {
-  //   const categoryLC = category.toLowerCase();
+  // increasing highscore based on difficulty!! 
+  //(can also increase category score based on completion)
+  const updateHighScore = () => {
+    if (difficulty === 'Easy' && (score + 1) === 5) {
+      axios.put(`/play/highscore/easy/${1}`, {
+        highScore: 'highscore',
+      })
+        .then(() => {
+          console.log('highscore increased by 1');
+          setHighScore(true);
+        })
+        .catch((err) => console.error('update easy highscore failed', err));
+    }
 
-  //   if ((score + 1) === 5) {
-  //     axios.put(`/play/highscore/${1}`, {
-  //       categoryScore: `${categoryLC}_score`,
-  //     })
-  //       .then(() => {
-  //         console.log('score', score);
-  //         console.log('update high score sent to db');
-  //       })
-  //       .catch((err) => console.error('GET trivia questions NOT successful', err));
-  //   } 
-  // };
+    if (difficulty === 'Medium' && (score + 1) === 5) {
+      axios.put(`/play/highscore/medium/${1}`, { highScore: 'highscore' })
+        .then(() => {
+          console.log('highscore increased by 2');
+          setHighScore(true);
+        })
+        .catch((err) => console.error('update med highscore failed', err));
+    }
+
+    if (difficulty === 'Hard' && (score + 1) === 5) {
+      axios.put(`/play/highscore/hard/${1}`, { highScore: 'highscore' })
+        .then(() => {
+          console.log('highscore increased by 3');
+          setHighScore(true);
+        })
+        .catch((err) => console.error('update hard highscore failed', err));
+    }
+  };
   
+  //this is increasing the count if the game set has been completed!!! not if all correct
+  const updateCategoryHighScore = () => {
+    const categoryLC = category.toLowerCase();
+    if ((score + 1) === 5) {
+      axios.put(`/play/categoryCount/${1}`, { categoryScore: `${categoryLC}_score` })
+        .then(() => console.log('category highscore by 1'))
+        .catch((err) => console.error('GET trivia questions NOT successful', err));
+    }
+  };
+
   return (
     <div className="MainPlay">
       <h2>Ready to Play?</h2>
-      {/* <p>Each game set will have 5 questions.</p> 
+      <p>Each game set will have 5 questions.</p> 
       <p>Answer all 5 correctly from any category to add to your highscore.</p>
-      <p>When you are finished, reselect categories and difficulty and try again!</p> */}
+      <p>When you are finished, reselect categories and difficulty and try again!</p> 
+      <p>Hint: The harder the questions, the higher your highscore increases. </p>
       <h4>Select your Category and Difficulty Level Below:</h4>
       <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
         <option>Category</option>
@@ -183,12 +236,12 @@ const Play = () => {
             </div>
           )
           : null}  
-      </div>
+      </div>      
       <div className="HandleSubmit">
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { resetPlayStates(); }}>
+              <button type="button" onClick={() => { updateHighScore(); updateCategoryHighScore(); resetPlayStates(); }}>
                 Submit Results
               </button>
             </div>
@@ -196,7 +249,8 @@ const Play = () => {
           : null}
       </div>
       <div className="ShowScore">
-        {showScore ? <div> You scored {score + 1} out of {resDataQuestions.length} </div> : null}
+        {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
+        {highScore ? <div> Congrats! New high score! </div> : null}
       </div>
     </div>
   );
