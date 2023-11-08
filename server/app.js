@@ -8,7 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('./auth');
 const path = require('path');
-const { db, User, Question } = require('./db/index');
+const { db, User, Question, Achievement, joinAchievement, joinFollower } = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -20,56 +20,54 @@ function isLoggedIn(req, res, next) {
 
 const app = express();
 
-// app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 // use json parser middleware
 app.use(express.json());
 // serve up the site using express.static and passing in the clientpath
 app.use(express.static(clientPath));
 // test get renders our index page
 
-
-
 app.get('/', (req, res) => {
-  res.sendFile(path.join(clientPath, 'index.html'));
-  // res.send('<a href="/auth/google">Authenticate with Google</a>');
+  res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
-// app.get('/protected', isLoggedIn, (req, res) => {
-//   // console.log(req.user);
-// });
+app.get('/protected', isLoggedIn, (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
+  // console.log(req.user);
+});
 
-// app.get(
-//   '/auth/google',
-//   passport.authenticate('google', { scope: ['email', 'profile'] }),
-// );
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
 
-// app.get(
-//   '/google/callback',
-//   passport.authenticate('google', {
-//     successRedirect: '/protected',
-//     failureRedirect: '/auth/google/failure',
-//   }),
-// );
+app.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/auth/google/failure',
+  }),
+);
 
-// app.get('/auth/google/failure', (req, res) => {
-//   res.send('Failed to authenticate..');
-// });
+app.get('/auth/google/failure', (req, res) => {
+  res.send('Failed to authenticate..');
+});
 
-// app.get('/logout', (req, res) => {
-//   req.logout((err) => {
-//     if (err) {
-//       console.error('Error logging out:', err);
-//     }
-//     req.session.destroy((error) => {
-//       if (error) {
-//         console.error('Error destroying session:', error);
-//       }
-//       res.send('Goodbye!');
-//     });
-//   });
-// });
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error('Error logging out:', err);
+    }
+    req.session.destroy((error) => {
+      if (error) {
+        console.error('Error destroying session:', error);
+      }
+      res.send('Goodbye!');
+    });
+  });
+});
 
 //get the leaderboard from the database
 app.get('/api/leaderboard', (req, res) => {
@@ -196,7 +194,6 @@ app.get('/api/join_achievements/:user_id', (req, res) => {
           res.send(results);
         });
     })
-    
     // .then((data) => {
     //   console.log('serverside ach:', data);
     //   res.status(200);
@@ -261,6 +258,7 @@ app.put('/play/highscore/:user_id', (req, res) => {
     });
 });
 
+//MAKE SURE THIS IS LAST
 app.get('/*', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });

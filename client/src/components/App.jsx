@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 import { Outlet, Link } from 'react-router-dom';
+import NavBar from './NavBar';
 import LeaderBoard from './LeaderBoard';
 import Profile from './Profile';
 import Play from './Play';
@@ -15,29 +16,9 @@ const App = () => {
   
   return (
     <div>
-      
       <div>
-        <Outlet />
+        <NavBar />
       </div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Login</Link>
-          </li>
-          <li>
-            <Link to="/leaderboard">LeaderBoard</Link>
-          </li>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/play">Play</Link>
-          </li>
-          <li>
-            <Link to="/logout">Logout</Link>
-          </li>
-        </ul>
-      </nav>
     </div>
   );
 };

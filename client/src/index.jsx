@@ -11,6 +11,8 @@ import Play from './components/Play';
 import QuestionBuilder from './components/QuestionBuilder';
 import Profile from './components/Profile';
 import StatsTab from './components/profileTabs/StatsTab';
+import Login from './components/Login';
+import Logout from './components/Logout';
 //set the container as the element with the id app
 const container = document.getElementById('app');
 //set the root to be the invocation of createRoot on that element(div id=app)
@@ -18,22 +20,22 @@ const root = createRoot(container);
 //define routes
 const routes = [
   {
-    path: '/leaderboard',
+    path: '/protected/leaderboard',
     element: <LeaderBoard />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/play',
+    path: '/protected/play',
     element: <Play />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/question-builder',
+    path: '/protected/question-builder',
     element: <QuestionBuilder />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/profile',
+    path: '/protected/profile',
     element: <Profile />,
     errorElement: <ErrorPage />,
     children: [
@@ -45,8 +47,22 @@ const routes = [
     ],
   },
   {
-    path: '/',
+    path: '/protected',
     element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/logout',
+    element: <Logout />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/',
+    element: <Login />,
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
   },
 ];
 const router = createBrowserRouter(routes);
