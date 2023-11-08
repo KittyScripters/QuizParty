@@ -2,11 +2,12 @@
 /* eslint-disable object-shorthand */
 const express = require('express');
 const path = require('path');
-const { db, User, Question, Achievement } = require('./db/index');
+const {
+  db, User, Question, Achievement, 
+} = require('./db/index');
 const { joinAchievement, joinFollower } = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
-
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -19,7 +20,6 @@ app.use(express.static(clientPath));
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 });
-
 
 //get the leaderboard from the database
 app.get('/leaderboard', (req, res) => {
@@ -132,15 +132,26 @@ app.patch('/api/users/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
-
-//get achievements id with user's id => works in postman
+// const quizNames = questionSets.map((questionSet) => questionSet.question_set);
 app.get('/api/join_achievements/:user_id', (req, res) => {
-  const { user_id} = req.params;
-  joinAchievement.findAll({ where: { user_id: user_id } })
-    .then((achievements) => {
-      res.status(200);
-      res.send(achievements);
+  const { user_id } = req.params;
+  joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
+    .then((data) => {
+      const achievements = data.map((achievement) => achievement.achievement_id);
+      console.log(achievements);
+      Achievement.findAll({ where: { id: achievements } })
+        .then((thing) => {
+          const results = thing.map((result) => result.name);
+          console.log(results);
+          res.send(results);
+        });
     })
+    
+    // .then((data) => {
+    //   console.log('serverside ach:', data);
+    //   res.status(200);
+    //   res.send(data);
+    // })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
