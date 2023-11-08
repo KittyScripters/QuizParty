@@ -8,7 +8,9 @@ const session = require('express-session');
 const passport = require('passport');
 require('./auth');
 const path = require('path');
-const { db, User, Question } = require('./db/index');
+const {
+  db, User, Question, Achievement, joinAchievement, 
+} = require('./db/index');
 
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -118,10 +120,31 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
       res.send(quizNames);
     })
     .catch((err) => { 
-      console.error('Error in QuiznameGet:', err); 
+      console.error('Error in getUserQuizNames:', err); 
       res.sendStatus(500).json({ error: 'server side error getting quiz names' });
     });
 });
+
+app.post('/retrieveUserQuiz/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { question_set } = req.body;
+  Question.findAll({
+    where: {
+      question_set: question_set,
+      user_id: userId,
+    },
+  })
+    .then((questions) => {
+      console.log('qs in server: ', questions);
+      const questionsArray = questions.map((question) => question.dataValues);
+      res.send(questionsArray);
+    })
+    .catch((err) => { 
+      console.error('Error in retrieveUserQuiz:', err); 
+      res.sendStatus(500).json({ error: 'server side error getting user quiz' });
+    });
+});
+
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
