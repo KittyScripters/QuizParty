@@ -145,6 +145,22 @@ app.post('/retrieveUserQuiz/:userId', (req, res) => {
     });
 });
 
+app.patch('/updateUserQuiz/:userId', (req, res) => {
+  const { userId } = req.params;
+  const editedQuestions = req.body;
+  Question.bulkCreate(editedQuestions, {
+    updateOnDuplicate: ['question', 'correct_answer', 'incorrect_answer_1', 'incorrect_answer_2', 'incorrect_answer_3'],
+  })
+    .then(() => {
+      console.log('data upsdate as:', editedQuestions);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Server-side error updating questions: ', err);
+      res.sendStatus(500);
+    });
+});
+
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
