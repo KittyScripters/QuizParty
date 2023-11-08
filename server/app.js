@@ -188,7 +188,7 @@ app.patch('/api/users/:id', (req, res) => {
 app.get('/api/join_achievements/:user_id', (req, res) => {
   const { user_id } = req.params;
 
-joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
+  joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
     .then((data) => {
       const achievements = data.map((achievement) => achievement.achievement_id);
       console.log(achievements);
@@ -198,7 +198,6 @@ joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement
           console.log(results);
           res.send(results);
         });
-
     })
     
     // .then((data) => {

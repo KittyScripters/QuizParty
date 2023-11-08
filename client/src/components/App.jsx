@@ -16,11 +16,11 @@ const App = () => {
     <div>
       
       <div>
-        <nav>
-          <button type="button" onClick={() => setView('LeaderBoard')}>Leaderboard</button>
-          <button type="button" onClick={() => setView('Profile')}>Profile</button>
-          <button type="button" onClick={() => setView('Play')}>Play</button>
-          <button type="button" onClick={() => setView('QuestionBuilder')}>Create A Quiz</button>
+        <nav id="navBar" className="container-fluid">
+          <button className="navButton" type="button" onClick={() => setView('LeaderBoard')}>Leaderboard</button>
+          <button className="navButton" type="button" onClick={() => setView('Profile')}>Profile</button>
+          <button className="navButton" type="button" onClick={() => setView('Play')}>Play</button>
+          <button className="navButton" type="button" onClick={() => setView('QuestionBuilder')}>Create A Quiz</button>
           <Logout />
         </nav>
         {view === 'LeaderBoard' && <LeaderBoard />}

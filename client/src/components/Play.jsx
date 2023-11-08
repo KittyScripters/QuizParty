@@ -200,7 +200,7 @@ const Play = () => {
   };
 
   return (
-    <div className="MainPlay">
+    <div id="MainPlay" className="container-fluid">
       <h2>Ready to Play?</h2>
       <p>Each game set will have 5 questions.</p> 
       <p>Answer all 5 correctly from any category to add to your highscore.</p>
