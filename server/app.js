@@ -191,7 +191,6 @@ app.put('/play/highscore/:user_id', (req, res) => {
 
   User.increment(categoryScore, { where: { id: user_id } })
     .then((HS) => {
-      console.log(HS);
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -200,4 +199,50 @@ app.put('/play/highscore/:user_id', (req, res) => {
     });
 });
 
+app.put('/play/highscore/easy/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+  console.log(highScore);
+  console.log(req.body);
+  User.increment(highScore, { where: { id: user_id } })
+    .then((HS) => {
+      console.log(HS);
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error('Could not update easy highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/medium/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+  console.log(highScore);
+  console.log(req.body);
+  User.increment(highScore, { by: 2, where: { id: user_id } })
+    .then((HS) => {
+      console.log(HS);
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error('Could not update med highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/hard/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { by: 3, where: { id: user_id } })
+    .then((HS) => {
+      console.log(HS);
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.error('Could not update hard highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
 module.exports = app;
