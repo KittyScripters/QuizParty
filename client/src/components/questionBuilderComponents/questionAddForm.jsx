@@ -47,6 +47,7 @@ const QuestionAddForm = () => {
       {QAview === 'nameQuiz'
       && (
         <>
+          <h1>Create A Quiz!</h1>
           Quiz Name: 
           {' '}
           <input 

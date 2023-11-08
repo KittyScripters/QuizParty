@@ -12,7 +12,7 @@
             "music_score": 66,
             "sports_score": 13,
             "books_score": 0,
-            "myth_score": 17,
+            "mythology_score": 17,
             "history_score": 85,
             "nature_score": 1,
             "politics_score": 13
@@ -29,7 +29,7 @@
             "music_score": 66,
             "sports_score": 13,
             "books_score": 0,
-            "myth_score": 17,
+            "mythology_score": 17,
             "history_score": 85,
             "nature_score": 1,
             "politics_score": 13
@@ -46,7 +46,7 @@
             "music_score": 66,
             "sports_score": 13,
             "books_score": 0,
-            "myth_score": 17,
+            "mythology_score": 17,
             "history_score": 85,
             "nature_score": 1,
             "politics_score": 13
@@ -63,7 +63,7 @@
               "music_score": 66,
               "sports_score": 13,
               "books_score": 0,
-              "myth_score": 17,
+              "mythology_score": 17,
               "history_score": 85,
               "nature_score": 1,
               "politics_score": 13
@@ -80,7 +80,7 @@
               "music_score": 80,
               "sports_score": 20,
               "books_score": 5,
-              "myth_score": 30,
+              "mythology_score": 30,
               "history_score": 90,
               "nature_score": 5,
               "politics_score": 20
@@ -97,7 +97,7 @@
               "music_score": 90,
               "sports_score": 30,
               "books_score": 10,
-              "myth_score": 40,
+              "mythology_score": 40,
               "history_score": 95,
               "nature_score": 10,
               "politics_score": 30
@@ -114,7 +114,7 @@
               "music_score": 100,
               "sports_score": 40,
               "books_score": 15,
-              "myth_score": 50,
+              "mythology_score": 50,
               "history_score": 100,
               "nature_score": 15,
               "politics_score": 40
@@ -131,7 +131,7 @@
               "music_score": 110,
               "sports_score": 50,
               "books_score": 20,
-              "myth_score": 60,
+              "mythology_score": 60,
               "history_score": 105,
               "nature_score": 20,
               "politics_score": 50
@@ -148,7 +148,7 @@
               "music_score": 120,
               "sports_score": 60,
               "books_score": 25,
-              "myth_score": 70,
+              "mythology_score": 70,
               "history_score": 110,
               "nature_score": 25,
               "politics_score": 60
@@ -165,7 +165,7 @@
               "music_score": 130,
               "sports_score": 70,
               "books_score": 30,
-              "myth_score": 80,
+              "mythology_score": 80,
               "history_score": 115,
               "nature_score": 30,
               "politics_score": 70
@@ -182,7 +182,7 @@
               "music_score": 140,
               "sports_score": 80,
               "books_score": 35,
-              "myth_score": 90,
+              "mythology_score": 90,
               "history_score": 120,
               "nature_score": 35,
               "politics_score": 80
@@ -199,7 +199,7 @@
               "music_score": 150,
               "sports_score": 90,
               "books_score": 40,
-              "myth_score": 100,
+              "mythology_score": 100,
               "history_score": 125,
               "nature_score": 40,
               "politics_score": 90
@@ -216,7 +216,7 @@
               "music_score": 160,
               "sports_score": 100,
               "books_score": 45,
-              "myth_score": 110,
+              "mythology_score": 110,
               "history_score": 130,
               "nature_score": 45,
               "politics_score": 100
@@ -233,7 +233,7 @@
               "music_score": 170,
               "sports_score": 110,
               "books_score": 50,
-              "myth_score": 120,
+              "mythology_score": 120,
               "history_score": 135,
               "nature_score": 50,
               "politics_score": 110
@@ -250,7 +250,7 @@
               "music_score": 180,
               "sports_score": 120,
               "books_score": 55,
-              "myth_score": 130,
+              "mythology_score": 130,
               "history_score": 140,
               "nature_score": 55,
               "politics_score": 120
@@ -267,7 +267,7 @@
               "music_score": 190,
               "sports_score": 130,
               "books_score": 60,
-              "myth_score": 140,
+              "mythology_score": 140,
               "history_score": 145,
               "nature_score": 60,
               "politics_score": 130
@@ -284,7 +284,7 @@
               "music_score": 200,
               "sports_score": 140,
               "books_score": 65,
-              "myth_score": 150,
+              "mythology_score": 150,
               "history_score": 150,
               "nature_score": 65,
               "politics_score": 140
@@ -301,7 +301,7 @@
               "music_score": 210,
               "sports_score": 150,
               "books_score": 70,
-              "myth_score": 160,
+              "mythology_score": 160,
               "history_score": 155,
               "nature_score": 70,
               "politics_score": 150
@@ -318,7 +318,7 @@
               "music_score": 220,
               "sports_score": 160,
               "books_score": 75,
-              "myth_score": 170,
+              "mythology_score": 170,
               "history_score": 160,
               "nature_score": 75,
               "politics_score": 160
@@ -335,7 +335,7 @@
               "music_score": 230,
               "sports_score": 170,
               "books_score": 80,
-              "myth_score": 180,
+              "mythology_score": 180,
               "history_score": 165,
               "nature_score": 80,
               "politics_score": 170
@@ -352,7 +352,7 @@
               "music_score": 240,
               "sports_score": 180,
               "books_score": 85,
-              "myth_score": 190,
+              "mythology_score": 190,
               "history_score": 170,
               "nature_score": 85,
               "politics_score": 180
@@ -369,7 +369,7 @@
               "music_score": 250,
               "sports_score": 190,
               "books_score": 90,
-              "myth_score": 200,
+              "mythology_score": 200,
               "history_score": 175,
               "nature_score": 90,
               "politics_score": 190
@@ -386,7 +386,7 @@
               "music_score": 260,
               "sports_score": 200,
               "books_score": 95,
-              "myth_score": 210,
+              "mythology_score": 210,
               "history_score": 180,
               "nature_score": 95,
               "politics_score": 200
@@ -403,7 +403,7 @@
               "music_score": 270,
               "sports_score": 210,
               "books_score": 100,
-              "myth_score": 220,
+              "mythology_score": 220,
               "history_score": 185,
               "nature_score": 100,
               "politics_score": 210
@@ -420,7 +420,7 @@
               "music_score": 280,
               "sports_score": 220,
               "books_score": 105,
-              "myth_score": 230,
+              "mythology_score": 230,
               "history_score": 190,
               "nature_score": 105,
               "politics_score": 220
@@ -437,7 +437,7 @@
               "music_score": 290,
               "sports_score": 230,
               "books_score": 110,
-              "myth_score": 240,
+              "mythology_score": 240,
               "history_score": 195,
               "nature_score": 110,
               "politics_score": 230
@@ -454,7 +454,7 @@
               "music_score": 300,
               "sports_score": 240,
               "books_score": 115,
-              "myth_score": 250,
+              "mythology_score": 250,
               "history_score": 200,
               "nature_score": 115,
               "politics_score": 240
@@ -471,7 +471,7 @@
               "music_score": 310,
               "sports_score": 250,
               "books_score": 120,
-              "myth_score": 260,
+              "mythology_score": 260,
               "history_score": 205,
               "nature_score": 120,
               "politics_score": 250
@@ -488,7 +488,7 @@
               "music_score": 320,
               "sports_score": 260,
               "books_score": 125,
-              "myth_score": 270,
+              "mythology_score": 270,
               "history_score": 210,
               "nature_score": 125,
               "politics_score": 260
@@ -505,7 +505,7 @@
               "music_score": 330,
               "sports_score": 270,
               "books_score": 130,
-              "myth_score": 280,
+              "mythology_score": 280,
               "history_score": 215,
               "nature_score": 130,
               "politics_score": 270

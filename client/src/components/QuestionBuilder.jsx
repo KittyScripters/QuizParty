@@ -40,7 +40,7 @@ const QuestionBuilder = () => {
     </>
   )}
       {QBview === 'existingQuizes' && <EditExistingQuiz quizNames={quizNames} />}
-      {QBview === 'addQuestion'&& <QuestionAddForm />}
+      {QBview === 'addQuestion' && <QuestionAddForm />}
     </span>
   );
 };

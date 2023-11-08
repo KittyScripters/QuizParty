@@ -5,18 +5,14 @@ const EditExistingQuiz = ({ quizNames, id }) => {
   return (
     <div>
       <h1>existing quizzes</h1>
-      <ul>
-        
-        {quizNames.map((quizName) => {
-          return (
-            <div key={quizName}>
-              <button type="button">{quizName}</button>
-            </div>
-          );
-        })}
-        
-      </ul>
-      
+         
+      {quizNames.map((quizName) => {
+        return (
+          <div key={quizName}>
+            <button type="button">{quizName}</button>
+          </div>
+        );
+      })} 
     </div>
   );
 };
