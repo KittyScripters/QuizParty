@@ -132,21 +132,41 @@ const Play = () => {
     setNextButton(true);
   };
  
+  // increasing highscore based on difficulty!!
   const updateHighScore = () => {
-    const categoryLC = category.toLowerCase();
+    // const categoryLC = category.toLowerCase();
+    // const highscore = score;
 
-    if ((score + 1) === 5) {
-      axios.put(`/play/highscore/${1}`, {
-        categoryScore: `${categoryLC}_score`,
+    if (difficulty === 'Easy' && (score + 1) === 5) {
+      axios.put(`/play/highscore/easy/${1}`, {
+        // categoryScore: `${categoryLC}_score`,
+        highScore: 'highscore',
       })
-        .then(() => {
-          console.log('score', score);
-          console.log('update high score sent to db');
-        })
-        .catch((err) => console.error('GET trivia questions NOT successful', err));
-    } 
+        .then(() => console.log('highscore increased by 1'))
+        .catch((err) => console.error('update easy highscore failed', err));
+    }
+
+    if (difficulty === 'Medium' && (score + 1) === 5) {
+      axios.put(`/play/highscore/medium/${1}`, { highScore: 'highscore' })
+        .then(() => console.log('highscore increased by 2'))
+        .catch((err) => console.error('update med highscore failed', err));
+    }
+
+    if (difficulty === 'Hard' && (score + 1) === 5) {
+      axios.put(`/play/highscore/hard/${1}`, { highScore: 'highscore' })
+        .then(() => console.log('highscore increased by 3'))
+        .catch((err) => console.error('update hard highscore failed', err));
+    }
   };
   
+  //this is increasing the count if the game set has been completed!!! not if all correct
+  const updateCategoryPlayCount = () => {
+    const categoryLC = category.toLowerCase();
+    axios.put(`/play/highscore/${1}`, { categoryScore: `${categoryLC}_score` })
+      .then(() => console.log('game category count increased by 1'))
+      .catch((err) => console.error('GET trivia questions NOT successful', err));
+  };
+
   return (
     <div className="MainPlay">
       <h2>Ready to Play?</h2>
@@ -188,7 +208,7 @@ const Play = () => {
         {submitButton
           ? (
             <div> 
-              <button type="button" onClick={() => { resetPlayStates(); updateHighScore(); }}>
+              <button type="button" onClick={() => { resetPlayStates(); updateHighScore(); updateCategoryPlayCount(); }}>
                 Submit Results
               </button>
             </div>
