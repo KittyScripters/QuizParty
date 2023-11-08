@@ -29,9 +29,7 @@ app.use(express.json());
 app.use(express.static(clientPath));
 // test get renders our index page
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(clientPath, 'index.html'));
-});
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
@@ -261,6 +259,10 @@ app.put('/play/highscore/:user_id', (req, res) => {
       console.error('Could not GET questions by user_id', err);
       res.sendStatus(500);
     });
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
 });
 
 module.exports = app;

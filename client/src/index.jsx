@@ -18,10 +18,6 @@ const root = createRoot(container);
 //define routes
 const routes = [
   {
-    path: '/',
-    element: <App />,
-  },
-  {
     path: '/leaderboard',
     element: <LeaderBoard />,
     errorElement: <ErrorPage />,
@@ -47,6 +43,10 @@ const routes = [
         errorElement: <ErrorPage />,
       },
     ],
+  },
+  {
+    path: '/',
+    element: <App />,
   },
 ];
 const router = createBrowserRouter(routes);
