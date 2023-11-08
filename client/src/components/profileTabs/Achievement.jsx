@@ -4,8 +4,8 @@ import React from 'react';
 
 const Achievement = ({ achievement }) => {
   return (
-    <div key={achievement.id}>
-      {achievement.name}
+    <div key={achievement}>
+      {achievement}
     </div>
   );
 };
