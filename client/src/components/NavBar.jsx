@@ -1,9 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
     <div className="navbar">
+      <div id="Header" className="container-sm text-center">
+        <h1>Quiz Party</h1>
+      </div>
       <nav>
         <ul>
           <li>
@@ -27,14 +31,3 @@ const NavBar = () => {
   );
 };
 export default NavBar;
-
-
-
-
-
-
-
-
-
-
-

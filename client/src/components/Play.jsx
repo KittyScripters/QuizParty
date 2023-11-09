@@ -3,6 +3,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 
+const he = require('he');
+
 const Play = () => {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
@@ -37,17 +39,19 @@ const Play = () => {
 
   const randomizeAnswers = (resDataQ) => {
     const correctAnswer = [];
-    correctAnswer.push(resDataQ.correct_answer);
+    correctAnswer.push(he.decode(resDataQ.correct_answer));
     console.log('correct A', correctAnswer);
-    const wrongAnswers = resDataQ.incorrect_answers;
+
+    const wrongAnswers = resDataQ.incorrect_answers.map((answer) => he.decode(answer));
     const combinedAnswers = correctAnswer.concat(wrongAnswers);
    
     const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
-    setRandomAnswers(randomizedAnswers); // this is not updating! 
+    setRandomAnswers(randomizedAnswers); 
   };
 
   const displayQuestion = (questions, answers) => {
-    const { question } = questions[count]; // need to decode this!
+    const { question } = questions[count];
+    const questionDecoded = he.decode(question);
     
     const updateCount = () => {
       setCount(count + 1);
@@ -86,7 +90,7 @@ const Play = () => {
 
     return ( // map this out instead
       <div>
-        <div id="Question" className="col">{question}</div> 
+        <div id="Question" className="col">{questionDecoded}</div> 
         <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
         {answers[0]} 
         <br /> 
