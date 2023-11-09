@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Outlet } from 'react-router-dom';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
 import FollowersTab from './profileTabs/FollowersTab';
 import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
+import NavBar from './NavBar';
 
 /**
  * TODO:
@@ -43,6 +45,9 @@ const Profile = () => {
 
   return (
     <div>
+      <div>
+        <NavBar />
+      </div>
       <img alt="user" />
       <h2 className="userName">{user.username}</h2>
       <p className="bio">
@@ -54,6 +59,9 @@ const Profile = () => {
         <button type="button" onClick={() => setView('FollowersTab')}>Followers</button>
         <button type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
         <button type="button" onClick={() => setView('UpdateTab')}>Update</button>
+      </div>
+      <div>
+        <Outlet />
       </div>
       <div>
         {view === 'StatsTab' && <StatsTab stats={user} />}

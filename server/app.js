@@ -1,30 +1,117 @@
+/* eslint-disable func-style */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable camelcase */
 /* eslint-disable object-shorthand */
 const express = require('express');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const session = require('express-session');
+const passport = require('passport');
+require('./auth');
 const path = require('path');
-const {
-  db, User, Question, Achievement, 
-} = require('./db/index');
-const { joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
 
+const { db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
 const {
   getLeaderBoard, getTriviaQuestions, checkHighScores, checkTopCatScore, 
 } = require('./dbHelpers/helpers');
 
+
 const clientPath = path.resolve(__dirname, '../client/dist');
 
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
 const app = express();
+
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 // use json parser middleware
 app.use(express.json());
 // serve up the site using express.static and passing in the clientpath
 app.use(express.static(clientPath));
 // test get renders our index page
-app.get('/', (req, res) => {
+
+// app.get('/', (req, res) => {
+//   res.send('<a href="/auth/google">Authenticate with Google</a>');
+// });
+
+app.get('/protected', isLoggedIn, (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
+
+  // grab user's Google profile infor from req.user
+  const googleProfile = req.user;
+
+  // get the email from the Google profile
+  const { email } = googleProfile;
+
+  // Check if a user with the same email already exists in database
+  User.findOne({ where: { username: email } }) 
+    .then((existingUser) => {
+      if (existingUser) {
+        console.log('User already exists');
+      } else {
+        // create a new user in the database with the username set to the email
+        User.create({
+          username: email,
+          firstname: googleProfile.name.givenName,
+          lastname: googleProfile.name.familyName,
+        })
+          .then((newUser) => {
+            console.log(newUser, 'created successfully');
+          })
+          .catch((error) => {
+            console.error('Error creating user:', error);
+            res.status(500).send('Error creating user');
+          });
+      }
+    })
+    .catch((error) => {
+      console.error('Error checking existing user:', error);
+      res.status(500).send('Error checking existing user');
+    });
+});
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
+
+app.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/auth/google/failure',
+  }), 
+  (req, res) => {
+    // set the current user id
+    req.session.userId = req.user.id; 
+
+    // redirect to the protected 
+    res.redirect('/protected');
+  },
+);
+
+app.get('/auth/google/failure', (req, res) => {
+  res.send('Failed to authenticate..');
+});
+
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error('Error logging out:', err);
+    }
+    req.session.destroy((error) => {
+      if (error) {
+        console.error('Error destroying session:', error);
+      }
+      res.send('Goodbye!');
+    });
+  });
 });
 
 //get the leaderboard from the database
-app.get('/leaderboard', (req, res) => {
+app.get('/api/leaderboard', (req, res) => {
   //get the top number, and the searchedUser from the query from
   //  the client request
   const { topNum, search } = req.query;
@@ -40,6 +127,42 @@ app.get('/leaderboard', (req, res) => {
     .catch((err) => {
       console.error('Unable to get leaderboard:', err);
     });
+});
+
+app.post('/follow/:userId', isLoggedIn, (req, res) => {
+  const { userId } = req.params;
+  console.log('this is user id', req.user.email);
+  console.log('this is curr user id', userId);
+
+  User.findOne({
+    where: {
+      username: req.user.email,
+    }, 
+  })
+    .then((data) => {
+      joinFollower.create({
+        followed_user_id: userId, 
+        following_user_id: data.id,    
+      })
+        .then(() => {
+          res.status(200).send('You are now following the user');
+        })
+        .catch((err) => {
+          console.error('Error following user:', err);
+          res.status(500).send('Error following user');
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get('/api/current-user', (req, res) => {
+  if (req.session.userId) {
+    res.json({ userId: req.session.userId });
+  } else {
+    res.json({ userId: null });
+  }
 });
 
 app.post('/createQuestion', (req, res) => {
@@ -68,10 +191,47 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
       res.send(quizNames);
     })
     .catch((err) => { 
-      console.error('Error in QuiznameGet:', err); 
+      console.error('Error in getUserQuizNames:', err); 
       res.sendStatus(500).json({ error: 'server side error getting quiz names' });
     });
 });
+
+app.post('/retrieveUserQuiz/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { question_set } = req.body;
+  Question.findAll({
+    where: {
+      question_set: question_set,
+      user_id: userId,
+    },
+  })
+    .then((questions) => {
+      console.log('qs in server: ', questions);
+      const questionsArray = questions.map((question) => question.dataValues);
+      res.send(questionsArray);
+    })
+    .catch((err) => { 
+      console.error('Error in retrieveUserQuiz:', err); 
+      res.sendStatus(500).json({ error: 'server side error getting user quiz' });
+    });
+});
+
+app.patch('/updateUserQuiz/:userId', (req, res) => {
+  const { userId } = req.params;
+  const editedQuestions = req.body;
+  Question.bulkCreate(editedQuestions, {
+    updateOnDuplicate: ['question', 'correct_answer', 'incorrect_answer_1', 'incorrect_answer_2', 'incorrect_answer_3'],
+  })
+    .then(() => {
+      console.log('data upsdate as:', editedQuestions);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Server-side error updating questions: ', err);
+      res.sendStatus(500);
+    });
+});
+
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
@@ -185,13 +345,15 @@ app.patch('/api/users/:id', (req, res) => {
 // const quizNames = questionSets.map((questionSet) => questionSet.question_set);
 app.get('/api/join_achievements/:user_id', (req, res) => {
   const { user_id } = req.params;
-  joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
+
+joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
     .then((data) => {
       const achievements = data.map((achievement) => achievement.achievement_id);
       Achievement.findAll({ where: { id: achievements }, attributes: ['id', 'name'] })
         .then((userAchievements) => {
           res.status(200).send(userAchievements);
         });
+
     })
     .catch((err) => {
       console.error(err);
@@ -318,19 +480,70 @@ app.post('/api/play', (req, res) => {
     });
 });
 
-app.put('/play/highscore/:user_id', (req, res) => {
-  const { id } = req.params;
-  const { categoryScore } = req.body;
-  console.log(categoryScore);
-  User.increment(categoryScore, { where: { id: id } })
-    .then((HS) => {
-      console.log(HS);
-      res.sendStatus(201);
-    })
+app.post('/play/favoriteQuestions/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { favQuestion } = req.body;
+
+  FavoriteQuestion.create({ question: favQuestion, user_id: user_id })
+    .then(() => res.sendStatus(201))
     .catch((err) => {
-      console.error('Could not GET questions by user_id', err);
+      console.error('Could not update fav questions by user_id', err);
       res.sendStatus(500);
     });
+});
+
+app.put('/play/categoryCount/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { categoryScore } = req.body;
+
+  User.increment(categoryScore, { where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update category count by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/easy/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update easy highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+app.put('/play/highscore/medium/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { by: 2, where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update med highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+
+app.put('/play/highscore/hard/:user_id', (req, res) => {
+  const { user_id } = req.params;
+  const { highScore } = req.body;
+
+  User.increment(highScore, { by: 3, where: { id: user_id } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.error('Could not update hard highscore by user_id', err);
+      res.sendStatus(500);
+    });
+});
+
+//MAKE SURE THIS IS LAST
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
 });
 
 module.exports = app;
