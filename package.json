@@ -35,6 +35,7 @@
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "react": "^18.2.0",
+    "react-contenteditable": "^3.3.7",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
     "sequelize": "^6.33.0",

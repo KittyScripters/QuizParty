@@ -9,9 +9,8 @@ const passport = require('passport');
 require('./auth');
 const path = require('path');
 
+
 const { db, User, Question, Achievement, joinAchievement, joinFollower } = require('./db/index');
-
-
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
 const clientPath = path.resolve(__dirname, '../client/dist');
@@ -116,10 +115,47 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
       res.send(quizNames);
     })
     .catch((err) => { 
-      console.error('Error in QuiznameGet:', err); 
+      console.error('Error in getUserQuizNames:', err); 
       res.sendStatus(500).json({ error: 'server side error getting quiz names' });
     });
 });
+
+app.post('/retrieveUserQuiz/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { question_set } = req.body;
+  Question.findAll({
+    where: {
+      question_set: question_set,
+      user_id: userId,
+    },
+  })
+    .then((questions) => {
+      console.log('qs in server: ', questions);
+      const questionsArray = questions.map((question) => question.dataValues);
+      res.send(questionsArray);
+    })
+    .catch((err) => { 
+      console.error('Error in retrieveUserQuiz:', err); 
+      res.sendStatus(500).json({ error: 'server side error getting user quiz' });
+    });
+});
+
+app.patch('/updateUserQuiz/:userId', (req, res) => {
+  const { userId } = req.params;
+  const editedQuestions = req.body;
+  Question.bulkCreate(editedQuestions, {
+    updateOnDuplicate: ['question', 'correct_answer', 'incorrect_answer_1', 'incorrect_answer_2', 'incorrect_answer_3'],
+  })
+    .then(() => {
+      console.log('data upsdate as:', editedQuestions);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Server-side error updating questions: ', err);
+      res.sendStatus(500);
+    });
+});
+
 //get all users => working in postman
 app.get('/api/users', (req, res) => {
   User.findAll()
