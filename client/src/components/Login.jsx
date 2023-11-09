@@ -9,9 +9,7 @@ const authHandle = () => {
 const Login = () => {
   return (
     <div>
-      <Link to="/protected/leaderboard">
-        <button type="button" onClick={() => { authHandle(); }}>Login</button>
-      </Link>
+      <button type="button" onClick={() => { authHandle(); }}>Login</button>
     </div>
   );
 };

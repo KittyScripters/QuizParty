@@ -9,11 +9,12 @@ const passport = require('passport');
 require('./auth');
 const path = require('path');
 
-const { db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
+const {
+  db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion, 
+} = require('./db/index');
 const {
   getLeaderBoard, getTriviaQuestions, checkHighScores, checkTopCatScore, 
 } = require('./dbHelpers/helpers');
-
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -44,6 +45,7 @@ app.get('/protected', isLoggedIn, (req, res) => {
 
   // get the email from the Google profile
   const { email } = googleProfile;
+  console.log('google profile', googleProfile);
 
   // Check if a user with the same email already exists in database
   User.findOne({ where: { username: email } }) 
@@ -346,14 +348,13 @@ app.patch('/api/users/:id', (req, res) => {
 app.get('/api/join_achievements/:user_id', (req, res) => {
   const { user_id } = req.params;
 
-joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
+  joinAchievement.findAll({ where: { user_id: user_id }, attributes: ['achievement_id'], group: ['achievement_id'] })
     .then((data) => {
       const achievements = data.map((achievement) => achievement.achievement_id);
       Achievement.findAll({ where: { id: achievements }, attributes: ['id', 'name'] })
         .then((userAchievements) => {
           res.status(200).send(userAchievements);
         });
-
     })
     .catch((err) => {
       console.error(err);
@@ -459,7 +460,7 @@ app.delete('/api/questions/:id', (req, res) => {
 app.delete('/api/join_followers/:following_user_id/:followed_user_id', (req, res) => {
   const { followed_user_id } = req.params;
   const { following_user_id } = req.params;
-  joinFollower.destroy({ where: {  following_user_id: following_user_id, followed_user_id: followed_user_id } })
+  joinFollower.destroy({ where: { following_user_id: following_user_id, followed_user_id: followed_user_id } })
     .then((follower) => {
       res.sendStatus(200);
     })
@@ -527,7 +528,6 @@ app.put('/play/highscore/medium/:user_id', (req, res) => {
       res.sendStatus(500);
     });
 });
-
 
 app.put('/play/highscore/hard/:user_id', (req, res) => {
   const { user_id } = req.params;

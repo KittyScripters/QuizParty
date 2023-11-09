@@ -18,59 +18,57 @@ const container = document.getElementById('app');
 //set the root to be the invocation of createRoot on that element(div id=app)
 const root = createRoot(container);
 //define routes
-const routes = [
-  {
-    path: '/protected/leaderboard',
-    element: <LeaderBoard />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/protected/play',
-    element: <Play />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/protected/question-builder',
-    element: <QuestionBuilder />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/protected/profile',
-    element: <Profile />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        // this needs to be revisited, placeholder for now 
-        path: '/protected/profile/leaderboard',
-        element: <LeaderBoard />,
-        errorElement: <ErrorPage />,
-      },
-    ],
-  },
-  {
-    path: '/protected',
-    element: <App />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/logout',
-    element: <Logout />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/',
-    element: <Login />,
-  },
-  {
-    path: '*',
-    element: <ErrorPage />,
-  },
-];
-const router = createBrowserRouter(routes);
+// const routes = [
+//   {
+//     path: '/protected/leaderboard',
+//     element: <LeaderBoard />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: '/protected/play',
+//     element: <Play />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: '/protected/question-builder',
+//     element: <QuestionBuilder />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: '/protected/profile',
+//     element: <Profile />,
+//     errorElement: <ErrorPage />,
+//     children: [
+//       {
+//         // this needs to be revisited, placeholder for now 
+//         path: '/protected/profile/leaderboard',
+//         element: <LeaderBoard />,
+//         errorElement: <ErrorPage />,
+//       },
+//     ],
+//   },
+//   {
+//     path: '/protected',
+//     element: <App />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: '/logout',
+//     element: <Logout />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: '/',
+//     element: <Login />,
+//   },
+//   {
+//     path: '*',
+//     element: <ErrorPage />,
+//   },
+// ];
+// const router = createBrowserRouter(routes);
 
 //Use React .render method on the root to pass in the component we want to render (parent aka APP)
 root.render(
-  <RouterProvider router={router}>
-    <App />
-  </RouterProvider>,
+  <App />,
 );

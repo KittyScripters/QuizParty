@@ -21,11 +21,11 @@ const FollowersTab = ({ userId }) => {
     axios.delete(`/api/join_followers/${userId}/${followerId}`)
       .then(() => {
         axios.get(`/api/join_followers/${userId}`)
-      .then(({ data }) => {
-        setFollowers(data);
-      })
-      .catch((err) => console.error(err));
-      })
+          .then(({ data }) => {
+            setFollowers(data);
+          })
+          .catch((err) => console.error(err));
+      });
   };
   console.log('state', followers);
 
@@ -37,7 +37,7 @@ const FollowersTab = ({ userId }) => {
           console.log(follower);
           return (
             <div key={follower[0]}>
-              <button onClick={ () => deleteFollower(follower[0]) }>Delete</button>
+              <button onClick={() => deleteFollower(follower[0])}>Delete</button>
               {follower[1]}
             </div>
           );
