@@ -11,6 +11,8 @@ const LeaderBoard = () => {
   //use state hooks for top x users
   const [topNum, setTopNum] = useState(10);
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
+  const [currentUser, setCurrentUser] = useState(null);
+
   const getLeaderBoard = (topNum, search) => {
     const params = { topNum, search };
     console.log('params', params);
@@ -29,6 +31,17 @@ const LeaderBoard = () => {
         console.log('failed to retrieve leaderboard', err);
       });
   };
+
+  const handleFollow = (userId) => {
+    axios.post(`/follow/${userId}`)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to follow user:', error);
+      });
+  };
+  
   // currently using useEffect to render the leaderboard on page load
   useEffect(() => {
     getLeaderBoard(topNum, null);
@@ -39,6 +52,16 @@ const LeaderBoard = () => {
   useEffect(() => {
     console.log('leaderboard state', leaderBoardData);
   }, [leaderBoard]);
+
+  useEffect(() => {
+    axios.get('/api/current-user')
+      .then((response) => {
+        setCurrentUser(response.data); 
+      })
+      .catch((error) => {
+        console.error('Failed to fetch current user:', error);
+      });
+  }, []);
   
   return (
     <div>
@@ -96,6 +119,11 @@ const LeaderBoard = () => {
                     {user.highscore}
                   </span>
                   <br />
+                  {currentUser !== null && user.id !== currentUser.id && (
+                    <button type="button" onClick={() => handleFollow(user.id)}>
+                      Follow
+                    </button>
+                  )}
                 </div>
                 
               </li>
