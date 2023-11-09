@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const LeaderBoard = () => {
@@ -130,7 +131,14 @@ const LeaderBoard = () => {
             ))}
           </ol>
           <span>
-            <button type="button">Play</button>
+            <Link to="/protected/play">
+              <button type="button">Play</button>
+            </Link>
+          </span>
+          <span>
+            <Link to="/protected/profile">
+              <button type="button">Profile</button>
+            </Link>
           </span>
         </div>
       ) : null}
