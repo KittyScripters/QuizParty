@@ -9,7 +9,6 @@ const passport = require('passport');
 require('./auth');
 const path = require('path');
 
-
 const { db, User, Question, Achievement, joinAchievement, joinFollower } = require('./db/index');
 const { getLeaderBoard, getTriviaQuestions } = require('./dbHelpers/helpers');
 
@@ -30,9 +29,9 @@ app.use(express.json());
 app.use(express.static(clientPath));
 // test get renders our index page
 
-app.get('/', (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
+// app.get('/', (req, res) => {
+//   res.send('<a href="/auth/google">Authenticate with Google</a>');
+// });
 
 app.get('/protected', isLoggedIn, (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));

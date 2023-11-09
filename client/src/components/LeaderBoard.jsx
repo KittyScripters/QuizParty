@@ -15,14 +15,14 @@ const LeaderBoard = () => {
 
   const getLeaderBoard = (topNum, search) => {
     const params = { topNum, search };
-    console.log('params', params);
+    // console.log('params', params);
     //get /leaderboard
     axios.get('/api/leaderboard', { params })
     // then, log success and set the leaderboard state to true and the data to the response data so
     // it can be mapped over and rendered
       .then((res) => {
         // console.log('res log', res);
-        console.log('successfully fetched data from leaderboard', res.data);
+        console.log('successfully fetched data from leaderboard');
         setLeaderBoardData(res.data);
         setLeaderBoard(true);
       })
@@ -45,13 +45,14 @@ const LeaderBoard = () => {
   // currently using useEffect to render the leaderboard on page load
   useEffect(() => {
     getLeaderBoard(topNum, null);
-  }, [topNum, search]);
-  useEffect(() => {
-    console.log('leaderboarddata state', leaderBoardData);
-  }, [leaderBoardData]);
-  useEffect(() => {
-    console.log('leaderboard state', leaderBoardData);
-  }, [leaderBoard]);
+  }, []);
+  //test logs to check state 
+  // useEffect(() => {
+  //   console.log('leaderboarddata state', leaderBoardData);
+  // }, [leaderBoardData]);
+  // useEffect(() => {
+  //   console.log('leaderboard state', leaderBoardData);
+  // }, [leaderBoard]);
 
   useEffect(() => {
     axios.get('/api/current-user')
@@ -99,7 +100,7 @@ const LeaderBoard = () => {
       {/* upon leaderboard being flicked to true, render the div below */}
       {leaderBoard ? (
         <div>
-          <h2>Top 15 Scores:</h2>
+          <h2>Top {leaderBoardData.length} Scores:</h2>
           <ol>
             {console.log('leaderboarddata state', leaderBoardData)}
             {console.log('leaderboarddata type', typeof leaderBoardData)}
@@ -125,7 +126,6 @@ const LeaderBoard = () => {
                     </button>
                   )}
                 </div>
-                
               </li>
             ))}
           </ol>
