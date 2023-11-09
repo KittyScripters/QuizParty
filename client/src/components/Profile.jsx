@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Outlet } from 'react-router-dom';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
 import FollowersTab from './profileTabs/FollowersTab';
@@ -69,6 +70,9 @@ const Profile = () => {
         <button type="button" onClick={() => setView('FollowersTab')}>Followers</button>
         <button type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
         <button type="button" onClick={() => setView('UpdateTab')}>Update</button>
+      </div>
+      <div>
+        <Outlet />
       </div>
       <div>
         {view === 'StatsTab' && <StatsTab stats={user} />}
