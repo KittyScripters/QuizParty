@@ -1,15 +1,22 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
 
+body{
+  background-color: rgb(237, 105, 100);
+}
+
 #MainPlay{
   background-color: rgb(237, 100, 196); 
 }
 
-#navBar {
- background-color: rgb(237, 105, 100);
-
+#Questions{
+  background-color: rgb(237, 100, 196); 
 }
 
-.navButton {
-  background-color: rgb(100, 237, 166);
-}
+// NavBar {
+//  background-color: rgb(100, 212, 237);
+// }
+
+// .navButton {
+//   background-color: rgb(100, 237, 166);
+// }

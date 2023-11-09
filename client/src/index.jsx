@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 //root render yadda yadda
 import React from 'react';
 

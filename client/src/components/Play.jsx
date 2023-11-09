@@ -85,8 +85,8 @@ const Play = () => {
     };
 
     return ( // map this out instead
-      <div className="Questions">
-        <div className="Question">{question}</div> 
+      <div>
+        <div id="Question" className="col">{question}</div> 
         <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
         {answers[0]} 
         <br /> 
@@ -99,10 +99,10 @@ const Play = () => {
         <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
         {answers[3]}
         <br /> 
-        <div className="Favorites">
+        <div id="Favorites" className="col">
           {favoritesButton
             ? (
-              <div> 
+              <div className="col-md-3 .col-md-offset-3"> 
                 <button type="button" onClick={() => addToFavorites()}>
                   Add Question To Favorites
                 </button>
@@ -201,37 +201,39 @@ const Play = () => {
   };
 
   return (
-    <div className="MainPlay">
-      <div className="navbar">
-        <NavBar />
-      </div>
-      <h2>Ready to Play?</h2>
-      <p>Each game set will have 5 questions.</p> 
-      <p>Answer all 5 correctly from any category to add to your highscore.</p>
-      <p>When you are finished, reselect categories and difficulty and try again!</p> 
-      <p>Hint: The harder the questions, the higher your highscore increases. </p>
-      <h4>Select your Category and Difficulty Level Below:</h4>
-      <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
-        <option>Category</option>
-        <option>Animals</option>
-        <option>Art</option>
-        <option>Books</option>
-        <option>Celebrities</option>
-        <option>History</option>
-        <option>Music</option>
-        <option>Mythology</option>
-        <option>Nature</option>
-        <option>Politics</option>
-        <option>Sports</option>
-      </select>
-      <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
-        <option>Difficulty</option>
-        <option>Easy</option>
-        <option>Medium</option>
-        <option>Hard</option>
-      </select>
-      <button type="button" onClick={() => handlePlayClick()}>Start!</button>
-      <div className="Questions">
+    <div>
+      <div id="MainPlay" className="container-sm text-center">
+        <div className="navbar">
+          <NavBar />
+        </div>
+        <h2>Ready to Play?</h2>
+        <p>Each game set will have 5 questions.</p> 
+        {/* <p>Answer all 5 correctly from any category to add to your highscore.</p>
+      <p>When you are finished, reselect categories and difficulty and try again!</p>  */}
+        <p>Hint: The harder the questions, the higher your highscore increases. </p>
+        <h4>Select your Category and Difficulty Level Below:</h4>
+        <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
+          <option>Category</option>
+          <option>Animals</option>
+          <option>Art</option>
+          <option>Books</option>
+          <option>Celebrities</option>
+          <option>History</option>
+          <option>Music</option>
+          <option>Mythology</option>
+          <option>Nature</option>
+          <option>Politics</option>
+          <option>Sports</option>
+        </select>
+        <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
+          <option>Difficulty</option>
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+        <button type="button" onClick={() => handlePlayClick()}>Start!</button>
+      </div> 
+      <div id="Questions" className="container-sm">
         {showQuestion
           ? (
             <div>
@@ -240,21 +242,21 @@ const Play = () => {
             </div>
           )
           : null}  
-      </div>      
-      <div className="HandleSubmit">
-        {submitButton
-          ? (
-            <div> 
-              <button type="button" onClick={() => { updateHighScore(); updateCategoryHighScore(); resetPlayStates(); }}>
-                Submit Results
-              </button>
-            </div>
-          )
-          : null}
-      </div>
-      <div className="ShowScore">
-        {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
-        {highScore ? <div> Congrats! New high score! </div> : null}
+        <div className="HandleSubmit">
+          {submitButton
+            ? (
+              <div> 
+                <button type="button" onClick={() => { updateHighScore(); updateCategoryHighScore(); resetPlayStates(); }}>
+                  Submit Results
+                </button>
+              </div>
+            )
+            : null}
+        </div>
+        <div className="ShowScore">
+          {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
+          {highScore ? <div> Congrats! New high score! </div> : null}
+        </div>
       </div>
     </div>
   );
