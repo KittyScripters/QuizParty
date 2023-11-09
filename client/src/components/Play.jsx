@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import NavBar from './NavBar';
 
 const Play = () => {
   const [category, setCategory] = useState('');
@@ -200,7 +201,10 @@ const Play = () => {
   };
 
   return (
-    <div id="MainPlay" className="container-fluid">
+    <div className="MainPlay">
+      <div className="navbar">
+        <NavBar />
+      </div>
       <h2>Ready to Play?</h2>
       <p>Each game set will have 5 questions.</p> 
       <p>Answer all 5 correctly from any category to add to your highscore.</p>
