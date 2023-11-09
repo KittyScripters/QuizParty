@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +21,7 @@ const Play = () => {
   const [highScore, setHighScore] = useState(false);
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
 
@@ -89,8 +92,8 @@ const Play = () => {
     };
 
     return ( // map this out instead
-      <div>
-        <div id="Question" className="col">{questionDecoded}</div> 
+      <div id="Question">
+        <div>{questionDecoded}</div> 
         <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
         {answers[0]} 
         <br /> 
@@ -103,53 +106,61 @@ const Play = () => {
         <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
         {answers[3]}
         <br /> 
-        <div id="Favorites" className="col">
-          {favoritesButton
-            ? (
-              <div className="col-md-3 .col-md-offset-3"> 
-                <button type="button" onClick={() => addToFavorites()}>
-                  Add Question To Favorites
-                </button>
-              </div>
-            )
-            : null}
-        </div>
-        <div className="NextButton">
-          {nextButton
-            ? (
-              <div> 
-                <button
-                  type="button"
-                  onClick={() => { 
-                    updateCount(); 
-                    randomizeAnswers(questions[count + 1]);
-                    displayQuestion(questions, answers); 
-                    resetRadioButton(); 
-                    onSubmitButton();
-                    setQuestionScore();
-                  }}
-                > Next 
-                </button>  
-              </div>
-            )
-            : null}
+        <div className="d-flex">
+          <div id="NextButton">
+            {nextButton
+              ? (
+                <div className="p-2 "> 
+                  <br /> 
+                  <button
+                    type="button"
+                    className="btn-warning btn-sm"
+                    onClick={() => { 
+                      updateCount(); 
+                      randomizeAnswers(questions[count + 1]);
+                      displayQuestion(questions, answers); 
+                      resetRadioButton(); 
+                      onSubmitButton();
+                      setQuestionScore();
+                    }}
+                  > Next 
+                  </button>  
+                </div>
+              )
+              : null}
+            <div id="Favorites">
+              {favoritesButton
+                ? (
+                  <div className="ml-auto p-2"> 
+                    <button type="button" className="btn btn-warning btn-sm" onClick={() => addToFavorites()}>
+                      Add Question To Favorites
+                    </button>
+                  </div>
+                )
+                : null}
+            </div><br /><br />
+          </div>
         </div>
       </div>
     );
   };
 
   const handlePlayClick = () => { // NOTE 1
-    axios.post('/api/play', { options: { category, difficulty } })
-      .then((response) => {
-        setShowQuestions(true);
-        setShowScore(false);
-        setHighScore(false);
-        setScore(0);
-        setFavoritesButton(true);
-        setResDataQuestions(response.data.results);
-        randomizeAnswers(response.data.results[count]);
-      })
-      .catch((err) => console.error('GET trivia questions NOT successful', err));
+    if (category !== '' && difficulty !== '') {
+      axios.post('/api/play', { options: { category, difficulty } })
+        .then((response) => {
+          setShowQuestions(true);
+          setShowScore(false);
+          setHighScore(false);
+          setScore(0);
+          setFavoritesButton(true);
+          setResDataQuestions(response.data.results);
+          randomizeAnswers(response.data.results[count]);
+        })
+        .catch((err) => console.error('GET trivia questions NOT successful', err));
+    } else {
+      alert('Please select a category and difficulty to start playing!');
+    } 
   };
 
   const resetPlayStates = () => {
@@ -200,23 +211,52 @@ const Play = () => {
     if ((score + 1) === 5) {
       axios.put(`/play/categoryCount/${1}`, { categoryScore: `${categoryLC}_score` })
         .then(() => console.log('category highscore by 1'))
-        .catch((err) => console.error('GET trivia questions NOT successful', err));
+        .catch((err) => console.error('update category highscore failed', err));
     }
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  // Function to handle when the modal should be closed
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  // const scoreModal = () => {  
+  //   return (
+  //     <div className="modal fade" id="scoreModal" tabIndex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+  //       <div className="modal-content">
+  //         <div className="modal-header">
+  //           <h1 className="modal-title fs-5" id="scoreModalLabel">Modal title</h1>
+  //           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+  //         </div>
+  //         <div className="modal-body">
+  //           ...
+  //         </div>
+  //         <div className="modal-footer">
+  //           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  //           <button type="button" className="btn btn-primary" onClick={() => setShowModal(false)}>Play again</button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
   return (
     <div>
+      <div className="navbar">
+        <NavBar />
+      </div>
       <div id="MainPlay" className="container-sm text-center">
-        <div className="navbar">
-          <NavBar />
-        </div>
         <h2>Ready to Play?</h2>
         <p>Each game set will have 5 questions.</p> 
-        {/* <p>Answer all 5 correctly from any category to add to your highscore.</p>
-      <p>When you are finished, reselect categories and difficulty and try again!</p>  */}
+        <p>Answer all 5 correctly from any category to add to your highscore.</p>
+        <p>When you are finished, reselect categories and difficulty and try again!</p> 
         <p>Hint: The harder the questions, the higher your highscore increases. </p>
         <h4>Select your Category and Difficulty Level Below:</h4>
-        <select name="Category" id="Cat" onChange={(event) => onCategorySelection(event)}>
+        <select name="Category" id="Cat" onClick={(event) => onCategorySelection(event)}>
           <option>Category</option>
           <option>Animals</option>
           <option>Art</option>
@@ -229,13 +269,18 @@ const Play = () => {
           <option>Politics</option>
           <option>Sports</option>
         </select>
-        <select name="Difficulty" id="Difficulty" onChange={(event) => onDifficultySelection(event)}>
+        <select name="Difficulty" id="Difficulty" onClick={(event) => onDifficultySelection(event)}>
           <option>Difficulty</option>
           <option>Easy</option>
           <option>Medium</option>
           <option>Hard</option>
-        </select>
-        <button type="button" onClick={() => handlePlayClick()}>Start!</button>
+        </select> <br /><br />
+        <button
+          type="button"
+          className="btn btn-warning btn-lg"
+          onClick={() => handlePlayClick()}
+        >Start!
+        </button> <br /><br /><br />
       </div> 
       <div id="Questions" className="container-sm">
         {showQuestion
@@ -250,14 +295,22 @@ const Play = () => {
           {submitButton
             ? (
               <div> 
-                <button type="button" onClick={() => { updateHighScore(); updateCategoryHighScore(); resetPlayStates(); }}>
+                <button
+                  type="button"
+                  className="btn btn-warning btn-lg" 
+                  onClick={() => {
+                    updateHighScore(); 
+                    updateCategoryHighScore(); 
+                    resetPlayStates(); 
+                    //openModal();
+                    // scoreModal();
+                  }}
+                >
                   Submit Results
                 </button>
               </div>
             )
             : null}
-        </div>
-        <div className="ShowScore">
           {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
         </div>

@@ -17,9 +17,10 @@ const handleLogout = () => {
 
 const NavBar = () => {
   return (
-    <div className="navbar">
-      <div id="Header" className="container-sm text-center">
-        <h1>Quiz Party</h1>
+    <div id="navbar" className="container-fluid text-center">
+
+      <div id="Header">
+        QUIZ PARTY
       </div>
       <nav>
         <ul>
@@ -37,7 +38,7 @@ const NavBar = () => {
           </li>
           <li>
             <Link to="/login">
-              <button type="button" onClick={() => { handleLogout(); }}>
+              <button type="button" className="btn-warning btn-sm" onClick={() => { handleLogout(); }}>
                 Logout
               </button>
             </Link>

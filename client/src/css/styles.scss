@@ -1,27 +1,38 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
 
+//App///////////////////////////////
 body{
-  background-color: rgb(237, 105, 100);
+  background-color: rgb(242, 209, 75)
 }
 
-#MainPlay{
-  background-color: rgb(237, 100, 196); 
+#navbar {
+  border: border;
+  border-color: aquamarine;
+  border-radius: 30px;
+  // border: border-primary;
+  // border-radius: rounded-bottom;
+  
 }
-
-#Questions{
-  background-color: rgb(237, 100, 196); 
-}
-
-#Header{
-  color:rgb(0, 0, 0);
-  background-color: rgb(210, 191, 204); 
-}
-
-// NavBar {
-//  background-color: rgb(100, 212, 237);
-// }
 
 // .navButton {
 //   background-color: rgb(100, 237, 166);
 // }
+
+#Header{
+  // color:rgb(0, 0, 0);
+  font-size: 50px;
+  font-weight: bold; 
+  color: rgb(0, 0, 0);
+}
+
+//Play/////////////////////////////////////
+#MainPlay{
+  background-color: rgb(255, 255, 220);   
+}
+
+#Questions{ 
+  background-color: rgb(255, 255, 220);  
+}
+
+

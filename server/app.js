@@ -9,11 +9,12 @@ const passport = require('passport');
 require('./auth');
 const path = require('path');
 
-const { db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion } = require('./db/index');
+const {
+  db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion, 
+} = require('./db/index');
 const {
   getLeaderBoard, getTriviaQuestions, checkHighScores, checkTopCatScore, 
 } = require('./dbHelpers/helpers');
-
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
@@ -458,7 +459,7 @@ app.delete('/api/questions/:id', (req, res) => {
 app.delete('/api/join_followers/:following_user_id/:followed_user_id', (req, res) => {
   const { followed_user_id } = req.params;
   const { following_user_id } = req.params;
-  joinFollower.destroy({ where: {  following_user_id: following_user_id, followed_user_id: followed_user_id } })
+  joinFollower.destroy({ where: { following_user_id: following_user_id, followed_user_id: followed_user_id } })
     .then((follower) => {
       res.sendStatus(200);
     })
@@ -526,7 +527,6 @@ app.put('/play/highscore/medium/:user_id', (req, res) => {
       res.sendStatus(500);
     });
 });
-
 
 app.put('/play/highscore/hard/:user_id', (req, res) => {
   const { user_id } = req.params;
