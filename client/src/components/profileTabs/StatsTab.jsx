@@ -31,7 +31,7 @@ const StatsTab = ({ stats }) => {
         <td className="stats-score">{stats.politics_score}</td>
         <td className="stats-score">{stats.sports_score}</td>
       </tr>
-      <tr className="user-scores">
+      {/* <tr className="user-scores">
         <td className="stats-score">Total Percentage</td>
         <td className="stats-score">Animal Percentage</td>
         <td className="stats-score">Art Percentage</td>
@@ -43,7 +43,7 @@ const StatsTab = ({ stats }) => {
         <td className="stats-score"> Nature Percentage</td>
         <td className="stats-score">Politics Percentage</td>
         <td className="stats-score">Sports Percentage</td>
-      </tr>
+      </tr> */}
     </table>
   );
 };

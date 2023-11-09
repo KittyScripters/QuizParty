@@ -12,47 +12,36 @@ import NavBar from './NavBar';
  * TODO:
  * Allow user to update their bio => request working, waiting on react router
  * Allow user to remove questions from their favorite questions list
- * Allow user to view their followers profiles
- * Access/render followers, favorite Questions, and personal questions
  */
 
 // user's profile
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [questions, setQuestions] = useState([]);
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
 
+  const userId = 1;
   // USER STATE UPDATE
   useEffect(() => {
-    // accessing user 1 "maidenwench"
-    axios.get('api/users/1')
+    axios.get(`api/users/${userId}`)
       .then(({ data }) => {
         setUser(data);
       })
       .catch((err) => console.error('Could not get PROFILE DATA', err));
-  }, []);
-
-  // USER'S FAVORITE QUESTIONS UPDATE
-  useEffect(() => {
-    // accessing user's questions
-    axios.get('/api/questions/1')
-      .then(({ data }) => {
-        setQuestions(data);
-      })
-      .catch((err) => console.error('Could not GET user\'s questions', err));
-  }, []);
+  }, [setUser]);
 
   // USER'S ACHIEVEMENTS UPDATE
   useEffect(() => {
-    //get the corresponding data from join_achievements => using user_id
-    axios.get('/api/join_achievements/1')
-      .then(({ data }) => {
-        console.log(data);
-        setAchievements(data);
+    axios.patch('/api/join_achievements')
+      .then(() => {
+        axios.get(`/api/join_achievements/${userId}`)
+          .then(({ data }) => {
+            setAchievements(data);
+          })
+          .catch((err) => console.error('Could not GET join_achievement ids', err));
       })
-      .catch((err) => console.error('Could not GET join_achievement ids', err));
-  }, []);
+      .catch((err) => console.error('Could not PATCH achievements', err));
+  }, [setAchievements]);
 
   return (
     <div>
@@ -77,8 +66,8 @@ const Profile = () => {
       <div>
         {view === 'StatsTab' && <StatsTab stats={user} />}
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
-        {view === 'FollowersTab' && <FollowersTab />}
-        {view === 'QuestionsTab' && <QuestionsTab questions={questions} />}
+        {view === 'FollowersTab' && <FollowersTab userId={userId} />}
+        {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
         {view === 'UpdateTab' && <UpdateTab />}
       </div>
     </div>
