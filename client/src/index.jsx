@@ -47,8 +47,9 @@ const routes = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'profile/stats-tab',
-        element: <StatsTab />,
+        // this needs to be revisited, placeholder for now 
+        path: '/protected/profile/leaderboard',
+        element: <LeaderBoard />,
         errorElement: <ErrorPage />,
       },
     ],

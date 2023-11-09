@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const { User } = require('../db/index');
+const { User, joinAchievement, Achievement } = require('../db/index');
 //GET HELPERS
 
 //get leaderboard helper
@@ -84,9 +84,91 @@ const getTriviaQuestions = (req) => {
 
 //PUT HELPERS
 
+const checkHighScores = (userObjects, joinAch) => {
+  let check = false;
+  userObjects.forEach((user) => {
+    if (user.highscore > 50) {
+      Achievement.findOne({ where: { name: 'Top score of 50' } })
+        .then((achievement) => {
+          for (let i = 0; i < joinAch.length; i++) {
+            if (joinAch[i].user_id === user.id && joinAch[i].achievement_id === achievement.id) {
+              check = true;
+            }
+          }
+          if (check === false) {
+            joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
+              .then((newJoin) => {
+                return newJoin;
+              })
+              .catch((err) => {
+                console.error('Could not GET achievement', err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.error('Could not GET achievement', err);
+        });
+    }
+    if (user.highscore > 100) {
+      Achievement.findOne({ where: { name: 'Top score of 100' } })
+        .then((achievement) => {
+          for (let i = 0; i < joinAch.length; i++) {
+            if (joinAch[i].user_id === user.id && joinAch[i].achievement_id === achievement.id) {
+              check = true;
+            }
+          }
+          if (check === false) {
+            joinAchievement.create({ user_id: user.id, achievement_id: achievement.id })
+              .then((newJoin) => {
+                return newJoin;
+              })
+              .catch((err) => {
+                console.error('Could not GET achievement', err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.error('Could not GET achievement', err);
+        });
+    }
+  });
+};
+
+const checkTopCatScore = (users, category, attribute) => {
+  const order = users.sort((a, b) => b[attribute] - a[attribute]);
+  // topScore === user with the highest score
+  const topScore = order[0];
+  Achievement.findOne({ where: { name: category } })
+    // title === achievement
+    .then((title) => {
+      joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
+        .then((joinAch) => {
+          joinAch.forEach((ach) => {
+            if (ach.achievement_id === title.id && ach.user_id !== topScore.id) {
+              joinAchievement.update(
+                { user_id: topScore.id },
+                { where: { achievement_id: title.id } },
+              );
+            }
+          });
+        })
+        .then(() => {
+          joinAchievement.findOne({ where: { user_id: topScore.id, achievement_id: title.id } })
+            .then((achievement) => {
+              if (achievement === null) {
+                joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
+              }
+            })
+            .catch((err) => console.error(err));
+        });
+    });
+};
+
 //DELETE HELPERS
 
 module.exports = {
   getLeaderBoard,
   getTriviaQuestions,
+  checkHighScores,
+  checkTopCatScore,
 };

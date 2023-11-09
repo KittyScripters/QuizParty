@@ -10,19 +10,18 @@ const UpdateTab = ({ setView }) => {
     setText(e.target.value);
   };
   //allow user to update their bio on the database
-  // const updateBio = (update) => {
-  //   axios.patch('/api/users/1', { bio: update })
-  //     .then(() => {
-  //       setView('Profile');
-  //     })
-  //     .catch((err) => console.error('Could not PATCH bio', err));
-  // };
-  //return the elements to be rendered
+  const updateBio = (update) => {
+    axios.patch('/api/users/1', { bio: update })
+      .then(() => {
+        setView('Profile');
+      })
+      .catch((err) => console.error('Could not PATCH bio', err));
+  };
   return (
     <div>
       <form className="update-field">
         <input onChange={(e) => handleChange(e)} />
-        {/* <button type="submit" onClick={() => updateBio(text)}>Update</button> */}
+        <button type="submit" onClick={() => updateBio(text)}>Update</button>
       </form>
     </div>
   );
