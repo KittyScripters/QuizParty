@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NavBar from './NavBar';
 
 const LeaderBoard = () => {
   // use state hooks for leaderboard to render conditionally and to store data
@@ -14,7 +15,7 @@ const LeaderBoard = () => {
     const params = { topNum, search };
     console.log('params', params);
     //get /leaderboard
-    axios.get('/leaderboard', { params })
+    axios.get('/api/leaderboard', { params })
     // then, log success and set the leaderboard state to true and the data to the response data so
     // it can be mapped over and rendered
       .then((res) => {
@@ -41,6 +42,9 @@ const LeaderBoard = () => {
   
   return (
     <div>
+      <div>
+        <NavBar />
+      </div>
       <h1>LeaderBoard</h1>
       {/* Search bar for user */}
       <input 
