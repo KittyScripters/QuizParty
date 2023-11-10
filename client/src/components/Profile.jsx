@@ -15,7 +15,7 @@ const Profile = () => {
   const [achievements, setAchievements] = useState([]);
   const userData = useLoaderData();
   console.log('laoder data in profile', userData);
-  const userId = userData;
+  const userId = userData.id;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`/api/users/${userId}`)
@@ -44,7 +44,7 @@ const Profile = () => {
         <NavBar />
       </div>
       <img alt="user" />
-      <h2 className="userName">{user.username}</h2>
+      <h2 className="userName">{`${user.firstname} ${user.lastname}`}</h2>
       <div className="bio">
         {user.bio}
       </div>
