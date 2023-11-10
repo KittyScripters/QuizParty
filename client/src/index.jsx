@@ -9,6 +9,7 @@ import LeaderBoard from './components/LeaderBoard';
 import ErrorPage from './components/ErrorPage';
 import Play from './components/Play';
 import QuestionBuilder from './components/QuestionBuilder';
+import { QuestionAddForm, EditExistingQuiz } from './components/questionBuilderComponents';
 import Profile from './components/Profile';
 import StatsTab from './components/profileTabs/StatsTab';
 import Login from './components/Login';
@@ -33,6 +34,21 @@ const routes = [
     path: '/protected/question-builder',
     element: <QuestionBuilder />,
     errorElement: <ErrorPage />,
+    children: [{
+      path: 'create',
+      element: <h1>Create A Quiz!</h1>,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: 'addQuestion',
+      element: <QuestionAddForm />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: 'existingQuizes',
+      element: <EditExistingQuiz />,
+      errorElement: <ErrorPage />,
+    }],
   },
   {
     path: '/protected/profile',

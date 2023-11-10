@@ -1,9 +1,12 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const Play = () => {
+  const location = useLocation();
+  const quizData = location.state?.quizData; 
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
@@ -19,40 +22,65 @@ const Play = () => {
   const [favoritesButton, setFavoritesButton] = useState(false);
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
-
+  
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
   };
-
+  
   const onDifficultySelection = (event) => {
     setDifficulty(event.currentTarget.value);
   };
-
+  
   const onSubmitButton = () => {
     if (count === resDataQuestions.length - 2) {
       setNextButton(false);
       setSubmitButton(true);
     } 
   };
-
+  
   const randomizeAnswers = (resDataQ) => {
     const correctAnswer = [];
     correctAnswer.push(resDataQ.correct_answer);
     console.log('correct A', correctAnswer);
     const wrongAnswers = resDataQ.incorrect_answers;
     const combinedAnswers = correctAnswer.concat(wrongAnswers);
-   
+    
     const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
     setRandomAnswers(randomizedAnswers); // this is not updating! 
   };
-
+  
+  useEffect(() => {
+    if (quizData) {
+      const transformedData = quizData.map((question) => ({
+        category: 'user created',
+        difficulty: 'not applicable',
+        question: question.question,
+        correct_answer: question.correct_answer,
+        incorrect_answers: [
+          question.incorrect_answer_1, 
+          question.incorrect_answer_2, 
+          question.incorrect_answer_3,
+        ],
+        type: 'multiple',
+      }));
+      onSubmitButton();
+      setShowQuestions(true);
+      setShowScore(false);
+      setHighScore(false);
+      setScore(0);
+      setFavoritesButton(true);
+      setResDataQuestions(transformedData);
+      randomizeAnswers(transformedData[count]);
+    }
+  }, []);
+  
   const displayQuestion = (questions, answers) => {
     const { question } = questions[count]; // need to decode this!
     
     const updateCount = () => {
       setCount(count + 1);
     };
-
+    
     const setTrueFalse = (e) => {
       const selection = e.currentTarget.value;
       if (selection === questions[count].correct_answer) {
@@ -83,7 +111,6 @@ const Play = () => {
       });
       return false;
     };
-
     return ( // map this out instead
       <div className="Questions">
         <div className="Question">{question}</div> 
@@ -144,11 +171,15 @@ const Play = () => {
         setFavoritesButton(true);
         setResDataQuestions(response.data.results);
         randomizeAnswers(response.data.results[count]);
+        console.log(response.data);
       })
       .catch((err) => console.error('GET trivia questions NOT successful', err));
   };
 
   const resetPlayStates = () => {
+    if (quizData) {
+      console.log('bye');
+    }
     setShowQuestions(false); 
     setShowScore(true); 
     setCount(0); 
@@ -199,7 +230,8 @@ const Play = () => {
         .catch((err) => console.error('GET trivia questions NOT successful', err));
     }
   };
-
+  
+  console.log('count plus 1 and resdatalength on render', count + 1, resDataQuestions.length);
   return (
     <div className="MainPlay">
       <div className="navbar">
