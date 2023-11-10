@@ -28,7 +28,6 @@ const NavBar = () => {
         QUIZ PARTY
       </div>
       <nav>
-
         
         <span>
           <button type="button" onClick={() => handleNavigation('/protected/leaderboard')}>
@@ -51,11 +50,10 @@ const NavBar = () => {
           </button>
         </span>
         <span>
-          <button type="button" className="btn-warning btn-sm" onClick={handleLogout}>
+          <button type="button" onClick={handleLogout}>
             Logout
           </button>
         </span>
-        
 
       </nav>
     </div>

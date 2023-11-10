@@ -1,5 +1,7 @@
 const axios = require('axios');
+require('dotenv').config();
 
+const { API_TOKEN } = process.env;
 const { User, joinAchievement, Achievement } = require('../db/index');
 //GET HELPERS
 
@@ -35,6 +37,7 @@ const getLeaderBoard = (topNum, search) => {
 
 //get for trivia questions
 const getTriviaQuestions = (req) => { 
+  // RESET THE TOKEN TO RETRIEVE THE QUESTIONS AGAIN USING THIS: https://opentdb.com/api_token.php?command=reset&token=YOURTOKENHERE
   // https://opentdb.com/api.php?amount=5&category=20&difficulty=easy&type=multiple
   
   const triviaCategories = [
@@ -64,7 +67,7 @@ const getTriviaQuestions = (req) => {
   }
 
   return axios.get(
-    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple`, 
+    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple&token=${API_TOKEN}`, 
     {
       headers: {
         Accept: 'application/json',
