@@ -45,6 +45,7 @@ app.get('/protected', isLoggedIn, (req, res) => {
 
   // get the email from the Google profile
   const { email } = googleProfile;
+  console.log('google profile', googleProfile);
 
   // Check if a user with the same email already exists in database
   User.findOne({ where: { username: email } }) 
