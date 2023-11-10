@@ -133,6 +133,7 @@ const LeaderBoard = () => {
                     {user.highscore}
                   </span>
                   <br />
+
                   {/* {currentUser !== null && user.id !== currentUser.id && !followedUsers.includes(user.id) && ( */}
                   <button type="button" onClick={() => handleFollow(user.id)}>
                     Follow
