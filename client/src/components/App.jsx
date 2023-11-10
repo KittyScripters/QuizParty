@@ -10,7 +10,6 @@ import LeaderBoard from './LeaderBoard';
 import Profile from './Profile';
 import Play from './Play';
 import QuestionBuilder from './QuestionBuilder';
-import Logout from './Logout';
 
 const App = () => {
   const [view, setView] = useState('Login');

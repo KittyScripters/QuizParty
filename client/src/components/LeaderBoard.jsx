@@ -121,11 +121,11 @@ const LeaderBoard = () => {
                     {user.highscore}
                   </span>
                   <br />
-                  {currentUser !== null && user.id !== currentUser.id && (
-                    <button type="button" onClick={() => handleFollow(user.id)}>
-                      Follow
-                    </button>
-                  )}
+                  {/* {currentUser !== null && user.id !== currentUser.id && ( */}
+                  <button type="button" onClick={() => handleFollow(user.id)}>
+                    Follow
+                  </button>
+                  {/* // )} */}
                 </div>
               </li>
             ))}

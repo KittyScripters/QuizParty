@@ -25,7 +25,7 @@ import FollowersTab from './components/profileTabs/FollowersTab';
 import UpdateTab from './components/profileTabs/UpdateTab';
 
 import Login from './components/Login';
-import Logout from './components/Logout';
+
 //set the container as the element with the id app
 const container = document.getElementById('app');
 //set the root to be the invocation of createRoot on that element(div id=app)
@@ -107,7 +107,6 @@ const routes = [
   },
   {
     path: '/logout',
-    element: <Logout />,
     errorElement: <ErrorPage />,
   },
   {
