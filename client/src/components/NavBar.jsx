@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -21,8 +22,13 @@ const NavBar = () => {
   };
 
   return (
-    <div className="navbar">
+    <div id="navbar" className="container-fluid text-center">
+
+      <div id="Header">
+        QUIZ PARTY
+      </div>
       <nav>
+
         
         <span>
           <button type="button" onClick={() => handleNavigation('/protected/leaderboard')}>
@@ -45,11 +51,12 @@ const NavBar = () => {
           </button>
         </span>
         <span>
-          <button type="button" onClick={handleLogout}>
+          <button type="button" className="btn-warning btn-sm" onClick={handleLogout}>
             Logout
           </button>
         </span>
         
+
       </nav>
     </div>
   );

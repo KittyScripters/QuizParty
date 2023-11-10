@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable func-style */
 import React, { useState, useEffect } from 'react';
@@ -16,6 +17,7 @@ const App = () => {
   
   return (
     <div>
+      
       <div>
         <NavBar />
       </div>
