@@ -159,11 +159,18 @@ app.post('/follow/:userId', isLoggedIn, (req, res) => {
 });
 
 app.get('/api/current-user', (req, res) => {
-  if (req.session.userId) {
-    res.json({ userId: req.session.userId });
-  } else {
-    res.json({ userId: null });
-  }
+  User.findOne({
+    where: {
+      username: req.user.email,
+    },
+  })
+    .then((data) => {
+      console.log('this is data id', data.id);
+      res.send({ id: data.id });
+    })
+    .catch((err) => {
+      console.log('current user', err);
+    });
 });
 
 app.post('/createQuestion', (req, res) => {

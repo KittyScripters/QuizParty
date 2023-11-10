@@ -57,15 +57,15 @@ const LeaderBoard = () => {
   //   console.log('leaderboard state', leaderBoardData);
   // }, [leaderBoard]);
 
-  useEffect(() => {
-    axios.get('/api/current-user')
-      .then((response) => {
-        setCurrentUser(response.data); 
-      })
-      .catch((error) => {
-        console.error('Failed to fetch current user:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/current-user')
+  //     .then((response) => {
+  //       setCurrentUser(response.data); 
+  //     })
+  //     .catch((error) => {
+  //       console.error('Failed to fetch current user:', error);
+  //     });
+  // }, []);
 
   // useEffect(() => {
   //   axios.get('/api/followed-users')
@@ -133,11 +133,11 @@ const LeaderBoard = () => {
                     {user.highscore}
                   </span>
                   <br />
-                  {currentUser !== null && user.id !== currentUser.id && !followedUsers.includes(user.id) && (
-                    <button type="button" onClick={() => handleFollow(user.id)}>
-                      Follow
-                    </button>
-                  )}
+                  {/* {currentUser !== null && user.id !== currentUser.id && !followedUsers.includes(user.id) && ( */}
+                  <button type="button" onClick={() => handleFollow(user.id)}>
+                    Follow
+                  </button>
+                  {/* )} */}
                 </div>
               </li>
             ))}
