@@ -338,7 +338,9 @@ app.patch('/api/users/:id', (req, res) => {
   const { id } = req.params;
   const { bio } = req.body;
   User.update({ bio: bio }, { where: { id: id } })
-    .then(() => res.sendStatus(200))
+    .then(() => {
+      res.sendStatus(200)
+    })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
@@ -401,10 +403,8 @@ app.get('/api/join_followers/:following_user_id', (req, res) => {
       //pass in the mapped values in the User model and find all where the id's match
       User.findAll({ where: { id: followers } })
         .then((followData) => {
-          //map the refined followers array and return only the username
-          const results = followData.map((follower) => [follower.id, follower.username]);
           //send back the results
-          res.status(200).send(results);
+          res.status(200).send(followData);
         });
     })
     .catch((err) => {

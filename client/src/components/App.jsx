@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable func-style */
 import React, { useState, useEffect } from 'react';
@@ -29,6 +30,7 @@ import FollowersTab from './profileTabs/FollowersTab';
 import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
 import StatsTab from './profileTabs/StatsTab';
+
 
 const App = () => {
   return (

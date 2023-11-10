@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ContentEditable from 'react-contenteditable';
 
-const EditExistingQuiz = ({ quizNames, id }) => {
+const EditExistingQuiz = ({ id = 1 }) => {
   const [selectedQuiz, setSelectedQuiz] = useState([]);
-  
+  const [quizNames, setQuizNames] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    axios.get('/getUserQuizNames/1')
+      .then(({ data }) => {
+        console.log('data in get:', data);
+        setQuizNames(data);
+      })
+      .catch((err) => console.error('error getting quiz names QuestionBuilder: ', err));
+  }, []);
+
   const handleQuizEdit = (index, key, value) => {
     const updatedQuiz = [...selectedQuiz];
     updatedQuiz[index][key] = value;
@@ -12,14 +23,27 @@ const EditExistingQuiz = ({ quizNames, id }) => {
   };
 
   const handleQuizSelect = (quizName) => {
-    axios.post('/retrieveUserQuiz/1', { question_set: quizName })
-      .then(({ data }) => {
-        console.log('data in retrive quiz:', data);
-        setSelectedQuiz(data);
-      })
-      .catch((err) => console.error('error getting quiz: ', err));
+    return new Promise((resolve, reject) => {
+      axios.post('/retrieveUserQuiz/1', { question_set: quizName })
+        .then(({ data }) => {
+          console.log('data in retrieve quiz:', data);
+          setSelectedQuiz(data);
+          resolve(data);
+        })
+        .catch((err) => {
+          console.error('error getting quiz: ', err);
+          reject(err);
+        });
+    });
   };
   console.log('selectedQuiz on render: ', selectedQuiz);
+
+  const handlePlayClick = async (e) => {
+    console.log('e target value ', e.target.value);
+    const quizData = await handleQuizSelect(e.target.value);
+    console.log('selected Quiz in play click:', quizData);
+    navigate('/protected/play', { state: { quizData } });
+  };
 
   const handleSubmit = () => {
     axios
@@ -36,12 +60,20 @@ const EditExistingQuiz = ({ quizNames, id }) => {
       {quizNames.map((quizName) => {
         return (
           <div key={quizName}>
+            {quizName}{' '}
+            <button
+              type="button"
+              className="playUserQuizButton"
+              value={quizName}
+              onClick={(e) => handlePlayClick(e)}
+            >Play
+            </button>
             <button
               type="button"
               className="editUserQuizButton"
               value={quizName}
               onClick={(e) => { handleQuizSelect(e.target.value); }}
-            >{quizName}
+            >Edit
             </button>
           </div>
         );
