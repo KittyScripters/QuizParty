@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Outlet, useLoaderData } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const he = require('he');
@@ -25,6 +25,9 @@ const Play = () => {
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const userData = useLoaderData();
+  console.log('laoder data in play', userData);
+  const userId = userData.id;
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
   
@@ -103,16 +106,9 @@ const Play = () => {
         setcorrectAnswerSelection(false);
       }
     };
-  
-    // const updateQuestionScore = () => {
-    //   if (correctAnswerSelection === true) {
-    //     setScore(score + 1);
-    //   }
-    //   setcorrectAnswerSelection(false);
-    // };
 
     const addToFavorites = () => {
-      axios.post(`/play/favoriteQuestions/${2}`, {
+      axios.post(`/play/favoriteQuestions/${userId}`, {
         favQuestion: question,
       })
         .then(() => console.log('Updated db with fav question'))
@@ -180,6 +176,7 @@ const Play = () => {
   };
 
   const handlePlayClick = () => { // NOTE 1
+    console.log('click');
     if (category !== '' && difficulty !== '') {
       axios.post('/api/play', { options: { category, difficulty } })
         .then((response) => {
@@ -214,7 +211,7 @@ const Play = () => {
   useEffect(() => {
     console.log('update HS score', score);
     if (difficulty === 'Easy' && score === 5) {
-      axios.put(`/play/highscore/easy/${1}`, {
+      axios.put(`/play/highscore/easy/${userId}`, {
         highScore: 'highscore',
       })
         .then(() => {
@@ -225,7 +222,7 @@ const Play = () => {
     }
 
     if (difficulty === 'Medium' && score === 5) {
-      axios.put(`/play/highscore/medium/${1}`, { highScore: 'highscore' })
+      axios.put(`/play/highscore/medium/${userId}`, { highScore: 'highscore' })
         .then(() => {
           console.log('highscore increased by 2');
           setHighScore(true);
@@ -234,7 +231,7 @@ const Play = () => {
     }
 
     if (difficulty === 'Hard' && score === 5) {
-      axios.put(`/play/highscore/hard/${1}`, { highScore: 'highscore' })
+      axios.put(`/play/highscore/hard/${userId}`, { highScore: 'highscore' })
         .then(() => {
           console.log('highscore increased by 3');
           setHighScore(true);
@@ -248,8 +245,8 @@ const Play = () => {
   useEffect(() => {
     const categoryLC = category.toLowerCase();
     if (score === 5) {
-      axios.put(`/play/categoryCount/${1}`, { categoryScore: `${categoryLC}_score` })
-        .then(() => console.log('category highscore by 1'))
+      axios.put(`/play/categoryCount/${userId}`, { categoryScore: `${categoryLC}_score` })
+        .then(() => console.log('updated category highscore by 1'))
         .catch((err) => console.error('update category highscore failed', err));
     }
   }, [score]);

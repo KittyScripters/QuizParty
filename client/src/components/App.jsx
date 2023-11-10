@@ -54,7 +54,7 @@ const App = () => {
             <Route path="questionstab" element={<QuestionsTab />} />
             <Route path="updatetab" element={<UpdateTab />} />
           </Route>
-          <Route path="/protected/play" element={<Play />} />
+          <Route path="/protected/play" element={<Play />} loader={getUserLoader} />
           <Route path="/protected/question-builder" element={<QuestionBuilder />}>
             <Route path="addQuestion" element={<QuestionAddForm />} />
             <Route path="existingQuizes" element={<EditExistingQuiz />} />
