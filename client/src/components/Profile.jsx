@@ -14,6 +14,7 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
   const userData = useLoaderData();
+
   const userId = userData.id;
   // USER STATE UPDATE
   useEffect(() => {
