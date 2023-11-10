@@ -17,7 +17,7 @@ const StatsTab = ({ stats }) => {
   ];
   const checkHighestCatScore = (scores) => {
     scores.sort((a, b) => b[0] - a[0]);
-    return `${scores[0][1]}: ${scores[0][0]}`;
+    return `${scores[0][1]} ${scores[0][0]}`;
   };
   return (
     <div
@@ -26,33 +26,33 @@ const StatsTab = ({ stats }) => {
         text-center
       "
     >
-      <div className="start-50" id="score-header"><h3>Best Category: {checkHighestCatScore(catScores)}</h3></div>
-      <table className="start-50">
-        <tr className="category">
-          <th id="stats-total" className="">Total</th>
-          <th className="">Animals</th>
-          <th className="">Art</th>
-          <th className="">Books</th>
-          <th className="">Celebrities</th>
-          <th className="">History</th>
-          <th className="">Music</th>
-          <th className="">Mythology</th>
-          <th className="">Nature</th>
-          <th className="">Politics</th>
-          <th className="">Sports</th>
+      <div className="mt-5" id="score-header"><h3>Best Category: {checkHighestCatScore(catScores)}</h3></div>
+      <table className="mx-auto">
+        <tr id="stat-cats" className="mx-auto">
+          <th className="p-3">Total</th>
+          <th className="p-3">Animals</th>
+          <th className="p-3">Art</th>
+          <th className="p-3">Books</th>
+          <th className="p-2">Celebrities</th>
+          <th className="p-3">History</th>
+          <th className="p-3">Music</th>
+          <th className="p-2">Mythology</th>
+          <th className="p-3">Nature</th>
+          <th className="p-3">Politics</th>
+          <th className="p-3">Sports</th>
         </tr>
-        <tr id="stats-total" className="user-scores">
-          <td className="">{stats.highscore}</td>
-          <td className="">{stats.animals_score}</td>
-          <td className="">{stats.art_score}</td>
-          <td className="">{stats.books_score}</td>
-          <td className="">{stats.celebrities_score}</td>
-          <td className="">{stats.history_score}</td>
-          <td className="">{stats.music_score}</td>
-          <td className="">{stats.mythology_score}</td>
-          <td className="">{stats.nature_score}</td>
-          <td className="">{stats.politics_score}</td>
-          <td className="">{stats.sports_score}</td>
+        <tr id="stats-total">
+          <td>{stats.highscore}</td>
+          <td>{stats.animals_score}</td>
+          <td>{stats.art_score}</td>
+          <td>{stats.books_score}</td>
+          <td>{stats.celebrities_score}</td>
+          <td>{stats.history_score}</td>
+          <td>{stats.music_score}</td>
+          <td>{stats.mythology_score}</td>
+          <td>{stats.nature_score}</td>
+          <td>{stats.politics_score}</td>
+          <td>{stats.sports_score}</td>
         </tr>
       </table>
     </div>
