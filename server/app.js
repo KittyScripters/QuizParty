@@ -45,6 +45,7 @@ app.get('/protected', isLoggedIn, (req, res) => {
 
   // get the email from the Google profile
   const { email } = googleProfile;
+  console.log('google profile', googleProfile);
 
   // Check if a user with the same email already exists in database
   User.findOne({ where: { username: email } }) 
@@ -159,11 +160,18 @@ app.post('/follow/:userId', isLoggedIn, (req, res) => {
 });
 
 app.get('/api/current-user', (req, res) => {
-  if (req.session.userId) {
-    res.json({ userId: req.session.userId });
-  } else {
-    res.json({ userId: null });
-  }
+  User.findOne({
+    where: {
+      username: req.user.email,
+    },
+  })
+    .then((data) => {
+      console.log('this is data id', data.id);
+      res.send({ id: data.id });
+    })
+    .catch((err) => {
+      console.log('current user', err);
+    });
 });
 
 app.post('/createQuestion', (req, res) => {
