@@ -10,8 +10,8 @@ import {
   createRoutesFromElements,
   Outlet,
   Link,
-  BrowserRouter,
   Routes,
+  useLoaderData,
 } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './NavBar';
@@ -31,25 +31,23 @@ import UpdateTab from './profileTabs/UpdateTab';
 import StatsTab from './profileTabs/StatsTab';
 
 const App = () => {
-  const [id, setId] = useState(null);
-  useEffect(() => {
-    axios.get('/api/current-user')
-      .then((user) => {
-        console.log('this response data', user.data.id); 
-        setId(user.data.id);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch current user:', error);
-      });
-  }, []);
+  const getUserLoader = async () => {
+    try {
+      const response = await axios.get('/api/current-user');
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw (err);
+    }
+  };
 
-  return (
-    <BrowserRouter>
-      <Routes>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route>
         <Route element={<PrivateRoutes />}> 
           <Route path="/protected" index element={<LeaderBoard />} />
           <Route path="/protected/leaderboard" element={<LeaderBoard />} />
-          <Route path="/protected/profile" element={<Profile />}>
+          <Route path="/protected/profile" element={<Profile />} loader={getUserLoader}>
             <Route path="statstab" element={<StatsTab />} />
             <Route path="achievementstab" element={<AchievementsTab />} />
             <Route path="followerstab" element={<FollowersTab />} />
@@ -63,9 +61,13 @@ const App = () => {
           </Route>
           <Route path="/login" element={<Login />} />
         </Route>
-        <Route path="/" element={<Login />} /> 
-      </Routes>
-    </BrowserRouter>
+        <Route path="/" element={<Login />} />
+      </Route>,
+    ),
+  );
+
+  return (
+    <RouterProvider router={router} />
   );
 };
 
