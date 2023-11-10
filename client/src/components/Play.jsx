@@ -324,7 +324,7 @@ const Play = () => {
 
         </div>
         <div id="scores" className="container-sm text-center">
-          {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
+          {showScore ? <div>You scored {score} out of {resDataQuestions.length - 1}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
         </div>
       </div>
