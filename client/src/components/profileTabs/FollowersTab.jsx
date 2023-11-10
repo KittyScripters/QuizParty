@@ -29,12 +29,14 @@ const FollowersTab = ({ userId }) => {
 
   return (
     <div>
-      <h4>Following: {followers.length}</h4>
-      <div>
+      <div className="d-inline-block mx-auto">
+        <h4>Following: {followers.length}</h4>
+      </div>
+      <div className="d-inline-block mx-auto">
         {followers.map((follower) => {
           return (
             <div key={follower.id}>
-              <button type="button" onClick={() => deleteFollower(follower.id)}>Delete</button>
+              <button className="rounded border-info m-1" type="button" onClick={() => deleteFollower(follower.id)}>Delete</button>
               {follower.username}
             </div>
           );

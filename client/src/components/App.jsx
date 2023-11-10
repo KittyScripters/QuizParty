@@ -40,13 +40,30 @@ const App = () => {
       throw (err);
     }
   };
+  // need loader to pass to private routes to check if user is logged in
+  const isLoggedInLoader = async () => {
+    try {
+      // send a get req to the isLoggedIn endpoint
+      const response = await axios.get('/api/isLoggedIn');
+      // console.log('logged in loader', response.data);
+      // return the response data which is a boolean
+      return response.data;
+      // catch error handling
+    } catch (err) {
+      console.error(err);
+      throw (err);
+    }
+  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route element={<PrivateRoutes />}> 
-          <Route path="/protected" index element={<LeaderBoard />} />
-          <Route path="/protected/leaderboard" element={<LeaderBoard />} />
+
+
+        <Route element={<PrivateRoutes />} loader={isLoggedInLoader}> 
+          <Route path="/protected" index element={<LeaderBoard />} loader={getUserLoader}/>
+          <Route path="/protected/leaderboard" element={<LeaderBoard />} loader={getUserLoader} />
+
           <Route path="/protected/profile" element={<Profile />} loader={getUserLoader}>
             <Route path="statstab" element={<StatsTab />} />
             <Route path="achievementstab" element={<AchievementsTab />} />

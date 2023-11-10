@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLoaderData } from 'react-router-dom';
 import NavBar from './NavBar';
-import getUserLoader from './App';
 
 const LeaderBoard = () => {
+  const userData = useLoaderData();
+  const currUserId = userData.id;
   // use state hooks for leaderboard to render conditionally and to store data
   const [leaderBoard, setLeaderBoard] = useState(false);
   const [leaderBoardData, setLeaderBoardData] = useState([]);
-  //use state hooks for search 
+  //use state hooks for search
   const [search, setSearch] = useState('');
   //use state hooks for top x users
   const [topNum, setTopNum] = useState(10);
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
-  const [currentUser, setCurrentUser] = useState(null);
-  const [followedUsers, setFollowedUsers] = useState([]);
-  const data = useLoaderData();
-  console.log('loader data in leaderboard', data);
+
+  //state for followers leaderboard 
+  const [followersLeaderBoard, setFollowersLeaderBoard] = useState([]);
+  //state for followers list for leaderboard/follow fuction
+  const [followers, setFollowers] = useState([]);
 
   const getLeaderBoard = (topNum, search) => {
     const params = { topNum, search };
@@ -39,15 +41,23 @@ const LeaderBoard = () => {
 
   const handleFollow = (userId) => {
     axios.post(`/follow/${userId}`)
-      .then((response) => {
-        console.log(response.data);
-        setFollowedUsers((prevFollowedUsers) => [...prevFollowedUsers, userId]);
+      .then(() => {
+        //if the post req is successful and the user is added to follower, update followers state
+        //by adding new follwer with id of user being followed
+        setFollowers((prevFollowers) => [...prevFollowers, { id: userId }]);
       })
       .catch((error) => {
         console.error('Failed to follow user:', error);
       });
   };
   
+  const renderFollowersLeaderBoard = () => {
+    setFollowersLeaderBoard(followers);
+    setLeaderBoard(false);
+  };
+  // useEffect(() => {
+  //   renderFollowersLeaderBoard();
+  // }, [followers]);
   // currently using useEffect to render the leaderboard on page load
   useEffect(() => {
     getLeaderBoard(topNum, null);
@@ -59,26 +69,16 @@ const LeaderBoard = () => {
   // useEffect(() => {
   //   console.log('leaderboard state', leaderBoardData);
   // }, [leaderBoard]);
-
-  // useEffect(() => {
-  //   axios.get('/api/current-user')
-  //     .then((response) => {
-  //       setCurrentUser(response.data); 
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to fetch current user:', error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios.get('/api/followed-users')
-  //     .then((response) => {
-  //       setFollowedUsers(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to fetch followed users:', error);
-  //     });
-  // }, []);
+  
+  useEffect(() => {
+    axios.get(`/api/join_followers/${currUserId}`)
+      .then((response) => {
+        //set followers to the res data 
+        setFollowers(response.data);
+      })
+      .catch((err) => console.error(err));
+    //dependent on array and should rerun changes
+  }, [setFollowers]);
   
   return (
     <div>
@@ -113,6 +113,9 @@ const LeaderBoard = () => {
       </select>
       {/* on click tied to our getLeaderboard func */}
       <button type="button" onClick={() => getLeaderBoard(topNum)}>Get LeaderBoard</button>
+      <button type="button" onClick={() => renderFollowersLeaderBoard()}>
+        Get Followers Leaderboard
+      </button>
       {/* upon leaderboard being flicked to true, render the div below */}
       {leaderBoard ? (
         <div>
@@ -136,12 +139,14 @@ const LeaderBoard = () => {
                     {user.highscore}
                   </span>
                   <br />
-
-                  {/* {currentUser !== null && user.id !== currentUser.id && !followedUsers.includes(user.id) && ( */}
-                  <button type="button" onClick={() => handleFollow(user.id)}>
-                    Follow
-                  </button>
-                  {/* )} */}
+                  {/* check for at least one element is satisfied, check for if follower id is user id */}
+                  {followers.some((follower) => follower.id === user.id) ? (
+                    <span>Already Followed</span>
+                  ) : (
+                    <button type="button" onClick={() => handleFollow(user.id)}>
+                      Follow
+                    </button>
+                  )}
                 </div>
               </li>
             ))}
@@ -157,7 +162,25 @@ const LeaderBoard = () => {
             </Link>
           </span>
         </div>
-      ) : null}
+      ) 
+        : (
+          <div>
+            <h2>Followers Leaderboard:</h2>
+            <ol>
+              {followersLeaderBoard.map((follower, index) => (
+                <li key={index}>
+                  <div>
+                    <span>
+                      <b>Username</b>: {follower.username}{' '}
+                      <b>Highscore</b>: {follower.highscore}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      
     </div>
   );
 };

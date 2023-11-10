@@ -14,6 +14,7 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
   const userData = useLoaderData();
+
   const userId = userData.id;
   // USER STATE UPDATE
   useEffect(() => {
@@ -39,30 +40,51 @@ const Profile = () => {
 
   return (
     <div>
-      <div>
+      <div className="navbar">
         <NavBar />
       </div>
-      <img alt="user" src={user ? user.image_url : ''} referrerPolicy="no-referrer" />
-      <h2 className="userName">{`${user.firstname} ${user.lastname}`}</h2>
-      <div className="bio">
-        {user.bio}
-      </div>
-      <div>
-        <button type="button" onClick={() => setView('StatsTab')}>Stats</button>
-        <button type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
-        <button type="button" onClick={() => setView('FollowersTab')}>Followers</button>
-        <button type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
-        <button type="button" onClick={() => setView('UpdateTab')}>Update</button>
-      </div>
-      <div>
-        <Outlet />
-      </div>
-      <div>
-        {view === 'StatsTab' && <StatsTab stats={user} />}
-        {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
-        {view === 'FollowersTab' && <FollowersTab userId={userId} />}
-        {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
-        {view === 'UpdateTab' && <UpdateTab userId={userId} />}
+      <div id="profile-background" className="container-lg pt-5 pb-5">
+        <div>
+          <div
+            id="img-name-bio"
+            className="
+            container-sm
+            bg-info
+            start-50
+            w-50
+            p-5
+            text-center
+            rounded-pill"
+          >
+            <img className="rounded w-25 h-25" alt="user" src={user ? user.image_url : ''} referrerPolicy="no-referrer" />
+            <h2>{`${user.firstname} ${user.lastname}`}</h2>
+            <div className="d-inline-block">
+              <strong>{user.bio}</strong>
+            </div>
+          </div>
+        </div>
+        <div className="
+        align-middle
+        mt-5
+        text-center
+        container-sm"
+        >
+          <button id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
+          <button id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
+          <button id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Followers</button>
+          <button id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
+          <button id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
+        </div>
+        <div>
+          <Outlet />
+        </div>
+        <div>
+          {view === 'StatsTab' && <StatsTab stats={user} />}
+          {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
+          {view === 'FollowersTab' && <FollowersTab userId={userId} />}
+          {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
+          {view === 'UpdateTab' && <UpdateTab userId={userId} />}
+        </div>
       </div>
     </div>
   );
