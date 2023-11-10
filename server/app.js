@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('./auth');
 const path = require('path');
+const cors = require('cors');
 
 const {
   db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion, 
@@ -18,12 +19,8 @@ const {
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
-
 const app = express();
-
+app.use(cors());
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,11 +30,16 @@ app.use(express.json());
 app.use(express.static(clientPath));
 // test get renders our index page
 
-// app.get('/', (req, res) => {
-//   res.send('<a href="/auth/google">Authenticate with Google</a>');
-// });
+//is logged in loader get end point
+app.get('/api/isloggedin', (req, res) => {
+  if (req.user) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
 
-app.get('/protected', isLoggedIn, (req, res) => {
+app.get('/protected', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 
   // grab user's Google profile infor from req.user
@@ -131,7 +133,7 @@ app.get('/api/leaderboard', (req, res) => {
     });
 });
 
-app.post('/follow/:userId', isLoggedIn, (req, res) => {
+app.post('/follow/:userId', (req, res) => {
   const { userId } = req.params;
   console.log('this is user id', req.user.email);
   console.log('this is curr user id', userId);
@@ -346,7 +348,7 @@ app.patch('/api/users/:id', (req, res) => {
   const { bio } = req.body;
   User.update({ bio: bio }, { where: { id: id } })
     .then(() => {
-      res.sendStatus(200)
+      res.sendStatus(200);
     })
     .catch((err) => {
       console.error(err);
