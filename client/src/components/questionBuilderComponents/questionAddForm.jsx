@@ -43,11 +43,10 @@ const QuestionAddForm = () => {
   };
   console.log('render view value: ', QAview);
   return (
-    <span>
+    <div>
       {QAview === 'nameQuiz'
       && (
         <>
-          <h1>Create A Quiz!</h1>
           Quiz Name: 
           {' '}
           <input 
@@ -125,7 +124,7 @@ const QuestionAddForm = () => {
           </div>
         </>
       )}
-    </span>
+    </div>
   );
 };
 

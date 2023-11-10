@@ -16,8 +16,14 @@ import LeaderBoard from './components/LeaderBoard';
 import ErrorPage from './components/ErrorPage';
 import Play from './components/Play';
 import QuestionBuilder from './components/QuestionBuilder';
+import { QuestionAddForm, EditExistingQuiz } from './components/questionBuilderComponents';
 import Profile from './components/Profile';
 import StatsTab from './components/profileTabs/StatsTab';
+import AchievementsTab from './components/profileTabs/AchievementsTab';
+import QuestionsTab from './components/profileTabs/QuestionsTab';
+import FollowersTab from './components/profileTabs/FollowersTab';
+import UpdateTab from './components/profileTabs/UpdateTab';
+
 import Login from './components/Login';
 import Logout from './components/Logout';
 //set the container as the element with the id app
@@ -40,6 +46,21 @@ const routes = [
     path: '/protected/question-builder',
     element: <QuestionBuilder />,
     errorElement: <ErrorPage />,
+    children: [{
+      path: 'create',
+      element: <h1>Create A Quiz!</h1>,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: 'addQuestion',
+      element: <QuestionAddForm />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: 'existingQuizes',
+      element: <EditExistingQuiz />,
+      errorElement: <ErrorPage />,
+    }],
   },
   {
     path: '/protected/profile',
@@ -50,6 +71,31 @@ const routes = [
         // this needs to be revisited, placeholder for now 
         path: '/protected/profile/leaderboard',
         element: <LeaderBoard />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/protected/profile/statstab',
+        element: <StatsTab />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/protected/profile/achievementstab',
+        element: <AchievementsTab />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/protected/profile/followerstab',
+        element: <FollowersTab />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/protected/profile/questionstab',
+        element: <QuestionsTab />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/protected/profile/updatetab',
+        element: <UpdateTab />,
         errorElement: <ErrorPage />,
       },
     ],

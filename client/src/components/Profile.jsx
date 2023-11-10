@@ -8,22 +8,16 @@ import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
 import NavBar from './NavBar';
 
-/**
- * TODO:
- * Allow user to update their bio => request working, waiting on react router
- * Allow user to remove questions from their favorite questions list
- */
-
 // user's profile
 const Profile = () => {
   const [user, setUser] = useState({});
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
 
-  const userId = 1;
+  const userId = 23;
   // USER STATE UPDATE
   useEffect(() => {
-    axios.get(`api/users/${userId}`)
+    axios.get(`/api/users/${userId}`)
       .then(({ data }) => {
         setUser(data);
       })
@@ -50,9 +44,9 @@ const Profile = () => {
       </div>
       <img alt="user" />
       <h2 className="userName">{user.username}</h2>
-      <p className="bio">
+      <div className="bio">
         {user.bio}
-      </p>
+      </div>
       <div>
         <button type="button" onClick={() => setView('StatsTab')}>Stats</button>
         <button type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
@@ -68,7 +62,7 @@ const Profile = () => {
         {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
         {view === 'FollowersTab' && <FollowersTab userId={userId} />}
         {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
-        {view === 'UpdateTab' && <UpdateTab />}
+        {view === 'UpdateTab' && <UpdateTab userId={userId} />}
       </div>
     </div>
   );

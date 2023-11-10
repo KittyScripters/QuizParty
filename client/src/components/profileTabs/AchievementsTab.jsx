@@ -1,7 +1,6 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Achievement from './Achievement';
 
 const AchievementsTab = ({ achievements }) => {

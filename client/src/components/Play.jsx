@@ -3,11 +3,14 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const he = require('he');
 
 const Play = () => {
+  const location = useLocation();
+  const quizData = location.state?.quizData; 
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);
@@ -24,22 +27,22 @@ const Play = () => {
   const [showModal, setShowModal] = useState(false);
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
-
+  
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
   };
-
+  
   const onDifficultySelection = (event) => {
     setDifficulty(event.currentTarget.value);
   };
-
+  
   const onSubmitButton = () => {
     if (count === resDataQuestions.length - 2) {
       setNextButton(false);
       setSubmitButton(true);
     } 
   };
-
+  
   const randomizeAnswers = (resDataQ) => {
     const correctAnswer = [];
     correctAnswer.push(he.decode(resDataQ.correct_answer));
@@ -47,11 +50,36 @@ const Play = () => {
 
     const wrongAnswers = resDataQ.incorrect_answers.map((answer) => he.decode(answer));
     const combinedAnswers = correctAnswer.concat(wrongAnswers);
-   
+    
     const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
     setRandomAnswers(randomizedAnswers); 
   };
-
+  
+  useEffect(() => {
+    if (quizData) {
+      const transformedData = quizData.map((question) => ({
+        category: 'user created',
+        difficulty: 'not applicable',
+        question: question.question,
+        correct_answer: question.correct_answer,
+        incorrect_answers: [
+          question.incorrect_answer_1, 
+          question.incorrect_answer_2, 
+          question.incorrect_answer_3,
+        ],
+        type: 'multiple',
+      }));
+      onSubmitButton();
+      setShowQuestions(true);
+      setShowScore(false);
+      setHighScore(false);
+      setScore(0);
+      setFavoritesButton(true);
+      setResDataQuestions(transformedData);
+      randomizeAnswers(transformedData[count]);
+    }
+  }, []);
+  
   const displayQuestion = (questions, answers) => {
     const { question } = questions[count];
     const questionDecoded = he.decode(question);
@@ -59,7 +87,7 @@ const Play = () => {
     const updateCount = () => {
       setCount(count + 1);
     };
-
+    
     const setTrueFalse = (e) => {
       const selection = e.currentTarget.value;
       if (selection === questions[count].correct_answer) {
@@ -90,7 +118,6 @@ const Play = () => {
       });
       return false;
     };
-
     return ( // map this out instead
       <div id="Question">
         <div>{questionDecoded}</div> 
@@ -164,6 +191,9 @@ const Play = () => {
   };
 
   const resetPlayStates = () => {
+    if (quizData) {
+      console.log('bye');
+    }
     setShowQuestions(false); 
     setShowScore(true); 
     setCount(0); 

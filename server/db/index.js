@@ -28,18 +28,54 @@ const User = db.define('user', {
   username: Sequelize.STRING,
   firstname: Sequelize.STRING,
   lastname: Sequelize.STRING,
-  bio: Sequelize.STRING,
-  highscore: Sequelize.INTEGER,
-  art_score: Sequelize.INTEGER,
-  celebrities_score: Sequelize.INTEGER,
-  animals_score: Sequelize.INTEGER,
-  music_score: Sequelize.INTEGER,
-  sports_score: Sequelize.INTEGER,
-  books_score: Sequelize.INTEGER,
-  mythology_score: Sequelize.INTEGER,
-  history_score: Sequelize.INTEGER,
-  nature_score: Sequelize.INTEGER,
-  politics_score: Sequelize.INTEGER,
+  bio: {
+    type: Sequelize.STRING,
+    defaultValue: 'Update your bio!'
+  },
+  highscore: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  art_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  celebrities_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  animals_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  music_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  sports_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  books_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  mythology_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  history_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  nature_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  politics_score: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
 }, { timesstamps: true });
 
 const Question = db.define('question', {

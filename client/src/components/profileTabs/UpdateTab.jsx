@@ -3,24 +3,30 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const UpdateTab = ({ setView }) => {
+const UpdateTab = ({ userId }) => {
   const [text, setText] = useState('');
+  //allow user to update their bio on the database
+  const updateBio = (update) => {
+    axios.patch(`/api/users/${userId}`, { bio: update })
+      .then(() => {
+        console.log('you changed your bio to: ', update);
+      })
+      .catch((err) => console.error('Could not PATCH bio', err));
+  };
   // allow the user to type
   const handleChange = (e) => {
     setText(e.target.value);
   };
-  //allow user to update their bio on the database
-  const updateBio = (update) => {
-    axios.patch('/api/users/1', { bio: update })
-      .then(() => {
-        setView('Profile');
-      })
-      .catch((err) => console.error('Could not PATCH bio', err));
+  // allow the user to submit with enter key
+  const handleEnter = (event, update) => {
+    if (event.key === 'Enter') {
+      updateBio(update);
+    }
   };
   return (
     <div>
       <form className="update-field">
-        <input onChange={(e) => handleChange(e)} />
+        <input onChange={(e) => handleChange(e)} onKeyDown={(e) => handleEnter(e, text)} />
         <button type="submit" onClick={() => updateBio(text)}>Update</button>
       </form>
     </div>

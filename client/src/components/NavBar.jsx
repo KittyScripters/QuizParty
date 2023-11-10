@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const handleLogout = () => {
@@ -16,6 +16,11 @@ const handleLogout = () => {
 };
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <div id="navbar" className="container-fluid text-center">
 
@@ -23,29 +28,38 @@ const NavBar = () => {
         QUIZ PARTY
       </div>
       <nav>
-        <ul>
-          <li>
-            <Link to="/protected/leaderboard">LeaderBoard</Link>
-          </li>
-          <li>
-            <Link to="/protected/profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/protected/play">Play</Link>
-          </li>
-          <li>
-            <Link to="/protected/question-builder">QuestionBuilder</Link>
-          </li>
-          <li>
-            <Link to="/login">
-              <button type="button" className="btn-warning btn-sm" onClick={() => { handleLogout(); }}>
-                Logout
-              </button>
-            </Link>
-          </li>
-        </ul>
+
+        
+        <span>
+          <button type="button" onClick={() => handleNavigation('/protected/leaderboard')}>
+            LeaderBoard
+          </button>
+        </span>
+        <span>
+          <button type="button" onClick={() => handleNavigation('/protected/profile')}>
+            Profile
+          </button>
+        </span>
+        <span>
+          <button type="button" onClick={() => handleNavigation('/protected/play')}>
+            Play
+          </button>
+        </span>
+        <span>
+          <button type="button" onClick={() => handleNavigation('/protected/question-builder')}>
+            QuestionBuilder
+          </button>
+        </span>
+        <span>
+          <button type="button" className="btn-warning btn-sm" onClick={handleLogout}>
+            Logout
+          </button>
+        </span>
+        
+
       </nav>
     </div>
   );
 };
+
 export default NavBar;
