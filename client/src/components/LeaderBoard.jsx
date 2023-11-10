@@ -13,6 +13,7 @@ const LeaderBoard = () => {
   const [topNum, setTopNum] = useState(10);
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
   const [currentUser, setCurrentUser] = useState(null);
+  const [followedUsers, setFollowedUsers] = useState([]);
 
   const getLeaderBoard = (topNum, search) => {
     const params = { topNum, search };
@@ -37,6 +38,7 @@ const LeaderBoard = () => {
     axios.post(`/follow/${userId}`)
       .then((response) => {
         console.log(response.data);
+        setFollowedUsers((prevFollowedUsers) => [...prevFollowedUsers, userId]);
       })
       .catch((error) => {
         console.error('Failed to follow user:', error);
@@ -55,15 +57,25 @@ const LeaderBoard = () => {
   //   console.log('leaderboard state', leaderBoardData);
   // }, [leaderBoard]);
 
-  useEffect(() => {
-    axios.get('/api/current-user')
-      .then((response) => {
-        setCurrentUser(response.data); 
-      })
-      .catch((error) => {
-        console.error('Failed to fetch current user:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/current-user')
+  //     .then((response) => {
+  //       setCurrentUser(response.data); 
+  //     })
+  //     .catch((error) => {
+  //       console.error('Failed to fetch current user:', error);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   axios.get('/api/followed-users')
+  //     .then((response) => {
+  //       setFollowedUsers(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Failed to fetch followed users:', error);
+  //     });
+  // }, []);
   
   return (
     <div>
@@ -121,11 +133,12 @@ const LeaderBoard = () => {
                     {user.highscore}
                   </span>
                   <br />
-                  {/* {currentUser !== null && user.id !== currentUser.id && ( */}
+
+                  {/* {currentUser !== null && user.id !== currentUser.id && !followedUsers.includes(user.id) && ( */}
                   <button type="button" onClick={() => handleFollow(user.id)}>
                     Follow
                   </button>
-                  {/* // )} */}
+                  {/* )} */}
                 </div>
               </li>
             ))}

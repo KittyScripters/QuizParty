@@ -14,6 +14,10 @@ import {
   Routes,
 } from 'react-router-dom';
 
+
+import { Outlet, Link } from 'react-router-dom';
+import axios from 'axios';
+
 import NavBar from './NavBar';
 import LeaderBoard from './LeaderBoard';
 import Profile from './Profile';
@@ -33,6 +37,20 @@ import StatsTab from './profileTabs/StatsTab';
 
 
 const App = () => {
+
+  const [id, setId] = useState(null);
+  useEffect(() => {
+    axios.get('/api/current-user')
+      .then((user) => {
+        console.log('this response data', user.data.id); 
+        setId(user.data.id);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch current user:', error);
+      });
+  }, []);
+  
+
   return (
     <BrowserRouter>
       <Routes>
