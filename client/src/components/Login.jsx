@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const authHandle = () => {
-  window.location.href = '/auth/google';
+  window.location.href = 'http://localhost:3000/auth/google';
 };
 
 const Login = () => {
