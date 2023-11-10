@@ -45,8 +45,8 @@ const App = () => {
     createRoutesFromElements(
       <Route>
         <Route element={<PrivateRoutes />}> 
-          <Route path="/protected" index element={<LeaderBoard />} />
-          <Route path="/protected/leaderboard" element={<LeaderBoard />} />
+          <Route path="/protected" index element={<LeaderBoard />} loader={getUserLoader} />
+          <Route path="/protected/leaderboard" element={<LeaderBoard />} loader={getUserLoader} />
           <Route path="/protected/profile" element={<Profile />} loader={getUserLoader}>
             <Route path="statstab" element={<StatsTab />} />
             <Route path="achievementstab" element={<AchievementsTab />} />

@@ -14,8 +14,8 @@ const Profile = () => {
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
   const userData = useLoaderData();
-  console.log('laoder data in profile', userData);
-  const userId = userData;
+
+  const userId = userData.id;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`/api/users/${userId}`)
