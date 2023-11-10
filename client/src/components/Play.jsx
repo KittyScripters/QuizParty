@@ -24,13 +24,10 @@ const Play = () => {
   const [highScore, setHighScore] = useState(false);
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+
   const userData = useLoaderData();
-  console.log('laoder data in play', userData);
   const userId = userData.id;
-  // const [playAgainButton, setPlayAgainButton] = useState(false)
-  // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
-  
+
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
   };
@@ -90,6 +87,18 @@ const Play = () => {
     setcorrectAnswerSelection(false);
   };
   
+  const resetPlayStates = () => {
+    if (quizData) {
+      console.log('bye');
+    }
+    setShowQuestions(false); 
+    setShowScore(true); 
+    setCount(0); 
+    setSubmitButton(false); 
+    setNextButton(true);
+    setFavoritesButton(false);
+  };
+  
   const displayQuestion = (questions, answers) => {
     const { question } = questions[count];
     const questionDecoded = he.decode(question);
@@ -100,6 +109,7 @@ const Play = () => {
     
     const setTrueFalse = (e) => {
       const selection = e.currentTarget.value;
+      console.log('selection', selection);
       if (selection === questions[count].correct_answer) {
         setcorrectAnswerSelection(true);
       } else {
@@ -136,12 +146,11 @@ const Play = () => {
         <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
         {answers[3]}
         <br /> 
-        <div className="d-flex">
-          <div id="NextButton">
+        <div className="d-flex flex-row mb-3">
+          <div id="Buttons">
             {nextButton
               ? (
-                <div className="p-2 "> 
-                  <br /> 
+                <div className="p-2"> 
                   <button
                     type="button"
                     className="btn btn-warning btn-sm"
@@ -158,25 +167,42 @@ const Play = () => {
                 </div>
               )
               : null}
-            <div id="Favorites">
-              {favoritesButton
-                ? (
-                  <div className="ml-auto p-2"> 
-                    <button type="button" className="btn btn-warning btn-sm" onClick={() => addToFavorites()}>
-                      Add Question To Favorites
-                    </button>
-                  </div>
-                )
-                : null}
-            </div><br />
           </div>
+          <div className="p-2">
+            {submitButton
+              ? (
+                <div> 
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-sm" 
+                    onClick={() => {
+                      updateQuestionScore();
+                      resetPlayStates();
+                    }}
+                  >
+                    Submit Results
+                  </button><br />
+                </div>
+              )
+              : null}
+          </div>
+          <div id="Favorites">
+            {favoritesButton
+              ? (
+                <div className="ml-auto p-2"> 
+                  <button type="button" className="btn btn-warning btn-sm" onClick={() => addToFavorites()}>
+                    Add Question To Favorites
+                  </button>
+                </div>
+              )
+              : null}
+          </div><br />
         </div>
       </div>
     );
   };
 
   const handlePlayClick = () => { // NOTE 1
-    console.log('click');
     if (category !== '' && difficulty !== '') {
       axios.post('/api/play', { options: { category, difficulty } })
         .then((response) => {
@@ -193,23 +219,10 @@ const Play = () => {
       alert('Please select a category and difficulty to start playing!');
     } 
   };
-
-  const resetPlayStates = () => {
-    if (quizData) {
-      console.log('bye');
-    }
-    setShowQuestions(false); 
-    setShowScore(true); 
-    setCount(0); 
-    setSubmitButton(false); 
-    setNextButton(true);
-    setFavoritesButton(false);
-  };
  
   // increasing highscore based on difficulty!! 
   //(can also increase category score based on completion)
   useEffect(() => {
-    console.log('update HS score', score);
     if (difficulty === 'Easy' && score === 5) {
       axios.put(`/play/highscore/easy/${userId}`, {
         highScore: 'highscore',
@@ -250,17 +263,7 @@ const Play = () => {
         .catch((err) => console.error('update category highscore failed', err));
     }
   }, [score]);
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  // Function to handle when the modal should be closed
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  console.log(score);
+  
   return (
     <div>
       <div className="navbar">
@@ -308,29 +311,8 @@ const Play = () => {
             </div>
           )
           : null}  
-        <div className="HandleSubmit">
-          {submitButton
-            ? (
-              <div> 
-                <button
-                  type="button"
-                  className="btn btn-warning btn-lg" 
-                  onClick={() => {
-                    updateQuestionScore();
-                    resetPlayStates(); 
-                    //openModal();
-                    //scoreModal();
-                  }}
-                >
-                  Submit Results
-                </button><br />
-              </div>
-            )
-            : null}
-
-        </div>
         <div id="scores" className="container-sm text-center">
-          {showScore ? <div>You scored {score} out of {resDataQuestions.length}</div> : null}
+          {showScore ? <div> You scored {score} out of {resDataQuestions.length}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
         </div>
       </div>
