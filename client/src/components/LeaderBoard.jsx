@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import NavBar from './NavBar';
+import getUserLoader from './App';
 
 const LeaderBoard = () => {
   // use state hooks for leaderboard to render conditionally and to store data
@@ -14,6 +15,8 @@ const LeaderBoard = () => {
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
   const [currentUser, setCurrentUser] = useState(null);
   const [followedUsers, setFollowedUsers] = useState([]);
+  const data = useLoaderData();
+  console.log('loader data in leaderboard', data);
 
   const getLeaderBoard = (topNum, search) => {
     const params = { topNum, search };
@@ -157,6 +160,11 @@ const LeaderBoard = () => {
       ) : null}
     </div>
   );
+};
+
+// test loader
+export const testLoader = () => {
+  return 'test loader is working';
 };
 
 export default LeaderBoard;

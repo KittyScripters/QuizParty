@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
 import FollowersTab from './profileTabs/FollowersTab';
@@ -13,8 +13,9 @@ const Profile = () => {
   const [user, setUser] = useState({});
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
-
-  const userId = 31;
+  const userData = useLoaderData();
+  console.log('laoder data in profile', userData);
+  const userId = userData;
   // USER STATE UPDATE
   useEffect(() => {
     axios.get(`/api/users/${userId}`)
