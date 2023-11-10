@@ -186,6 +186,20 @@ app.post('/createQuestion', (req, res) => {
     });
 });
 
+app.delete('/deleteUserQuestions', (req, res) => {
+  const { questionIds } = req.body;
+  console.log('question ids in delete: ', questionIds);
+  Question.destroy({
+    where: { id: questionIds },
+  })
+    .then((deletedQs) => {
+      console.log('deletedQs:', deletedQs);
+    })
+    .catch((err) => {
+      console.error('error deleting questions: ', err);
+    });
+});
+
 app.get('/getUserQuizNames/:userId', (req, res) => {
   const { userId } = req.params;
   Question.findAll({
@@ -196,7 +210,6 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
     group: ['question_set'],
   })
     .then((questionSets) => {
-      console.log('qs in server: ', questionSets);
       const quizNames = questionSets.map((questionSet) => questionSet.question_set);
       res.send(quizNames);
     })
@@ -216,7 +229,6 @@ app.post('/retrieveUserQuiz/:userId', (req, res) => {
     },
   })
     .then((questions) => {
-      console.log('qs in server: ', questions);
       const questionsArray = questions.map((question) => question.dataValues);
       res.send(questionsArray);
     })

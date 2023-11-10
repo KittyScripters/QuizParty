@@ -23,7 +23,7 @@ import RootLayout from './Layouts/RootLayout';
 import Login from './Login';
 import PrivateRoutes from './PrivateRoutes';
 import QuestionAddForm from './questionBuilderComponents/questionAddForm';
-import EditExistingQuiz from './questionBuilderComponents/editExistingQuiz';
+import YourQuizzes from './questionBuilderComponents/yourQuizzes';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import FollowersTab from './profileTabs/FollowersTab';
 import QuestionsTab from './profileTabs/QuestionsTab';
@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/protected/play" element={<Play />} loader={getUserLoader} />
           <Route path="/protected/question-builder" element={<QuestionBuilder />}>
             <Route path="addQuestion" element={<QuestionAddForm />} />
-            <Route path="existingQuizes" element={<EditExistingQuiz />} />
+            <Route path="yourQuizzes" element={<YourQuizzes />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Route>

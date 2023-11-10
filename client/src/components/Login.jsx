@@ -8,7 +8,7 @@ const authHandle = () => {
 
 const Login = () => {
   return (
-    <div>
+    <div className="h-100 d-flex align-items-center justify-content-center">
       <button type="button" onClick={() => { authHandle(); }}>Login</button>
     </div>
   );

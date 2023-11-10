@@ -3,19 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ContentEditable from 'react-contenteditable';
 
-const EditExistingQuiz = ({ id = 1 }) => {
+const YourQuizzes = ({ userId = 1 }) => {
   const [selectedQuiz, setSelectedQuiz] = useState([]);
   const [quizNames, setQuizNames] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
+  
+  const getQuizNames = () => {
     axios.get('/getUserQuizNames/1')
       .then(({ data }) => {
-        console.log('data in get:', data);
         setQuizNames(data);
       })
       .catch((err) => console.error('error getting quiz names QuestionBuilder: ', err));
+  };
+  
+  useEffect(() => {
+    getQuizNames();
   }, []);
-
+  
   const handleQuizEdit = (index, key, value) => {
     const updatedQuiz = [...selectedQuiz];
     updatedQuiz[index][key] = value;
@@ -28,6 +32,7 @@ const EditExistingQuiz = ({ id = 1 }) => {
         .then(({ data }) => {
           console.log('data in retrieve quiz:', data);
           setSelectedQuiz(data);
+          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -36,20 +41,30 @@ const EditExistingQuiz = ({ id = 1 }) => {
         });
     });
   };
-  console.log('selectedQuiz on render: ', selectedQuiz);
-
+  
   const handlePlayClick = async (e) => {
-    console.log('e target value ', e.target.value);
     const quizData = await handleQuizSelect(e.target.value);
-    console.log('selected Quiz in play click:', quizData);
     navigate('/protected/play', { state: { quizData } });
+  };
+
+  const handleDeleteClick = (e) => {
+    axios.post('/retrieveUserQuiz/1', { question_set: e })
+      .then(({ data }) => {
+        const questionIds = data.map(({ id }) => id); 
+        setQuizNames((oldNames) => oldNames.filter((quiz) => quiz !== e));
+        return axios.delete('/deleteUserQuestions', { data: { questionIds } });
+      })
+      .then(() => {
+      })
+      .catch((err) => {
+        console.error('Error deleting questions:', err);
+      });
   };
 
   const handleSubmit = () => {
     axios
-      .patch(`/updateUserQuiz/${id}`, selectedQuiz)
+      .patch(`/updateUserQuiz/${userId}`, selectedQuiz)
       .then((response) => {
-        console.log('questions updated as: ', selectedQuiz);
       })
       .catch((err) => console.error('Error on client side submitting updated questions: ', err));
   };
@@ -57,27 +72,39 @@ const EditExistingQuiz = ({ id = 1 }) => {
     <div>
       <h1>Edit Your Quizzes</h1>
          
-      {quizNames.map((quizName) => {
-        return (
-          <div key={quizName}>
-            {quizName}{' '}
-            <button
-              type="button"
-              className="playUserQuizButton"
-              value={quizName}
-              onClick={(e) => handlePlayClick(e)}
-            >Play
-            </button>
-            <button
-              type="button"
-              className="editUserQuizButton"
-              value={quizName}
-              onClick={(e) => { handleQuizSelect(e.target.value); }}
-            >Edit
-            </button>
-          </div>
-        );
-      })}
+      {quizNames.length === 0 ? (
+        <div>No user created Quizzes.</div>
+      )
+        : quizNames.map((quizName) => {
+          return (
+            <div key={quizName} className="col">
+              {quizName}{' '}
+              <span className="button-container">
+                <button
+                  type="button"
+                  className="playUserQuizButton"
+                  value={quizName}
+                  onClick={(e) => handlePlayClick(e)}
+                >Play
+                </button>
+                <button
+                  type="button"
+                  className="editUserQuizButton"
+                  value={quizName}
+                  onClick={(e) => { handleQuizSelect(e.target.value); }}
+                >Edit
+                </button>
+                <button
+                  type="button"
+                  className="deleteUserQuizButton"
+                  value={quizName}
+                  onClick={(e) => { handleDeleteClick(e.target.value); }}
+                >Delete
+                </button>
+              </span>
+            </div>
+          );
+        })}
       {selectedQuiz.length > 0 ? (
         <div>
           <h2>Quiz Name: {selectedQuiz[0].question_set}</h2>
@@ -135,4 +162,4 @@ const EditExistingQuiz = ({ id = 1 }) => {
   );
 };
 
-export default EditExistingQuiz;
+export default YourQuizzes;
