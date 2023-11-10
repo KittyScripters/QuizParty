@@ -114,7 +114,7 @@ const Play = () => {
                   <br /> 
                   <button
                     type="button"
-                    className="btn-warning btn-sm"
+                    className="btn btn-warning btn-sm"
                     onClick={() => { 
                       updateCount(); 
                       randomizeAnswers(questions[count + 1]);
@@ -138,7 +138,7 @@ const Play = () => {
                   </div>
                 )
                 : null}
-            </div><br /><br />
+            </div><br />
           </div>
         </div>
       </div>
@@ -307,10 +307,13 @@ const Play = () => {
                   }}
                 >
                   Submit Results
-                </button>
+                </button><br />
               </div>
             )
             : null}
+
+        </div>
+        <div id="scores" className="container-sm text-center">
           {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
         </div>
