@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Outlet, useLoaderData } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const he = require('he');
@@ -25,6 +25,9 @@ const Play = () => {
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const userData = useLoaderData();
+  console.log('laoder data in play', userData);
+  const userId = userData.id;
   // const [playAgainButton, setPlayAgainButton] = useState(false)
   // const [wrongAnswerCount, setWrongAnswerCount] = useState(0);
   
@@ -79,6 +82,13 @@ const Play = () => {
       randomizeAnswers(transformedData[count]);
     }
   }, []);
+
+  const updateQuestionScore = () => {
+    if (correctAnswerSelection === true) {
+      setScore(score + 1);
+    }
+    setcorrectAnswerSelection(false);
+  };
   
   const displayQuestion = (questions, answers) => {
     const { question } = questions[count];
@@ -96,16 +106,9 @@ const Play = () => {
         setcorrectAnswerSelection(false);
       }
     };
-  
-    const setQuestionScore = () => {
-      if (correctAnswerSelection === true) {
-        setScore(score + 1);
-      }
-      setcorrectAnswerSelection(false);
-    };
 
     const addToFavorites = () => {
-      axios.post(`/play/favoriteQuestions/${2}`, {
+      axios.post(`/play/favoriteQuestions/${userId}`, {
         favQuestion: question,
       })
         .then(() => console.log('Updated db with fav question'))
@@ -148,7 +151,7 @@ const Play = () => {
                       displayQuestion(questions, answers); 
                       resetRadioButton(); 
                       onSubmitButton();
-                      setQuestionScore();
+                      updateQuestionScore();
                     }}
                   > Next 
                   </button>  
@@ -173,6 +176,7 @@ const Play = () => {
   };
 
   const handlePlayClick = () => { // NOTE 1
+    console.log('click');
     if (category !== '' && difficulty !== '') {
       axios.post('/api/play', { options: { category, difficulty } })
         .then((response) => {
@@ -204,9 +208,10 @@ const Play = () => {
  
   // increasing highscore based on difficulty!! 
   //(can also increase category score based on completion)
-  const updateHighScore = () => {
-    if (difficulty === 'Easy' && (score + 1) === 5) {
-      axios.put(`/play/highscore/easy/${1}`, {
+  useEffect(() => {
+    console.log('update HS score', score);
+    if (difficulty === 'Easy' && score === 5) {
+      axios.put(`/play/highscore/easy/${userId}`, {
         highScore: 'highscore',
       })
         .then(() => {
@@ -216,8 +221,8 @@ const Play = () => {
         .catch((err) => console.error('update easy highscore failed', err));
     }
 
-    if (difficulty === 'Medium' && (score + 1) === 5) {
-      axios.put(`/play/highscore/medium/${1}`, { highScore: 'highscore' })
+    if (difficulty === 'Medium' && score === 5) {
+      axios.put(`/play/highscore/medium/${userId}`, { highScore: 'highscore' })
         .then(() => {
           console.log('highscore increased by 2');
           setHighScore(true);
@@ -225,25 +230,26 @@ const Play = () => {
         .catch((err) => console.error('update med highscore failed', err));
     }
 
-    if (difficulty === 'Hard' && (score + 1) === 5) {
-      axios.put(`/play/highscore/hard/${1}`, { highScore: 'highscore' })
+    if (difficulty === 'Hard' && score === 5) {
+      axios.put(`/play/highscore/hard/${userId}`, { highScore: 'highscore' })
         .then(() => {
           console.log('highscore increased by 3');
           setHighScore(true);
         })
         .catch((err) => console.error('update hard highscore failed', err));
     }
-  };
-  
+  // }
+  }, [score]);
+
   //this is increasing the count if the game set has been completed!!! not if all correct
-  const updateCategoryHighScore = () => {
+  useEffect(() => {
     const categoryLC = category.toLowerCase();
-    if ((score + 1) === 5) {
-      axios.put(`/play/categoryCount/${1}`, { categoryScore: `${categoryLC}_score` })
-        .then(() => console.log('category highscore by 1'))
+    if (score === 5) {
+      axios.put(`/play/categoryCount/${userId}`, { categoryScore: `${categoryLC}_score` })
+        .then(() => console.log('updated category highscore by 1'))
         .catch((err) => console.error('update category highscore failed', err));
     }
-  };
+  }, [score]);
 
   const openModal = () => {
     setShowModal(true);
@@ -254,6 +260,7 @@ const Play = () => {
     setShowModal(false);
   };
 
+  console.log(score);
   return (
     <div>
       <div className="navbar">
@@ -309,8 +316,7 @@ const Play = () => {
                   type="button"
                   className="btn btn-warning btn-lg" 
                   onClick={() => {
-                    updateHighScore(); 
-                    updateCategoryHighScore(); 
+                    updateQuestionScore();
                     resetPlayStates(); 
                     //openModal();
                     //scoreModal();
@@ -324,7 +330,7 @@ const Play = () => {
 
         </div>
         <div id="scores" className="container-sm text-center">
-          {showScore ? <div>You scored {score + 1} out of {resDataQuestions.length}</div> : null}
+          {showScore ? <div>You scored {score} out of {resDataQuestions.length}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
         </div>
       </div>

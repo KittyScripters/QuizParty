@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('./auth');
 const path = require('path');
+const cors = require('cors');
 
 const {
   db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion, 
@@ -18,12 +19,8 @@ const {
 
 const clientPath = path.resolve(__dirname, '../client/dist');
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
-
 const app = express();
-
+app.use(cors());
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,14 +30,19 @@ app.use(express.json());
 app.use(express.static(clientPath));
 // test get renders our index page
 
-// app.get('/', (req, res) => {
-//   res.send('<a href="/auth/google">Authenticate with Google</a>');
-// });
+//is logged in loader get end point
+app.get('/api/isloggedin', (req, res) => {
+  if (req.user) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
 
-app.get('/protected', isLoggedIn, (req, res) => {
+app.get('/protected', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
 
-  // grab user's Google profile infor from req.user
+  // grab user's Google profile info from req.user
   const googleProfile = req.user;
 
   // get the email from the Google profile
@@ -55,6 +57,7 @@ app.get('/protected', isLoggedIn, (req, res) => {
       } else {
         // create a new user in the database with the username set to the email
         User.create({
+          image_url: googleProfile.picture,
           username: email,
           firstname: googleProfile.name.givenName,
           lastname: googleProfile.name.familyName,
@@ -131,7 +134,7 @@ app.get('/api/leaderboard', (req, res) => {
     });
 });
 
-app.post('/follow/:userId', isLoggedIn, (req, res) => {
+app.post('/follow/:userId', (req, res) => {
   const { userId } = req.params;
   console.log('this is user id', req.user.email);
   console.log('this is curr user id', userId);
@@ -232,7 +235,7 @@ app.patch('/updateUserQuiz/:userId', (req, res) => {
     updateOnDuplicate: ['question', 'correct_answer', 'incorrect_answer_1', 'incorrect_answer_2', 'incorrect_answer_3'],
   })
     .then(() => {
-      console.log('data upsdate as:', editedQuestions);
+      console.log('data update as:', editedQuestions);
       res.sendStatus(200);
     })
     .catch((err) => {
@@ -346,7 +349,7 @@ app.patch('/api/users/:id', (req, res) => {
   const { bio } = req.body;
   User.update({ bio: bio }, { where: { id: id } })
     .then(() => {
-      res.sendStatus(200)
+      res.sendStatus(200);
     })
     .catch((err) => {
       console.error(err);
@@ -467,7 +470,10 @@ app.delete('/api/questions/:id', (req, res) => {
 app.delete('/api/join_followers/:following_user_id/:followed_user_id', (req, res) => {
   const { followed_user_id } = req.params;
   const { following_user_id } = req.params;
-  joinFollower.destroy({ where: { following_user_id: following_user_id, followed_user_id: followed_user_id } })
+  joinFollower.destroy({
+    where:
+    { following_user_id: following_user_id, followed_user_id: followed_user_id },
+  })
     .then((follower) => {
       res.sendStatus(200);
     })
@@ -477,7 +483,7 @@ app.delete('/api/join_followers/:following_user_id/:followed_user_id', (req, res
     });
 });
 
-app.post('/api/play', (req, res) => { 
+app.post('/api/play', (req, res) => {
   return getTriviaQuestions(req.body)
     .then((questionsArr) => {
       res.status(200).send(questionsArr);

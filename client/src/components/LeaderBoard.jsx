@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLoaderData } from 'react-router-dom';
 import NavBar from './NavBar';
-import getUserLoader from './App';
 
 const LeaderBoard = () => {
   const userData = useLoaderData();
@@ -10,7 +9,7 @@ const LeaderBoard = () => {
   // use state hooks for leaderboard to render conditionally and to store data
   const [leaderBoard, setLeaderBoard] = useState(false);
   const [leaderBoardData, setLeaderBoardData] = useState([]);
-  //use state hooks for search 
+  //use state hooks for search
   const [search, setSearch] = useState('');
   //use state hooks for top x users
   const [topNum, setTopNum] = useState(10);

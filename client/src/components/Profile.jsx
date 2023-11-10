@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Outlet, useLoaderData } from 'react-router-dom';
+import { Outlet, useLoaderData, Link } from 'react-router-dom';
 import AchievementsTab from './profileTabs/AchievementsTab';
 import StatsTab from './profileTabs/StatsTab';
 import FollowersTab from './profileTabs/FollowersTab';
@@ -43,8 +43,8 @@ const Profile = () => {
       <div>
         <NavBar />
       </div>
-      <img alt="user" />
-      <h2 className="userName">{user.username}</h2>
+      <img alt="user" src={user ? user.image_url : ''} referrerPolicy="no-referrer" />
+      <h2 className="userName">{`${user.firstname} ${user.lastname}`}</h2>
       <div className="bio">
         {user.bio}
       </div>
