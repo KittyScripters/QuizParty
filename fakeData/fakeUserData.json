@@ -1,6 +1,7 @@
 {
     "results": [
         {   "id": "1",
+            "image_url": "default",
             "username": "maidenwench",
             "firstname": "Robert",
             "lastname": "Bartleby",
@@ -18,6 +19,7 @@
             "politics_score": 13
         },
         {   "id": "2",
+            "image_url": "default",
             "username": "copper",
             "firstname": "James",
             "lastname": "Smith",
@@ -35,6 +37,7 @@
             "politics_score": 13
         },
         {   "id": "3",
+            "image_url": "default",
             "username": "paltryburn",
             "firstname": "Beetlejuice",
             "lastname": "Beetlejuice",
@@ -52,6 +55,7 @@
             "politics_score": 13
         },
         {   "id": "4",
+            "image_url": "default",
               "username": "trampolineteam",
               "firstname": "Kitty",
               "lastname": "Scripter",
@@ -69,6 +73,7 @@
               "politics_score": 13
         },
         {   "id": "5",
+            "image_url": "default",
               "username": "johndoe",
               "firstname": "John",
               "lastname": "Doe",
@@ -86,6 +91,7 @@
               "politics_score": 20
         },
         {   "id": "6",
+            "image_url": "default",
               "username": "janedoe",
               "firstname": "Jane",
               "lastname": "Doe",
@@ -103,6 +109,7 @@
               "politics_score": 30
         },
         {   "id": "7",
+            "image_url": "default",
               "username": "johndoejr",
               "firstname": "John",
               "lastname": "Doe Jr",
@@ -120,6 +127,7 @@
               "politics_score": 40
         },
         {   "id": "8",
+            "image_url": "default",
               "username": "janedoehr",
               "firstname": "Jane",
               "lastname": "Doe Jr",
@@ -137,6 +145,7 @@
               "politics_score": 50
         },
         {   "id": "9",
+            "image_url": "default",    
               "username": "johndoeiii",
               "firstname": "John",
               "lastname": "Doe III",
@@ -154,6 +163,7 @@
               "politics_score": 60
         },
         {   "id": "10",
+            "image_url": "default",
               "username": "janedoeiii",
               "firstname": "Jane",
               "lastname": "Doe III",
@@ -171,6 +181,7 @@
               "politics_score": 70
         },
         {   "id": "11",
+            "image_url": "default",
               "username": "johndoeiv",
               "firstname": "John",
               "lastname": "Doe IV",
@@ -188,6 +199,7 @@
               "politics_score": 80
         },
         {   "id": "12",
+            "image_url": "default",
               "username": "janedoeiv",
               "firstname": "Jane",
               "lastname": "Doe IV",
@@ -205,6 +217,7 @@
               "politics_score": 90
         },
         {   "id": "13",
+            "image_url": "default",
               "username": "johndoev",
               "firstname": "John",
               "lastname": "Doe V",
@@ -222,6 +235,7 @@
               "politics_score": 100
         },
         {   "id": "14",
+            "image_url": "default",
               "username": "janedoev",
               "firstname": "Jane",
               "lastname": "Doe V",
@@ -239,6 +253,7 @@
               "politics_score": 110
         },
         {   "id": "15",
+            "image_url": "default",
               "username": "johndoevi",
               "firstname": "John",
               "lastname": "Doe VI",
@@ -256,6 +271,7 @@
               "politics_score": 120
         },
         {   "id": "16",
+            "image_url": "default",
               "username": "janedoevi",
               "firstname": "Jane",
               "lastname": "Doe VI",
@@ -273,6 +289,7 @@
               "politics_score": 130
         },
         {   "id": "17",
+            "image_url": "default",
               "username": "johndoevii",
               "firstname": "John",
               "lastname": "Doe VII",
@@ -290,6 +307,7 @@
               "politics_score": 140
         },
         {   "id": "18",
+            "image_url": "default",
               "username": "janedoevii",
               "firstname": "Jane",
               "lastname": "Doe VII",
@@ -307,6 +325,7 @@
               "politics_score": 150
         },
         {   "id": "19",
+            "image_url": "default",
               "username": "johndoeviii",
               "firstname": "John",
               "lastname": "Doe VIII",
@@ -324,6 +343,7 @@
               "politics_score": 160
         },
         {   "id": "20",
+            "image_url": "default",
               "username": "janedoeviii",
               "firstname": "Jane",
               "lastname": "Doe VIII",
@@ -341,6 +361,7 @@
               "politics_score": 170
         },
         {   "id": "21",
+            "image_url": "default",
               "username": "johndoeix",
               "firstname": "John",
               "lastname": "Doe IX",
@@ -358,6 +379,7 @@
               "politics_score": 180
         },
         {   "id": "22",
+            "image_url": "default",
               "username": "janedoeix",
               "firstname": "Jane",
               "lastname": "Doe IX",
@@ -375,6 +397,7 @@
               "politics_score": 190
         },
         {   "id": "23",
+            "image_url": "default",
               "username": "johndoex",
               "firstname": "John",
               "lastname": "Doe X",
@@ -392,6 +415,7 @@
               "politics_score": 200
         },
         {   "id": "24",
+            "image_url": "default",
               "username": "janedoex",
               "firstname": "Jane",
               "lastname": "Doe X",
@@ -409,6 +433,7 @@
               "politics_score": 210
         },
         {   "id": "25",
+            "image_url": "default",
               "username": "johndoexi",
               "firstname": "John",
               "lastname": "Doe XI",
@@ -426,6 +451,7 @@
               "politics_score": 220
         },
         {   "id": "26",
+            "image_url": "default",
               "username": "janedoexi",
               "firstname": "Jane",
               "lastname": "Doe XI",
@@ -443,6 +469,7 @@
               "politics_score": 230
         },
         {   "id": "27",
+            "image_url": "default",
               "username": "johndoexii",
               "firstname": "John",
               "lastname": "Doe XII",
@@ -460,6 +487,7 @@
               "politics_score": 240
         },
         {   "id": "28",
+            "image_url": "default",
               "username": "janedoexii",
               "firstname": "Jane",
               "lastname": "Doe XII",
@@ -477,6 +505,7 @@
               "politics_score": 250
         },
         {   "id": "29",
+            "image_url": "default",
               "username": "johndoexiii",
               "firstname": "John",
               "lastname": "Doe XIII",
@@ -494,6 +523,7 @@
               "politics_score": 260
         },
         {   "id": "30",
+            "image_url": "default",
               "username": "janedoexiii",
               "firstname": "Jane",
               "lastname": "Doe XIII",
@@ -509,6 +539,6 @@
               "history_score": 215,
               "nature_score": 130,
               "politics_score": 270
-        }        
+        }
     ]
 }

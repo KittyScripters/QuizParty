@@ -25,56 +25,57 @@ const User = db.define('user', {
     autoIncrement: true,
     primaryKey: true, 
   },
+  image_url: Sequelize.STRING,
   username: Sequelize.STRING,
   firstname: Sequelize.STRING,
   lastname: Sequelize.STRING,
   bio: {
     type: Sequelize.STRING,
-    defaultValue: 'Update your bio!'
+    defaultValue: 'Update your bio!',
   },
   highscore: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   art_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   celebrities_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   animals_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   music_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   sports_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   books_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   mythology_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   history_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   nature_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   politics_score: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
 }, { timesstamps: true });
 
