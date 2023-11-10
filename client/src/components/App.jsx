@@ -13,17 +13,12 @@ import {
   BrowserRouter,
   Routes,
 } from 'react-router-dom';
-
-
-import { Outlet, Link } from 'react-router-dom';
 import axios from 'axios';
-
 import NavBar from './NavBar';
 import LeaderBoard from './LeaderBoard';
 import Profile from './Profile';
 import Play from './Play';
 import QuestionBuilder from './QuestionBuilder';
-import Logout from './Logout';
 import RootLayout from './Layouts/RootLayout';
 import Login from './Login';
 import PrivateRoutes from './PrivateRoutes';
@@ -35,9 +30,7 @@ import QuestionsTab from './profileTabs/QuestionsTab';
 import UpdateTab from './profileTabs/UpdateTab';
 import StatsTab from './profileTabs/StatsTab';
 
-
 const App = () => {
-
   const [id, setId] = useState(null);
   useEffect(() => {
     axios.get('/api/current-user')
@@ -49,7 +42,6 @@ const App = () => {
         console.error('Failed to fetch current user:', error);
       });
   }, []);
-  
 
   return (
     <BrowserRouter>
@@ -67,9 +59,9 @@ const App = () => {
           <Route path="/protected/play" element={<Play />} />
           <Route path="/protected/question-builder" element={<QuestionBuilder />}>
             <Route path="addQuestion" element={<QuestionAddForm />} />
-            <Route path="existingQuizzes" element={<EditExistingQuiz />} />
+            <Route path="existingQuizes" element={<EditExistingQuiz />} />
           </Route>
-          <Route path="/logout" element={<Logout />} />
+          <Route path="/login" element={<Login />} />
         </Route>
         <Route path="/" element={<Login />} /> 
       </Routes>
