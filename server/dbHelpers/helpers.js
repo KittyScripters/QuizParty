@@ -93,7 +93,7 @@ const getTriviaQuestions = (req) => {
 const checkHighScores = (userObjects, joinAch) => {
   let check = false;
   userObjects.forEach((user) => {
-    if (user.highscore > 50) {
+    if (user.highscore >= 50) {
       Achievement.findOne({ where: { name: 'Top score of 50' } })
         .then((achievement) => {
           for (let i = 0; i < joinAch.length; i++) {
@@ -111,11 +111,12 @@ const checkHighScores = (userObjects, joinAch) => {
               });
           }
         })
+
         .catch((err) => {
           console.error('Could not GET achievement', err);
         });
     }
-    if (user.highscore > 100) {
+    if (user.highscore >= 100) {
       Achievement.findOne({ where: { name: 'Top score of 100' } })
         .then((achievement) => {
           for (let i = 0; i < joinAch.length; i++) {
@@ -143,7 +144,6 @@ const checkHighScores = (userObjects, joinAch) => {
 // used to check the highest category score and confirm there is no tie
 const checkTopCatScore = (users, category, attribute) => {
   const scores = users.sort((a, b) => b[attribute] - a[attribute]);
-  console.log(scores[0][attribute], scores[1][attribute]);
   Achievement.findOne({ where: { name: category } })
     // title === achievement
     .then((title) => {
