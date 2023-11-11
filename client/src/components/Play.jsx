@@ -26,6 +26,7 @@ const Play = () => {
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
+  const [partyHatSpin, setPartyHatSpin] = useState(false);
 
   // loader data brings in live data from the google oauth
   const userData = useLoaderData();
@@ -113,6 +114,16 @@ const Play = () => {
       randomizeAnswers(transformedData[count]);
     }
   }, []);
+  
+  const handleCelebrate = () => {
+    setCelebrate(true);
+    setPartyHatSpin(true); // enable spinning
+    setTimeout(() => {
+      setCelebrate(false);
+      setPartyHatSpin(false); // disable spinning
+    }, 6000);
+  };
+
 
   // displays the question after start button/ handlePlayClick is called
   const displayQuestion = (questions, answers) => {
@@ -301,8 +312,20 @@ const Play = () => {
     <div>
       {celebrate && <Confetti />}
       <div className="navbar">
-        <NavBar />
+        <NavBar partyHatSpin={partyHatSpin} />
       </div>
+      {celebrate && (
+        <div>
+          <img
+            src="https://media.giphy.com/media/9spEM3yKJX0KARBobq/giphy.gif"
+            alt="Celebration GIF"
+            width="200"
+            height="200"
+            style={{ display: 'block', margin: '0 auto' }}
+          />
+        </div>
+      )}
+
       <div id="Questions" className="container-sm">
         {showQuestion
           ? (

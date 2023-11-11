@@ -72,6 +72,21 @@ body{
   margin-right: 4px;
 }
 
+
+.custom-image {
+  background-color: transparent; 
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 2s linear infinite; 
+}
+
 #profile-text{
   font-weight: bold;
 }
+
