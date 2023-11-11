@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable no-unneeded-ternary */
 const axios = require('axios');
 require('dotenv').config();
 
@@ -88,10 +91,10 @@ const getTriviaQuestions = (req) => {
 //PUT HELPERS
 
 const checkHighScores = (userObjects, joinAch) => {
-  let check = false;
   userObjects.forEach((user) => {
-    if (user.highscore > 50) {
-      Achievement.findOne({ where: { name: 'Top score of 50' } })
+    let check = false;
+    if (user.highscore >= 5) {
+      Achievement.findOne({ where: { name: 'Top score of 5' } })
         .then((achievement) => {
           for (let i = 0; i < joinAch.length; i++) {
             if (joinAch[i].user_id === user.id && joinAch[i].achievement_id === achievement.id) {
@@ -108,12 +111,13 @@ const checkHighScores = (userObjects, joinAch) => {
               });
           }
         })
+
         .catch((err) => {
           console.error('Could not GET achievement', err);
         });
     }
-    if (user.highscore > 100) {
-      Achievement.findOne({ where: { name: 'Top score of 100' } })
+    if (user.highscore >= 10) {
+      Achievement.findOne({ where: { name: 'Top score of 10' } })
         .then((achievement) => {
           for (let i = 0; i < joinAch.length; i++) {
             if (joinAch[i].user_id === user.id && joinAch[i].achievement_id === achievement.id) {
@@ -137,29 +141,28 @@ const checkHighScores = (userObjects, joinAch) => {
   });
 };
 
+// used to check the highest category score and confirm there is no tie
 const checkTopCatScore = (users, category, attribute) => {
-  const order = users.sort((a, b) => b[attribute] - a[attribute]);
-  // topScore === user with the highest score
-  const topScore = order[0];
+  const scores = users.sort((a, b) => b[attribute] - a[attribute]);
   Achievement.findOne({ where: { name: category } })
     // title === achievement
     .then((title) => {
       joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
         .then((joinAch) => {
           joinAch.forEach((ach) => {
-            if (ach.achievement_id === title.id && ach.user_id !== topScore.id) {
+            if (ach.achievement_id === title.id && ach.user_id !== scores[0].id && scores[0][attribute] > scores[1][attribute]) {
               joinAchievement.update(
-                { user_id: topScore.id },
+                { user_id: scores[0].id },
                 { where: { achievement_id: title.id } },
               );
             }
           });
         })
         .then(() => {
-          joinAchievement.findOne({ where: { user_id: topScore.id, achievement_id: title.id } })
+          joinAchievement.findOne({ where: { user_id: scores[0].id, achievement_id: title.id } })
             .then((achievement) => {
-              if (achievement === null) {
-                joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
+              if (achievement === null && scores[0][attribute] > scores[1][attribute]) {
+                joinAchievement.create({ user_id: scores[0].id, achievement_id: title.id });
               }
             })
             .catch((err) => console.error(err));

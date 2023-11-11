@@ -311,7 +311,7 @@ app.patch('/api/join_achievements', (req, res) => {
     ['Top Score', 'highscore'],
     ['Top Art Score', 'art_score'],
     ['Top Music Score', 'music_score'],
-    ['Top Book Score', 'book_score'],
+    ['Top Book Score', 'books_score'],
     ['Top Animals Score', 'animals_score'],
     ['Top Celebrities Score', 'celebrities_score'],
     ['Top Sports Score', 'sports_score'],
