@@ -188,6 +188,19 @@ app.post('/createQuestion', (req, res) => {
     });
 });
 
+app.delete('/deleteUserQuestions', (req, res) => {
+  const { questionIds } = req.body;
+  Question.destroy({
+    where: { id: questionIds },
+  })
+    .then((deletedQs) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('error deleting questions: ', err);
+    });
+});
+
 app.get('/getUserQuizNames/:userId', (req, res) => {
   const { userId } = req.params;
   Question.findAll({
@@ -198,7 +211,6 @@ app.get('/getUserQuizNames/:userId', (req, res) => {
     group: ['question_set'],
   })
     .then((questionSets) => {
-      console.log('qs in server: ', questionSets);
       const quizNames = questionSets.map((questionSet) => questionSet.question_set);
       res.send(quizNames);
     })
@@ -218,7 +230,6 @@ app.post('/retrieveUserQuiz/:userId', (req, res) => {
     },
   })
     .then((questions) => {
-      console.log('qs in server: ', questions);
       const questionsArray = questions.map((question) => question.dataValues);
       res.send(questionsArray);
     })
@@ -235,7 +246,6 @@ app.patch('/updateUserQuiz/:userId', (req, res) => {
     updateOnDuplicate: ['question', 'correct_answer', 'incorrect_answer_1', 'incorrect_answer_2', 'incorrect_answer_3'],
   })
     .then(() => {
-      console.log('data update as:', editedQuestions);
       res.sendStatus(200);
     })
     .catch((err) => {
