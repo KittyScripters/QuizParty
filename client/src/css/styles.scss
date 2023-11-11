@@ -1,9 +1,26 @@
 // Import all of Bootstrap's CSS
-@import "bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
+
+//Colors/////////////////////////////////////
+$theme-colors: (
+  "primary": rgb(242, 209, 75),
+  "secondary": rgb(255, 255, 220),
+  "success": rgb(100, 237, 166),
+  "danger": rgb(255, 0, 0),
+  "warning": rgb(255, 255, 0),
+  "info": rgb(0, 0, 255),
+  "light": rgb(255, 255, 255),
+  "dark": rgb(0, 0, 0),
+);
+
+
+
+
 
 //App///////////////////////////////
 body{
-  background-color: rgb(242, 209, 75)
+  background-color: rgb(242, 209, 75);
+  // background-color: $pink-100;
 }
 
 
@@ -71,6 +88,101 @@ body{
   margin-left: 4px;
   margin-right: 4px;
 }
+
+
+//LEADERBOARD //////////////////////////
+//making cool leaderboard box
+#leaderboard{
+  background-color: $pink-100;
+  border: 2px solid $pink-900;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  // center
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.leaderboard-main
+{
+  background-color: rgb(220, 235, 255);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  // center
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+#top-scores-title{
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+#followers-leaderboard-title {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+#leaderboard-list {
+  background-color: rgb(249, 145, 136);
+}
+.dropdown {
+  padding-top: 10px;
+}
+#search-button {
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+.nav-item {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: rgb(249, 145, 136);
+  border-radius: 8px;
+}
+#follow-btn {
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+#leaderboard-list-item {
+  background-color: rgb(249, 145, 136);
+}
+.nav-tabs .nav-item .nav-link.active {
+  background-color: rgb(249, 145, 136);
+}
+
+#secondary-play-button {
+  background-color: rgb(249, 145, 136);
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+#secondary-profile-button {
+  background-color: rgb(249, 145, 136);
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+#search-input {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+#search-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
 
 
 .custom-image {
