@@ -67,7 +67,7 @@ const getTriviaQuestions = (req) => {
   }
 
   return axios.get(
-    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple&token=${API_TOKEN}`, 
+    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple`, 
     {
       headers: {
         Accept: 'application/json',

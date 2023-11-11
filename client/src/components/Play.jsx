@@ -4,6 +4,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation, Outlet, useLoaderData } from 'react-router-dom';
+import Confetti from 'react-confetti';
 import NavBar from './NavBar';
 
 const he = require('he');
@@ -24,6 +25,7 @@ const Play = () => {
   const [highScore, setHighScore] = useState(false);
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
+  const [celebrate, setCelebrate] = useState(false);
 
   const userData = useLoaderData();
   const userId = userData.id;
@@ -99,6 +101,13 @@ const Play = () => {
     setFavoritesButton(false);
   };
   
+  const handleCelebrate = () => {
+    setCelebrate(true);
+    setTimeout(() => {
+      setCelebrate(false);
+    }, 6000);
+  };
+
   const displayQuestion = (questions, answers) => {
     const { question } = questions[count];
     const questionDecoded = he.decode(question);
@@ -133,6 +142,7 @@ const Play = () => {
     };
     return ( // map this out instead
       <div id="Question">
+        <b>Question {count + 1} of {questions.length}</b><br />
         <div>{questionDecoded}</div> 
         <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
         {answers[0]} 
@@ -169,7 +179,7 @@ const Play = () => {
               : null}
           </div>
           <div className="p-2">
-            {submitButton
+            {submitButton 
               ? (
                 <div> 
                   <button
@@ -177,6 +187,7 @@ const Play = () => {
                     className="btn btn-warning btn-sm" 
                     onClick={() => {
                       updateQuestionScore();
+                      handleCelebrate();
                       resetPlayStates();
                     }}
                   >
@@ -269,6 +280,7 @@ const Play = () => {
       <div className="navbar">
         <NavBar />
       </div>
+      {celebrate && <Confetti />}
       <div id="MainPlay" className="container-sm text-center">
         <h2>Ready to Play?</h2>
         <p>Each game set will have 5 questions.</p> 
@@ -306,7 +318,6 @@ const Play = () => {
         {showQuestion
           ? (
             <div>
-              <b>Question {count + 1} of {resDataQuestions.length}</b><br />
               { displayQuestion(resDataQuestions, randomAnswers) }
             </div>
           )

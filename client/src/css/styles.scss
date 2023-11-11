@@ -6,10 +6,33 @@ body{
   background-color: rgb(242, 209, 75)
 }
 
+
+#login {
+  /* Set rules to fill background */
+  // min-height: 100%;
+  // min-width: 100%;
+	
+  // /* Set up proportionate scaling */
+  // width: 100%;
+  // height: auto;
+	
+  // /* Set up positioning */
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+
+  position: relative;
+  background-image: url('./pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh; 
+}
+
 #navbar {
-  border: border;
-  border-color: aquamarine;
-  border-radius: 30px;
+  background-image: url('/home/gretchen/senior/QuizParty/client/src/css/pictures/balloonHeader.png');
+  // border: border;
+  // border-radius: 30px;
   // border: border-primary;
   // border-radius: rounded-bottom;
   
@@ -24,21 +47,29 @@ body{
   font-size: 50px;
   font-weight: bold; 
   color: rgb(0, 0, 0);
+
+}
+#navButton {
+  background-color:rgb(255, 220, 253)
 }
 
 //Play/////////////////////////////////////
 #MainPlay{
-  background-color: rgb(255, 255, 220);   
+  background-color: rgb(255, 239, 254);   
 }
 
 #Questions{ 
-  background-color: rgb(255, 255, 220);  
+  background-color: rgb(255, 239, 254);   
+  font-size: 25px;
 }
 
-
+#Question{
+  padding: 20px 40px 20px 20px;
+}
 //PROFILE//////////////////////////////////
 #profile-background{
-  background-color: rgb(255, 255, 220);
+  //background-color: rgb(255, 255, 220);
+  background-color: rgb(255, 239, 254);  
 }
 
 #profile-button{
