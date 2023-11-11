@@ -70,7 +70,7 @@ const QuestionsTab = ({ userId }) => {
                       >Delete
                       </button>
                     </td>
-                    <td className="mx-auto px-5 text-white rounded-end-4">
+                    <td className="mx-auto px-4 text-white rounded-end-4">
                       {question.question}
                     </td>
                   </tr>
