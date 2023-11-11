@@ -71,7 +71,7 @@ const Profile = () => {
         >
           <button id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
           <button id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
-          <button id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Followers</button>
+          <button id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Following</button>
           <button id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
           <button id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
         </div>

@@ -48,8 +48,14 @@ const FollowersTab = ({ userId }) => {
                   >Delete
                   </button>
                 </td>
+                <td className="px-5">
+                  {' '}
+                </td>
                 <td className="mx-auto px-5 text-white">
                   {`${follower.firstname} ${follower.lastname}`}
+                </td>
+                <td className="px-5">
+                  {' '}
                 </td>
                 <td className="mx-auto px-5 text-white rounded-end-4">
                   {`Top score: ${follower.highscore}`}
