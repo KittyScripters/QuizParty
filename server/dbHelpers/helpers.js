@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable no-unneeded-ternary */
 const axios = require('axios');
 require('dotenv').config();
 
@@ -67,7 +70,7 @@ const getTriviaQuestions = (req) => {
   }
 
   return axios.get(
-    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple&token=${API_TOKEN}`, 
+    `https://opentdb.com/api.php?amount=5&category=${categoryNum}&difficulty=${lowerCaseDiff}&type=multiple&`,
     {
       headers: {
         Accept: 'application/json',
@@ -137,29 +140,29 @@ const checkHighScores = (userObjects, joinAch) => {
   });
 };
 
+// used to check the highest category score and confirm there is no tie
 const checkTopCatScore = (users, category, attribute) => {
-  const order = users.sort((a, b) => b[attribute] - a[attribute]);
-  // topScore === user with the highest score
-  const topScore = order[0];
+  const scores = users.sort((a, b) => b[attribute] - a[attribute]);
+  console.log(scores[0][attribute], scores[1][attribute]);
   Achievement.findOne({ where: { name: category } })
     // title === achievement
     .then((title) => {
       joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
         .then((joinAch) => {
           joinAch.forEach((ach) => {
-            if (ach.achievement_id === title.id && ach.user_id !== topScore.id) {
+            if (ach.achievement_id === title.id && ach.user_id !== scores[0].id && scores[0][attribute] > scores[1][attribute]) {
               joinAchievement.update(
-                { user_id: topScore.id },
+                { user_id: scores[0].id },
                 { where: { achievement_id: title.id } },
               );
             }
           });
         })
         .then(() => {
-          joinAchievement.findOne({ where: { user_id: topScore.id, achievement_id: title.id } })
+          joinAchievement.findOne({ where: { user_id: scores[0].id, achievement_id: title.id } })
             .then((achievement) => {
-              if (achievement === null) {
-                joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
+              if (achievement === null && scores[0][attribute] > scores[1][attribute]) {
+                joinAchievement.create({ user_id: scores[0].id, achievement_id: title.id });
               }
             })
             .catch((err) => console.error(err));
