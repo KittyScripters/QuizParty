@@ -29,42 +29,44 @@ const FollowersTab = ({ userId }) => {
 
   return (
     <div>
-      <h4 className="text-center my-3">Following: {followers.length}</h4>
-      <table className="mx-auto px-5">
-        <tbody className="bg-success bg-gradient">
-          {followers.map((follower) => {
-            return (
-              <tr className="border">
-                <td className="mx-auto px-5 rounded-start-4">
-                  <button
-                    className="
-                      rounded
-                      bg-success
-                      border-info
-                      m-1
-                      text-white"
-                    type="button"
-                    onClick={() => deleteFollower(follower.id)}
-                  >Delete
-                  </button>
-                </td>
-                <td className="px-5">
-                  {' '}
-                </td>
-                <td className="mx-auto px-5 text-white">
-                  {`${follower.firstname} ${follower.lastname}`}
-                </td>
-                <td className="px-5">
-                  {' '}
-                </td>
-                <td className="mx-auto px-5 text-white rounded-end-4">
-                  {`Top score: ${follower.highscore}`}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="bg-info bg-gradient rounded p-3 mt-3 w-75 mx-auto">
+        <h4 className="text-center mb-3">Following: {followers.length}</h4>
+        <table className="mx-auto px-5">
+          <tbody>
+            {followers.map((follower) => {
+              return (
+                <tr className="bg-success bg-gradient">
+                  <td className="mx-auto px-5 rounded-start-4">
+                    <button
+                      className="
+                        rounded
+                        bg-success
+                        border-info
+                        m-1
+                        text-white"
+                      type="button"
+                      onClick={() => deleteFollower(follower.id)}
+                    >Delete
+                    </button>
+                  </td>
+                  <td className="px-5">
+                    {' '}
+                  </td>
+                  <td className="mx-auto px-5 text-white">
+                    {`${follower.firstname} ${follower.lastname}`}
+                  </td>
+                  <td className="px-5">
+                    {' '}
+                  </td>
+                  <td className="mx-auto px-5 text-white rounded-end-4">
+                    {`Top score: ${follower.highscore}`}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -10,11 +10,12 @@ import NavBar from './NavBar';
 
 // user's profile
 const Profile = () => {
+  const userData = useLoaderData();
   const [user, setUser] = useState({});
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
-  const userData = useLoaderData();
 
+  console.log(userData);
   const userId = userData.id;
   // USER STATE UPDATE
   useEffect(() => {
@@ -70,7 +71,14 @@ const Profile = () => {
         container-sm"
         >
           <button id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
-          <button id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
+          <button
+            id="profile-button"
+            type="button"
+            onClick={() => {
+              setView('AchievementsTab');
+            }}
+          >Achievements
+          </button>
           <button id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Following</button>
           <button id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
           <button id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
@@ -83,7 +91,7 @@ const Profile = () => {
           {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
           {view === 'FollowersTab' && <FollowersTab userId={userId} />}
           {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
-          {view === 'UpdateTab' && <UpdateTab userId={userId} />}
+          {view === 'UpdateTab' && <UpdateTab userId={userId} setView={setView} />}
         </div>
       </div>
     </div>
