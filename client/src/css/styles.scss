@@ -35,17 +35,29 @@ body{
 //Play/////////////////////////////////////
 #MainPlay{
   background-color: rgb(255, 239, 254); 
-  font-size: 20px;  
+  font-size: 18px;  
 }
 
 #Questions{ 
   background-color: rgb(255, 239, 254);   
-  font-size: 25px;
+  font-size: 18px;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
-#Questions{
-  padding-top: 2em;
-  padding-bottom: 2em;
+#buttonAnswers{
+  background-color: rgb(255, 239, 254);  
+  //background-color: $orange-500; 
+}
+
+#Question{
+  background-color: rgb(249, 145, 136)  ;
+}
+
+#scores{
+  font-size: 30px;
+  font-weight: bold; 
+  // color: rgb(249, 145, 136);
 }
 
 //PROFILE//////////////////////////////////
