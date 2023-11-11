@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const he = require('he');
 
 const QuestionsTab = ({ userId }) => {
   const [favoriteQuestions, setFavoriteQuestions] = useState([]);
@@ -42,8 +45,8 @@ const QuestionsTab = ({ userId }) => {
           {favoriteQuestions.map((question) => {
             return (
               <div key={question.id}>
-                <button onClick={ () => deleteQuestion('favorite_questions', question.id)}>Delete</button>
-                {question.question}
+                <button type="button" onClick={() => deleteQuestion('favorite_questions', question.id)}>Delete</button>
+                {he.decode(question.question)}
               </div>
             );
           })}
@@ -55,7 +58,7 @@ const QuestionsTab = ({ userId }) => {
           {userQuestions.map((question) => {
             return (
               <div key={question.id}>
-                <button onClick={ () => deleteQuestion('questions', question.id)}>Delete</button>
+                <button type="button" onClick={() => deleteQuestion('questions', question.id)}>Delete</button>
                 {question.question}
               </div>
             );

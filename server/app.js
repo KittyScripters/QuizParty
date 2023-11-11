@@ -440,7 +440,6 @@ app.get('/api/favorite_questions/:user_id', (req, res) => {
   // FavoriteQuestion model to find all of the user's favorite questions
   FavoriteQuestion.findAll({ where: { user_id: user_id }, attributes: ['question', 'id'] })
     .then((questions) => {
-      // mapping through the question objects and returning the question string
       res.status(200);
       res.send(questions);
     })
