@@ -9,6 +9,7 @@ const passport = require('passport');
 require('./auth');
 const path = require('path');
 const cors = require('cors');
+const sequelize = require('sequelize');
 
 const {
   db, User, Question, Achievement, joinAchievement, joinFollower, FavoriteQuestion, 
@@ -421,7 +422,7 @@ app.get('/api/join_followers/:following_user_id', (req, res) => {
       //map through the data array and return only the follower_user_id values
       const followers = data.map((follower) => follower.followed_user_id);
       //pass in the mapped values in the User model and find all where the id's match
-      User.findAll({ where: { id: followers } })
+      User.findAll({ where: { id: followers }, order: [['highscore', 'DESC']] })
         .then((followData) => {
           //send back the results
           res.status(200).send(followData);

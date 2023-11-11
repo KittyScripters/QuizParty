@@ -29,19 +29,26 @@ const FollowersTab = ({ userId }) => {
 
   return (
     <div>
-      <div className="d-inline-block mx-auto">
-        <h4>Following: {followers.length}</h4>
-      </div>
-      <div className="d-inline-block mx-auto">
-        {followers.map((follower) => {
-          return (
-            <div key={follower.id}>
-              <button className="rounded border-info m-1" type="button" onClick={() => deleteFollower(follower.id)}>Delete</button>
-              {follower.username}
-            </div>
-          );
-        })}
-      </div>
+      <h4 className="text-center mt-2">Following: {followers.length}</h4>
+      <table className="mx-auto">
+        <tbody>
+          {followers.map((follower) => {
+            return (
+              <tr className="border">
+                <td>
+                  <button className="rounded border-info m-1" type="button" onClick={() => deleteFollower(follower.id)}>Delete</button>
+                </td>
+                <td>
+                  {`${follower.firstname} ${follower.lastname}`}
+                </td>
+                <td>
+                  {`Top score: ${follower.highscore}`}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
