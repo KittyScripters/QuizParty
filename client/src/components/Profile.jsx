@@ -40,9 +40,6 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="navbar">
-        <NavBar />
-      </div>
       <div id="profile-background" className="container-lg pt-5 pb-5">
         <div>
           <div

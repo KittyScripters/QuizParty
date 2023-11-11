@@ -277,9 +277,6 @@ const Play = () => {
   
   return (
     <div>
-      <div className="navbar">
-        <NavBar />
-      </div>
       {celebrate && <Confetti />}
       <div id="MainPlay" className="container-sm text-center">
         <h2>Ready to Play?</h2>

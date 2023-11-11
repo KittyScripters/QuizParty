@@ -46,7 +46,7 @@ body{
 }
 
 #navbar {
-  background-image: url('/home/gretchen/senior/QuizParty/client/src/css/pictures/balloonHeader.png');
+  background-image: url('./pictures/balloonHeader.png');
   // border: border;
   // border-radius: 30px;
   // border: border-primary;
@@ -101,4 +101,13 @@ body{
   border-radius: 10px;
   padding: 10px;
   margin: 10px;
+  // center
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+#top-scores-title{
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
 }
