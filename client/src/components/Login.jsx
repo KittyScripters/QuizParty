@@ -8,8 +8,13 @@ const authHandle = () => {
 
 const Login = () => {
   return (
-    <div className="h-100 d-flex align-items-center justify-content-center">
-      <button type="button" onClick={() => { authHandle(); }}>Login</button>
+    <div id="login">
+      <button
+        className="btn btn-warning position-absolute top-50 start-50 translate-middle" 
+        type="button" 
+        onClick={() => { authHandle(); }}
+      >Login with Google
+      </button>
     </div>
   );
 };
