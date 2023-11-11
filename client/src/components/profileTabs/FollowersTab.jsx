@@ -29,19 +29,29 @@ const FollowersTab = ({ userId }) => {
 
   return (
     <div>
-      <h4 className="text-center mt-2">Following: {followers.length}</h4>
-      <table className="mx-auto">
-        <tbody>
+      <h4 className="text-center my-3">Following: {followers.length}</h4>
+      <table className="mx-auto px-5">
+        <tbody className="bg-success bg-gradient">
           {followers.map((follower) => {
             return (
               <tr className="border">
-                <td>
-                  <button className="rounded border-info m-1" type="button" onClick={() => deleteFollower(follower.id)}>Delete</button>
+                <td className="mx-auto px-5 rounded-start-4">
+                  <button
+                    className="
+                      rounded
+                      bg-success
+                      border-info
+                      m-1
+                      text-white"
+                    type="button"
+                    onClick={() => deleteFollower(follower.id)}
+                  >Delete
+                  </button>
                 </td>
-                <td>
+                <td className="mx-auto px-5 text-white">
                   {`${follower.firstname} ${follower.lastname}`}
                 </td>
-                <td>
+                <td className="mx-auto px-5 text-white rounded-end-4">
                   {`Top score: ${follower.highscore}`}
                 </td>
               </tr>
