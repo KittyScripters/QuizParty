@@ -58,7 +58,8 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route element={<PrivateRoutes />} loader={isLoggedInLoader}>
+
+        <Route element={<PrivateRoutes />} loader={isLoggedInLoader}> 
           <Route path="/protected" index element={<LeaderBoard />} loader={getUserLoader} />
           <Route path="/protected/leaderboard" element={<LeaderBoard />} loader={getUserLoader} />
 
@@ -70,9 +71,9 @@ const App = () => {
             <Route path="updatetab" element={<UpdateTab />} />
           </Route>
           <Route path="/protected/play" element={<Play />} loader={getUserLoader} />
-          <Route path="/protected/question-builder" element={<QuestionBuilder />}>
-            <Route path="addQuestion" element={<QuestionAddForm />} />
-            <Route path="yourQuizzes" element={<YourQuizzes />} />
+          <Route path="/protected/question-builder" element={<QuestionBuilder />} loader={getUserLoader}>
+            <Route path="addQuestion" element={<QuestionAddForm />} loader={getUserLoader} />
+            <Route path="yourQuizzes" element={<YourQuizzes />} loader={getUserLoader} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Route>

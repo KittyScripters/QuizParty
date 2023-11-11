@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -18,7 +18,13 @@ const handleLogout = () => {
     });
 };
 
-const NavBar = () => {
+const NavBar = ({ partyHatSpin }) => {
+  const [spin, setSpin] = useState(false);
+
+  useEffect(() => {
+    setSpin(partyHatSpin);
+  }, [partyHatSpin]);
+
   const navigate = useNavigate();
   const handleNavigation = (path) => {
     navigate(path);
@@ -28,9 +34,21 @@ const NavBar = () => {
     <div id="navbar" className="container-fluid text-center">
 
       <div id="Header">
-        <img src={partyHat} className="partyHat" alt="party hat" width="70" />
-        QUIZ PARTY
-        <img src={partyHat} className="partyHat" alt="party hat" width="70" />
+        <Link to="/protected/leaderboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <img
+            src={partyHat}
+            className={`partyHat ${spin ? 'spin' : ''}`}
+            alt="party hat"
+            width="70"
+          />
+          QUIZ PARTY
+          <img
+            src={partyHat}
+            className={`partyHat ${spin ? 'spin' : ''}`}
+            alt="party hat"
+            width="70"
+          />
+        </Link>
       </div>
       <nav>
         
@@ -51,7 +69,7 @@ const NavBar = () => {
         </span>
         <span>
           <button type="button" id="navButton" onClick={() => handleNavigation('/protected/question-builder')}>
-            QuestionBuilder
+            Your Quizzes
           </button>
         </span>
         <span>

@@ -25,39 +25,18 @@ body{
 
 
 #login {
-  /* Set rules to fill background */
-  // min-height: 100%;
-  // min-width: 100%;
-	
-  // /* Set up proportionate scaling */
-  // width: 100%;
-  // height: auto;
-	
-  // /* Set up positioning */
-  // position: fixed;
-  // top: 0;
-  // left: 0;
 
   position: relative;
-  background-image: url('./pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
+  background-image: url('/client/src/css/pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh; 
+  height: 100vh;
 }
 
 #navbar {
   background-image: url('./pictures/balloonHeader.png');
-  // border: border;
-  // border-radius: 30px;
-  // border: border-primary;
-  // border-radius: rounded-bottom;
-  
 }
-
-// .navButton {
-//   background-color: rgb(100, 237, 166);
-// }
 
 #Header{
   // color:rgb(0, 0, 0);
@@ -72,27 +51,44 @@ body{
 
 //Play/////////////////////////////////////
 #MainPlay{
-  background-color: rgb(255, 239, 254);   
+  background-color: rgb(255, 239, 254); 
+  font-size: 18px;  
 }
 
 #Questions{ 
   background-color: rgb(255, 239, 254);   
-  font-size: 25px;
+  font-size: 18px;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+#buttonAnswers{
+  background-color: rgb(255, 239, 254);  
+  //background-color: $orange-500; 
 }
 
 #Question{
-  padding: 20px 40px 20px 20px;
+  background-color: rgb(249, 145, 136)  ;
 }
+
+#scores{
+  font-size: 30px;
+  font-weight: bold; 
+  // color: rgb(249, 145, 136);
+}
+
 //PROFILE//////////////////////////////////
 #profile-background{
   //background-color: rgb(255, 255, 220);
-  background-color: rgb(255, 239, 254);  
+  border-radius: 10px;
+  background-color: rgb(110, 124, 215);  
 }
 
 #profile-button{
   margin-left: 4px;
   margin-right: 4px;
 }
+
 
 //LEADERBOARD //////////////////////////
 //making cool leaderboard box
@@ -186,4 +182,23 @@ body{
   font-weight: bold;
 }
 
+
+
+
+.custom-image {
+  background-color: transparent; 
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 2s linear infinite; 
+}
+
+#profile-text{
+  font-weight: bold;
+}
 
