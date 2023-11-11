@@ -277,10 +277,10 @@ const Play = () => {
   
   return (
     <div>
+      {celebrate && <Confetti />}
       <div className="navbar">
         <NavBar />
       </div>
-      {celebrate && <Confetti />}
       <div id="MainPlay" className="container-sm text-center">
         <h2>Ready to Play?</h2>
         <p>Each game set will have 5 questions.</p> 
