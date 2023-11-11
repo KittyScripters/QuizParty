@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 import UserCreatedQuizList from './userCreatedQuizList';
 import QuizEditor from './quizEditor';
 
-const YourQuizzes = ({ userId = 1 }) => {
+const YourQuizzes = () => {
+  const { id: userId } = useLoaderData();
   const [selectedQuiz, setSelectedQuiz] = useState([]);
   const [quizNames, setQuizNames] = useState([]);
   const navigate = useNavigate();
   
   const getQuizNames = () => {
-    axios.get('/getUserQuizNames/1')
+    axios.get(`/getUserQuizNames/${userId}`)
       .then(({ data }) => {
         setQuizNames(data);
       })
-      .catch((err) => console.error('error getting quiz names QuestionBuilder: ', err));
+      .catch((err) => console.error('error getting quiz names: ', err));
   };
   
   useEffect(() => {
@@ -29,7 +30,7 @@ const YourQuizzes = ({ userId = 1 }) => {
 
   const handleQuizSelect = (quizName) => {
     return new Promise((resolve, reject) => {
-      axios.post('/retrieveUserQuiz/1', { question_set: quizName })
+      axios.post(`/retrieveUserQuiz/${userId}`, { question_set: quizName })
         .then(({ data }) => {
           console.log('data in retrieve quiz:', data);
           setSelectedQuiz(data);
@@ -48,7 +49,7 @@ const YourQuizzes = ({ userId = 1 }) => {
   };
 
   const handleDeleteClick = (e) => {
-    axios.post('/retrieveUserQuiz/1', { question_set: e })
+    axios.post(`/retrieveUserQuiz/${userId}`, { question_set: e })
       .then(({ data }) => {
         const questionIds = data.map(({ id }) => id); 
         setQuizNames((oldNames) => oldNames.filter((quiz) => quiz !== e));
