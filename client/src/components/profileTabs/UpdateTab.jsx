@@ -43,12 +43,7 @@ const UpdateTab = ({ userId, setView }) => {
               onKeyDown={(e) => handleEnter(e, text)}
             />
             <button
-              className="
-              rounded
-              bg-success
-              border-info
-              m-1
-              text-white"
+              className="rounded bg-success border-info m-1 text-white"
               type="submit"
               onClick={() => updateBio(text)}
             >Update

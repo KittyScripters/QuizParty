@@ -39,38 +39,33 @@ const StatsTab = ({ stats }) => {
         </h3>
         <table className="mx-auto bg-success bg-gradient rounded">
           <thead>
-            <tr
-              id="stat-cats"
-              className="
-              mx-auto
-            "
-            >
-              <th className="p-3 font-weight-bolder text-white">Total</th>
-              <th className="p-3 font-weight-bolder text-white">Animals</th>
-              <th className="p-3 font-weight-bolder text-white">Art</th>
-              <th className="p-3 font-weight-bolder text-white">Books</th>
-              <th className="p-2 font-weight-bolder text-white">Celebrities</th>
-              <th className="p-3 font-weight-bolder text-white">History</th>
-              <th className="p-3 font-weight-bolder text-white">Music</th>
-              <th className="p-2 font-weight-bolder text-white">Mythology</th>
-              <th className="p-3 font-weight-bolder text-white">Nature</th>
-              <th className="p-3 font-weight-bolder text-white">Politics</th>
-              <th className="p-3 font-weight-bolder text-white">Sports</th>
+            <tr id="stat-cats" className="mx-auto">
+              <th className="p-3 text-white">Total</th>
+              <th className="p-3 text-white">Animals</th>
+              <th className="p-3 text-white">Art</th>
+              <th className="p-3 text-white">Books</th>
+              <th className="p-2 text-white">Celebrities</th>
+              <th className="p-3 text-white">History</th>
+              <th className="p-3 text-white">Music</th>
+              <th className="p-2 text-white">Mythology</th>
+              <th className="p-3 text-white">Nature</th>
+              <th className="p-3 text-white">Politics</th>
+              <th className="p-3 text-white">Sports</th>
             </tr>
           </thead>
           <tbody>
             <tr id="stats-total" className="font-weight-bolder">
-              <td className="pb-4 text-white">{stats.highscore}</td>
-              <td className="pb-4 text-white">{stats.animals_score}</td>
-              <td className="pb-4 text-white">{stats.art_score}</td>
-              <td className="pb-4 text-white">{stats.books_score}</td>
-              <td className="pb-4 text-white">{stats.celebrities_score}</td>
-              <td className="pb-4 text-white">{stats.history_score}</td>
-              <td className="pb-4 text-white">{stats.music_score}</td>
-              <td className="pb-4 text-white">{stats.mythology_score}</td>
-              <td className="pb-4 text-white">{stats.nature_score}</td>
-              <td className="pb-4 text-white">{stats.politics_score}</td>
-              <td className="pb-4 text-white">{stats.sports_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.highscore}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.animals_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.art_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.books_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.celebrities_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.history_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.music_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.mythology_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.nature_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.politics_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.sports_score}</td>
             </tr>
           </tbody>
         </table>

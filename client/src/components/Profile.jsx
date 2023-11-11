@@ -64,17 +64,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="
-        align-middle
-        mt-5
-        text-center
-        container-sm"
-        >
-          <button id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
-          <button id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
-          <button id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Following</button>
-          <button id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
-          <button id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
+        <div className="align-middle mt-5 text-center container-sm">
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Following</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
         </div>
         <div>
           <Outlet />
