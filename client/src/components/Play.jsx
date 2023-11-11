@@ -11,7 +11,7 @@ const he = require('he');
 
 const Play = () => {
   const location = useLocation();
-  const quizData = location.state?.quizData; 
+  const quizData = location.state?.quizData;
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [resDataQuestions, setResDataQuestions] = useState([]);

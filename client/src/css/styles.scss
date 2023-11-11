@@ -22,20 +22,20 @@ body{
   // left: 0;
 
   position: relative;
-  background-image: url('./pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
+  background-image: url('/client/src/css/pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh; 
+  height: 100vh;
 }
 
 #navbar {
-  background-image: url('/home/gretchen/senior/QuizParty/client/src/css/pictures/balloonHeader.png');
+  background-image: url('./pictures/balloonHeader.png');
   // border: border;
   // border-radius: 30px;
   // border: border-primary;
   // border-radius: rounded-bottom;
-  
+
 }
 
 // .navButton {
@@ -69,10 +69,15 @@ body{
 //PROFILE//////////////////////////////////
 #profile-background{
   //background-color: rgb(255, 255, 220);
-  background-color: rgb(255, 239, 254);  
+  border-radius: 10px;
+  background-color: rgb(110, 124, 215);  
 }
 
 #profile-button{
   margin-left: 4px;
   margin-right: 4px;
+}
+
+#profile-text{
+  font-weight: bold;
 }
