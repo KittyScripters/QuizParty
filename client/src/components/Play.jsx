@@ -26,6 +26,7 @@ const Play = () => {
   const [correctAnswerSelection, setcorrectAnswerSelection] = useState(false);
   const [favoritesButton, setFavoritesButton] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
+  const [partyHatSpin, setPartyHatSpin] = useState(false);
 
   const userData = useLoaderData();
   const userId = userData.id;
@@ -103,8 +104,10 @@ const Play = () => {
   
   const handleCelebrate = () => {
     setCelebrate(true);
+    setPartyHatSpin(true); // enable spinning
     setTimeout(() => {
       setCelebrate(false);
+      setPartyHatSpin(false); // disable spinning
     }, 6000);
   };
 
@@ -278,9 +281,20 @@ const Play = () => {
   return (
     <div>
       <div className="navbar">
-        <NavBar />
+        <NavBar partyHatSpin={partyHatSpin} />
       </div>
-      {celebrate && <Confetti />}
+      {celebrate && (
+        <div>
+          <img
+            src="https://media.giphy.com/media/9spEM3yKJX0KARBobq/giphy.gif"
+            alt="Celebration GIF"
+            width="200"
+            height="200"
+            style={{ display: 'block', margin: '0 auto' }}
+          />
+          <Confetti />
+        </div>
+      )}
       <div id="MainPlay" className="container-sm text-center">
         <h2>Ready to Play?</h2>
         <p>Each game set will have 5 questions.</p> 

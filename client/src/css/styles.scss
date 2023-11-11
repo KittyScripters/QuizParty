@@ -30,7 +30,7 @@ body{
 }
 
 #navbar {
-  background-image: url('/home/gretchen/senior/QuizParty/client/src/css/pictures/balloonHeader.png');
+  background-image: url('./pictures/balloonHeader.png');
   // border: border;
   // border-radius: 30px;
   // border: border-primary;
@@ -75,4 +75,17 @@ body{
 #profile-button{
   margin-left: 4px;
   margin-right: 4px;
+}
+
+.custom-image {
+  background-color: transparent; 
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 2s linear infinite; 
 }
