@@ -3,6 +3,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+//const partyHat = '/css/pictures/party hat (1).png';
+import partyHat from '../css/pictures/partyHat.png';
+
 const handleLogout = () => {
   axios.get('/logout')
     .then((response) => {
@@ -25,36 +28,38 @@ const NavBar = () => {
     <div id="navbar" className="container-fluid text-center">
 
       <div id="Header">
+        <img src={partyHat} className="partyHat" alt="party hat" width="70" />
         QUIZ PARTY
+        <img src={partyHat} className="partyHat" alt="party hat" width="70" />
       </div>
       <nav>
         
         <span>
-          <button type="button" onClick={() => handleNavigation('/protected/leaderboard')}>
+          <button type="button" id="navButton" onClick={() => handleNavigation('/protected/leaderboard')}>
             LeaderBoard
           </button>
         </span>
         <span>
-          <button type="button" onClick={() => handleNavigation('/protected/profile')}>
+          <button type="button" id="navButton" onClick={() => handleNavigation('/protected/profile')}>
             Profile
           </button>
         </span>
         <span>
-          <button type="button" onClick={() => handleNavigation('/protected/play')}>
+          <button type="button" id="navButton" onClick={() => handleNavigation('/protected/play')}>
             Play
           </button>
         </span>
         <span>
-          <button type="button" onClick={() => handleNavigation('/protected/question-builder')}>
+          <button type="button" id="navButton" onClick={() => handleNavigation('/protected/question-builder')}>
             QuestionBuilder
           </button>
         </span>
         <span>
-          <button type="button" onClick={handleLogout}>
+          <button type="button" id="navButton" onClick={handleLogout}>
             Logout
           </button>
         </span>
-
+        
       </nav>
     </div>
   );

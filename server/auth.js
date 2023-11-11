@@ -6,7 +6,7 @@ const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, ENVIRONMENT } = process.env;
 
 let callbackURL = 'http://localhost:3000/google/callback';
 if (ENVIRONMENT === 'PRODUCTION') {
-  callbackURL = 'http://18.216.224.164:3000//google/callback';
+  callbackURL = 'http://ec2-18-216-224-164.us-east-2.compute.amazonaws.com:3000';
 }
 
 passport.use(new GoogleStrategy(

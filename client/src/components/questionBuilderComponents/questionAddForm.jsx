@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import NameNewQuiz from './nameNewQuiz';
 
 const QuestionAddForm = () => {
   const [QAview, QAsetView] = useState('nameQuiz');
@@ -9,6 +10,7 @@ const QuestionAddForm = () => {
   const [incorrectAnswer2, setincorrectAnswer2] = useState('');
   const [incorrectAnswer3, setincorrectAnswer3] = useState('');
   const [questionSet, setQuestionSet] = useState('');
+  const [createdQuestions, setCreatedQuestions] = useState([]);
 
   const clearForm = () => {
     setQuestion('');
@@ -17,12 +19,17 @@ const QuestionAddForm = () => {
     setincorrectAnswer2('');
     setincorrectAnswer3('');
   };
-    
+  
+  const setParentView = () => {
+    QAsetView('addQuestion');
+  };
+
   const submitValue = () => {
     const postQuestion = (questionContents) => {
       axios.post('/createQuestion', questionContents)
         .then((response) => {
           console.log('Question Posted From QB: ', response.data);
+          setCreatedQuestions([...createdQuestions, response.data]);
           clearForm();
         })
         .catch((err) => {
@@ -41,36 +48,21 @@ const QuestionAddForm = () => {
     };
     postQuestion(questionBuilderValues);
   };
-  console.log('render view value: ', QAview);
+  
   return (
     <div>
       {QAview === 'nameQuiz'
       && (
-        <>
-          Quiz Name: 
-          {' '}
-          <input 
-            type="text"
-            value={questionSet}
-            onChange={(e) => setQuestionSet(e.target.value)}
-          />
-          <div>
-            <button
-              type="button"
-              onClick={() => {
-                QAsetView('addQuestion');
-                console.log('view on create click: ', QAview);
-              }}
-            >
-              Create
-
-            </button>
-            {/* <button type="button" onClick={() => QBsetView('create')}>Cancel</button> */}
-          </div>
-        </>
+        <NameNewQuiz
+          questionSet={questionSet}
+          setQuestionSet={setQuestionSet}
+          setParentView={setParentView}
+        />
       )}
+    
       {QAview === 'addQuestion' && (
         <> 
+          <h2>{questionSet}</h2>
           <div>
             Question: 
             {' '}
@@ -120,6 +112,29 @@ const QuestionAddForm = () => {
               <button type="button" onClick={() => QAsetView('nameQuiz')}>
                 Back
               </button>
+            </div>
+            <div>
+              {createdQuestions.map((createdQuestion, index) => (
+                <div key={createdQuestion.id}>
+                  <div>
+                    <br />
+                    <span><b>{index + 1}.</b> {createdQuestion.question}</span>
+                  </div>
+                  <div>
+                    <span><b>Correct Answer:</b> {createdQuestion.correct_answer}</span>
+                  </div>
+                  <div>
+                    <span><b>Incorrect Answer 1:</b> {createdQuestion.incorrect_answer_1}</span>
+                  </div>
+                  <div>
+                    <span><b>Incorrect Answer 2:</b> {createdQuestion.incorrect_answer_2}</span>
+                  </div>
+                  <div>
+                    <span><b>Incorrect Answer 3:</b> {createdQuestion.incorrect_answer_3}</span>
+                  </div>
+                  <br />
+                </div> 
+              ))}
             </div>
           </div>
         </>
