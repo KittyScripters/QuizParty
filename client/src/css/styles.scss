@@ -1,6 +1,22 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
 
+//Colors/////////////////////////////////////
+$theme-colors: (
+  $primary: rgb(242, 209, 75),
+  $secondary: rgb(255, 255, 220),
+  $success: rgb(100, 237, 166),
+  $danger: rgb(255, 0, 0),
+  $warning: rgb(255, 255, 0),
+  $info: rgb(0, 0, 255),
+  $light: rgb(255, 255, 255),
+  $dark: rgb(0, 0, 0),
+);
+
+
+
+
+
 //App///////////////////////////////
 body{
   background-color: rgb(242, 209, 75)
@@ -75,4 +91,14 @@ body{
 #profile-button{
   margin-left: 4px;
   margin-right: 4px;
+}
+
+//LEADERBOARD //////////////////////////
+//making cool leaderboard box
+#leaderboard{
+  background-color: rgb(255, 255, 220);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
 }

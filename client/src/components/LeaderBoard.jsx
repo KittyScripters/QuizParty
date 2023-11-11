@@ -118,14 +118,12 @@ const LeaderBoard = () => {
       </button>
       {/* upon leaderboard being flicked to true, render the div below */}
       {leaderBoard ? (
-        <div>
+        <div id="leaderboard" className="container-sm text-center">
           <h2>Top {leaderBoardData.length} Scores:</h2>
-          <ol>
-            {console.log('leaderboarddata state', leaderBoardData)}
-            {console.log('leaderboarddata type', typeof leaderBoardData)}
+          <ol className="list-group list-group-numbered">
             {/* in an ordered list, map through the data, using a user and an index (keys) */}
             {leaderBoardData.map((user, index) => (
-              <li key={index}>
+              <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
                 <div>
                   <span>
                     <b>Username</b>
@@ -136,7 +134,9 @@ const LeaderBoard = () => {
                     <b>Highscore</b>
                     :
                     {' '}
-                    {user.highscore}
+                    <span className="badge bg-success rounded-pill">
+                      {user.highscore}
+                    </span>
                   </span>
                   <br />
                   {/* check for at least one element is satisfied, check for if follower id is user id */}
