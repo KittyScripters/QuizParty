@@ -26,35 +26,50 @@ const StatsTab = ({ stats }) => {
         text-center
       "
     >
-      <div className="mt-5" id="score-header"><h3>Best Category: {checkHighestCatScore(catScores)}</h3></div>
-      <table className="mx-auto">
-        <tr id="stat-cats" className="mx-auto">
-          <th className="p-3">Total</th>
-          <th className="p-3">Animals</th>
-          <th className="p-3">Art</th>
-          <th className="p-3">Books</th>
-          <th className="p-2">Celebrities</th>
-          <th className="p-3">History</th>
-          <th className="p-3">Music</th>
-          <th className="p-2">Mythology</th>
-          <th className="p-3">Nature</th>
-          <th className="p-3">Politics</th>
-          <th className="p-3">Sports</th>
-        </tr>
-        <tr id="stats-total">
-          <td>{stats.highscore}</td>
-          <td>{stats.animals_score}</td>
-          <td>{stats.art_score}</td>
-          <td>{stats.books_score}</td>
-          <td>{stats.celebrities_score}</td>
-          <td>{stats.history_score}</td>
-          <td>{stats.music_score}</td>
-          <td>{stats.mythology_score}</td>
-          <td>{stats.nature_score}</td>
-          <td>{stats.politics_score}</td>
-          <td>{stats.sports_score}</td>
-        </tr>
-      </table>
+      <div>
+        <p id="profile-text" className="text-center">
+          Stay up to date with your progress! <br />
+          Be sure to check in when tracking your scores and best category <br />
+          Keep it up scholar 🧐
+        </p>
+      </div>
+      <div className="bg-info bg-gradient rounded-3 pb-3">
+        <h3 className="mt-4">
+          Best Category: {checkHighestCatScore(catScores)}
+        </h3>
+        <table className="mx-auto bg-success bg-gradient rounded">
+          <thead>
+            <tr id="stat-cats" className="mx-auto">
+              <th className="p-3 text-white">Total</th>
+              <th className="p-3 text-white">Animals</th>
+              <th className="p-3 text-white">Art</th>
+              <th className="p-3 text-white">Books</th>
+              <th className="p-2 text-white">Celebrities</th>
+              <th className="p-3 text-white">History</th>
+              <th className="p-3 text-white">Music</th>
+              <th className="p-2 text-white">Mythology</th>
+              <th className="p-3 text-white">Nature</th>
+              <th className="p-3 text-white">Politics</th>
+              <th className="p-3 text-white">Sports</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="stats-total" className="font-weight-bolder">
+              <td id="profile-text" className="pb-4 text-white">{stats.highscore}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.animals_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.art_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.books_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.celebrities_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.history_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.music_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.mythology_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.nature_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.politics_score}</td>
+              <td id="profile-text" className="pb-4 text-white">{stats.sports_score}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

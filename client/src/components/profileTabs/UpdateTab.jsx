@@ -2,14 +2,17 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const UpdateTab = ({ userId }) => {
+const UpdateTab = ({ userId, setView }) => {
   const [text, setText] = useState('');
+  const navigate = useNavigate();
+
   //allow user to update their bio on the database
   const updateBio = (update) => {
     axios.patch(`/api/users/${userId}`, { bio: update })
       .then(() => {
-        console.log('you changed your bio to: ', update);
+        navigate('/protected/profile');
       })
       .catch((err) => console.error('Could not PATCH bio', err));
   };
@@ -23,12 +26,32 @@ const UpdateTab = ({ userId }) => {
       updateBio(update);
     }
   };
+
   return (
     <div>
-      <form className="update-field">
-        <input onChange={(e) => handleChange(e)} onKeyDown={(e) => handleEnter(e, text)} />
-        <button type="submit" onClick={() => updateBio(text)}>Update</button>
-      </form>
+      <div className="bg-info bg-gradient rounded p-3 mt-3 w-50 mx-auto">
+        <div className="mt-3">
+          <p id="profile-text" className="text-center">
+            Got something to say? Update your bio!
+          </p>
+        </div>
+        <div className="text-center">
+          <form className="mx-auto">
+            <input
+              className="mx-auto"
+              onChange={(e) => handleChange(e)}
+              onKeyDown={(e) => handleEnter(e, text)}
+            />
+            <button
+              className="rounded bg-success border-info m-1 text-white"
+              type="submit"
+              onClick={() => updateBio(text)}
+            >Update
+            </button>
+          </form>
+
+        </div>
+      </div>
     </div>
   );
 };
