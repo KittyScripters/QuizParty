@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLoaderData } from 'react-router-dom';
 import NameNewQuiz from './nameNewQuiz';
 
 const QuestionAddForm = () => {
+  const { id: userId } = useLoaderData();
   const [QAview, QAsetView] = useState('nameQuiz');
   const [question, setQuestion] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
@@ -44,7 +46,7 @@ const QuestionAddForm = () => {
       incorrect_answer_2: incorrectAnswer2,
       incorrect_answer_3: incorrectAnswer3,
       question_set: questionSet,
-      user_id: 1,
+      user_id: userId,
     };
     postQuestion(questionBuilderValues);
   };
