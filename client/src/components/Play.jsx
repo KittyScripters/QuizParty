@@ -7,7 +7,7 @@ import { useLocation, Outlet, useLoaderData } from 'react-router-dom';
 import Confetti from 'react-confetti';
 import NavBar from './NavBar';
 
-const he = require('he');
+const he = require('he'); // this decodes the encoded result from the api call
 
 const Play = () => {
   const location = useLocation();
@@ -27,24 +27,21 @@ const Play = () => {
   const [favoritesButton, setFavoritesButton] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
 
+  // loader data brings in live data from the google oauth
   const userData = useLoaderData();
   const userId = userData.id;
 
+  // sets category state based on dropdown selection
   const onCategorySelection = (event) => {
     setCategory(event.currentTarget.value);
   };
   
+  // sets difficulty state based on dropdown selection
   const onDifficultySelection = (event) => {
     setDifficulty(event.currentTarget.value);
   };
   
-  const onSubmitButton = () => {
-    if (count === resDataQuestions.length - 2) {
-      setNextButton(false);
-      setSubmitButton(true);
-    } 
-  };
-  
+  // randomize function to shuffle the response answers
   const randomizeAnswers = (resDataQ) => {
     const correctAnswer = [];
     correctAnswer.push(he.decode(resDataQ.correct_answer));
@@ -56,7 +53,42 @@ const Play = () => {
     const randomizedAnswers = combinedAnswers.sort(() => Math.random() - 0.5);
     setRandomAnswers(randomizedAnswers); 
   };
+
+  // conditionally removes the next button and replaces it with the submit button
+  const onSubmitButton = () => {
+    if (count === resDataQuestions.length - 2) {
+      setNextButton(false);
+      setSubmitButton(true);
+    } 
+  };
   
+  // sets score state based on correctAnswer state
+  const updateQuestionScore = () => {
+    if (correctAnswerSelection === true) {
+      setScore(score + 1);
+    }
+    setcorrectAnswerSelection(false);
+  };
+  
+  // this resets all the states used to play the game at the end
+  const resetPlayStates = () => {
+    setShowQuestions(false); 
+    setShowScore(true); 
+    setCount(0); 
+    setSubmitButton(false); 
+    setNextButton(true);
+    setFavoritesButton(false);
+  };
+  
+  // handles the confetti at the end of the game!
+  const handleCelebrate = () => {
+    setCelebrate(true);
+    setTimeout(() => {
+      setCelebrate(false);
+    }, 6000);
+  };
+
+  // allows the user to play the quizes they made in QuestionBuilder
   useEffect(() => {
     if (quizData) {
       const transformedData = quizData.map((question) => ({
@@ -82,40 +114,18 @@ const Play = () => {
     }
   }, []);
 
-  const updateQuestionScore = () => {
-    if (correctAnswerSelection === true) {
-      setScore(score + 1);
-    }
-    setcorrectAnswerSelection(false);
-  };
-  
-  const resetPlayStates = () => {
-    if (quizData) {
-      console.log('bye');
-    }
-    setShowQuestions(false); 
-    setShowScore(true); 
-    setCount(0); 
-    setSubmitButton(false); 
-    setNextButton(true);
-    setFavoritesButton(false);
-  };
-  
-  const handleCelebrate = () => {
-    setCelebrate(true);
-    setTimeout(() => {
-      setCelebrate(false);
-    }, 6000);
-  };
-
+  // displays the question after start button/ handlePlayClick is called
   const displayQuestion = (questions, answers) => {
+    // starts with one question from the array and decodes it
     const { question } = questions[count];
     const questionDecoded = he.decode(question);
     
+    //used to track the index in the array of the questions
     const updateCount = () => {
       setCount(count + 1);
     };
     
+    //sets T/F state for the selected answer so updateQuestionScore can determine score 
     const setTrueFalse = (e) => {
       const selection = e.currentTarget.value;
       console.log('selection', selection);
@@ -126,6 +136,7 @@ const Play = () => {
       }
     };
 
+    // adds the clicked favorite question to the DB
     const addToFavorites = () => {
       axios.post(`/play/favoriteQuestions/${userId}`, {
         favQuestion: question,
@@ -134,36 +145,59 @@ const Play = () => {
         .catch((err) => console.error('Failed to update db with fav question', err));
     };
 
+    // resets the selected radio button after Next button is clicked
     const resetRadioButton = () => {
       ['Choice1', 'Choice2', 'Choice3', 'Choice4'].forEach((id) => {
         document.getElementById(id).checked = false;
       });
       return false;
     };
-    return ( // map this out instead
-      <div id="Question">
-        <b>Question {count + 1} of {questions.length}</b><br />
-        <div>{questionDecoded}</div> 
-        <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
-        {answers[0]} 
-        <br /> 
-        <input type="radio" id="Choice2" name="Choice" value={answers[1]} onClick={(e) => { setTrueFalse(e); }} />  
-        {answers[1]}
-        <br /> 
-        <input type="radio" id="Choice3" name="Choice" value={answers[2]} onClick={(e) => { setTrueFalse(e); }} />  
-        {answers[2]} 
-        <br /> 
-        <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
-        {answers[3]}
-        <br /> 
-        <div className="d-flex flex-row mb-3">
-          <div id="Buttons">
+
+    /*
+    this section of HTML is inserted below the intro HTML for the main component
+    there are radio buttons, then the next/submit button, then the favorite questions buttons that are all conditionally rendered
+    */
+    return ( 
+      <div id="Question" className="card mx-auto w-75 text-center">
+        <div className="card-body">
+          <h3 className="card-title">Question {count + 1} of {questions.length}</h3>
+          <h5 className="card-subtitle">{category} || {difficulty}</h5><br /> 
+          <div>{questionDecoded}</div> 
+          <br />
+          <div id="buttonAnswers" className="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" className="btn-check" name="choice" id="Choice1" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} autoComplete="off" /> 
+            <label className="btn" htmlFor="Choice1">{answers[0]} </label>
+            <br /> 
+            <input type="radio" className="btn-check" name="choice" id="Choice2" value={answers[1]} onClick={(e) => { setTrueFalse(e); }} autoComplete="off" /> 
+            <label className="btn" htmlFor="Choice2">{answers[1]} </label>
+            <br /> 
+            <input type="radio" className="btn-check" name="choice" id="Choice3" value={answers[2]} onClick={(e) => { setTrueFalse(e); }} autoComplete="off" /> 
+            <label className="btn" htmlFor="Choice3">{answers[2]} </label>
+            <br />
+            <input type="radio" className="btn-check" name="choice" id="Choice4" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} autoComplete="off" /> 
+            <label className="btn" htmlFor="Choice4">{answers[3]} </label>
+            <br />
+          </div>
+        </div>
+        <div className="d-flex justify-content-center">
+          <div id="favoriteButton">
+            {favoritesButton
+              ? (
+                <div className="p-2"> 
+                  <button type="button" className="btn btn-warning btn-lg" onClick={() => addToFavorites()}>
+                    Add Question To Your Favorites
+                  </button>
+                </div>
+              )
+              : null}
+          </div><br />
+          <div id="nextButton">
             {nextButton
               ? (
                 <div className="p-2"> 
                   <button
                     type="button"
-                    className="btn btn-warning btn-sm"
+                    className="btn btn-warning btn-lg"
                     onClick={() => { 
                       updateCount(); 
                       randomizeAnswers(questions[count + 1]);
@@ -172,19 +206,19 @@ const Play = () => {
                       onSubmitButton();
                       updateQuestionScore();
                     }}
-                  > Next 
+                  > Next Question
                   </button>  
                 </div>
               )
               : null}
           </div>
-          <div className="p-2">
+          <div id="submitButton">
             {submitButton 
               ? (
-                <div> 
+                <div className="p-2"> 
                   <button
                     type="button"
-                    className="btn btn-warning btn-sm" 
+                    className="btn btn-warning btn-lg" 
                     onClick={() => {
                       updateQuestionScore();
                       handleCelebrate();
@@ -197,23 +231,13 @@ const Play = () => {
               )
               : null}
           </div>
-          <div id="Favorites">
-            {favoritesButton
-              ? (
-                <div className="ml-auto p-2"> 
-                  <button type="button" className="btn btn-warning btn-sm" onClick={() => addToFavorites()}>
-                    Add Question To Favorites
-                  </button>
-                </div>
-              )
-              : null}
-          </div><br />
         </div>
       </div>
     );
   };
 
-  const handlePlayClick = () => { // NOTE 1
+  // handles the get request to the API and sets the states to begin playing the game
+  const handlePlayClick = () => { 
     if (category !== '' && difficulty !== '') {
       axios.post('/api/play', { options: { category, difficulty } })
         .then((response) => {
@@ -230,9 +254,8 @@ const Play = () => {
       alert('Please select a category and difficulty to start playing!');
     } 
   };
- 
-  // increasing highscore based on difficulty!! 
-  //(can also increase category score based on completion)
+   
+  // Increases highscore in DB based on difficulty after completing the quiz if all 5 answers were correct
   useEffect(() => {
     if (difficulty === 'Easy' && score === 5) {
       axios.put(`/play/highscore/easy/${userId}`, {
@@ -244,7 +267,7 @@ const Play = () => {
         })
         .catch((err) => console.error('update easy highscore failed', err));
     }
-
+    
     if (difficulty === 'Medium' && score === 5) {
       axios.put(`/play/highscore/medium/${userId}`, { highScore: 'highscore' })
         .then(() => {
@@ -253,7 +276,7 @@ const Play = () => {
         })
         .catch((err) => console.error('update med highscore failed', err));
     }
-
+    
     if (difficulty === 'Hard' && score === 5) {
       axios.put(`/play/highscore/hard/${userId}`, { highScore: 'highscore' })
         .then(() => {
@@ -262,10 +285,9 @@ const Play = () => {
         })
         .catch((err) => console.error('update hard highscore failed', err));
     }
-  // }
   }, [score]);
-
-  //this is increasing the count if the game set has been completed!!! not if all correct
+    
+  //increasing highscore in DB for category after completing the quiz if all 5 answers were correct
   useEffect(() => {
     const categoryLC = category.toLowerCase();
     if (score === 5) {
@@ -274,46 +296,13 @@ const Play = () => {
         .catch((err) => console.error('update category highscore failed', err));
     }
   }, [score]);
-  
-  return (
+
+  return ( //this is the return for the main Play component. the elements are all conditionally rendered depening on state 
     <div>
       {celebrate && <Confetti />}
       <div className="navbar">
         <NavBar />
       </div>
-      <div id="MainPlay" className="container-sm text-center">
-        <h2>Ready to Play?</h2>
-        <p>Each game set will have 5 questions.</p> 
-        <p>Answer all 5 correctly from any category to add to your highscore.</p>
-        <p>When you are finished, reselect categories and difficulty and try again!</p> 
-        <p>Hint: The harder the questions, the higher your highscore increases. </p>
-        <h4>Select your Category and Difficulty Level Below:</h4>
-        <select name="Category" id="Cat" onClick={(event) => onCategorySelection(event)}>
-          <option>Category</option>
-          <option>Animals</option>
-          <option>Art</option>
-          <option>Books</option>
-          <option>Celebrities</option>
-          <option>History</option>
-          <option>Music</option>
-          <option>Mythology</option>
-          <option>Nature</option>
-          <option>Politics</option>
-          <option>Sports</option>
-        </select>
-        <select name="Difficulty" id="Difficulty" onClick={(event) => onDifficultySelection(event)}>
-          <option>Difficulty</option>
-          <option>Easy</option>
-          <option>Medium</option>
-          <option>Hard</option>
-        </select> <br /><br />
-        <button
-          type="button"
-          className="btn btn-warning btn-lg"
-          onClick={() => handlePlayClick()}
-        >Start!
-        </button> <br /><br /><br />
-      </div> 
       <div id="Questions" className="container-sm">
         {showQuestion
           ? (
@@ -321,7 +310,41 @@ const Play = () => {
               { displayQuestion(resDataQuestions, randomAnswers) }
             </div>
           )
-          : null}  
+          : (
+            <div id="MainPlay" className="container-sm text-center">
+              <h2>Ready to Play?</h2>
+              <p>Each game set will have 5 questions.</p> 
+              <p>Answer all 5 correctly from any category to add to your highscore.</p>
+              <p>When you are finished, reselect categories and difficulty and try again!</p> 
+              <p>Hint: The harder the questions, the higher your highscore increases. </p>
+              <h4>Select your Category and Difficulty Level Below:</h4>
+              <select name="Category" id="Cat" onClick={(event) => onCategorySelection(event)}>
+                <option>Category</option>
+                <option>Animals</option>
+                <option>Art</option>
+                <option>Books</option>
+                <option>Celebrities</option>
+                <option>History</option>
+                <option>Music</option>
+                <option>Mythology</option>
+                <option>Nature</option>
+                <option>Politics</option>
+                <option>Sports</option>
+              </select>
+              <select name="Difficulty" id="Difficulty" onClick={(event) => onDifficultySelection(event)}>
+                <option>Difficulty</option>
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+              </select> <br /><br />
+              <button
+                type="button"
+                className="btn btn-warning btn-lg"
+                onClick={() => handlePlayClick()}
+              >Play!
+              </button> <br /><br />
+            </div> 
+          )}  
         <div id="scores" className="container-sm text-center">
           {showScore ? <div> You scored {score} out of {resDataQuestions.length}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
@@ -332,30 +355,3 @@ const Play = () => {
 };
 
 export default Play;
-
-/*  NOTES:
-  1. This has to be a post request instead of get bc I need to pass an obj with the 
-  parameters that the api search needs. You can't use a get request with a req.body
-  You can only send params and those are for the URL... not what I needed. 
-
-*/
-
-// const scoreModal = () => {  
-//   return (
-//     <div className="modal fade" id="scoreModal" tabIndex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
-//       <div className="modal-content">
-//         <div className="modal-header">
-//           <h1 className="modal-title fs-5" id="scoreModalLabel">Modal title</h1>
-//           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-//         </div>
-//         <div className="modal-body">
-//           ...
-//         </div>
-//         <div className="modal-footer">
-//           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//           <button type="button" className="btn btn-primary" onClick={() => setShowModal(false)}>Play again</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
