@@ -143,7 +143,8 @@ const Play = () => {
     return ( // map this out instead
       <div id="Question" className="card mx-auto w-75">
         <div className="card-body">
-          <h3 className="card-title">Question {count + 1} of {questions.length}</h3><br />
+          <h3 className="card-title">Question {count + 1} of {questions.length}</h3>
+          <h5 className="card-subtitle">{category} || {difficulty}</h5><br /> 
           <div>{questionDecoded}</div> 
           <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
           {answers[0]} 
@@ -279,43 +280,10 @@ const Play = () => {
   
   return (
     <div>
+      {celebrate && <Confetti />}
       <div className="navbar">
         <NavBar />
       </div>
-      {celebrate && <Confetti />}
-      <div id="MainPlay" className="container-sm text-center">
-        <h2>Ready to Play?</h2>
-        <p>Each game set will have 5 questions.</p> 
-        <p>Answer all 5 correctly from any category to add to your highscore.</p>
-        <p>When you are finished, reselect categories and difficulty and try again!</p> 
-        <p>Hint: The harder the questions, the higher your highscore increases. </p>
-        <h4>Select your Category and Difficulty Level Below:</h4>
-        <select name="Category" id="Cat" onClick={(event) => onCategorySelection(event)}>
-          <option>Category</option>
-          <option>Animals</option>
-          <option>Art</option>
-          <option>Books</option>
-          <option>Celebrities</option>
-          <option>History</option>
-          <option>Music</option>
-          <option>Mythology</option>
-          <option>Nature</option>
-          <option>Politics</option>
-          <option>Sports</option>
-        </select>
-        <select name="Difficulty" id="Difficulty" onClick={(event) => onDifficultySelection(event)}>
-          <option>Difficulty</option>
-          <option>Easy</option>
-          <option>Medium</option>
-          <option>Hard</option>
-        </select> <br /><br />
-        <button
-          type="button"
-          className="btn btn-warning btn-lg"
-          onClick={() => handlePlayClick()}
-        >Start!
-        </button> <br /><br />
-      </div> 
       <div id="Questions" className="container-sm">
         {showQuestion
           ? (
@@ -323,7 +291,41 @@ const Play = () => {
               { displayQuestion(resDataQuestions, randomAnswers) }
             </div>
           )
-          : null}  
+          : (
+            <div id="MainPlay" className="container-sm text-center">
+              <h2>Ready to Play?</h2>
+              <p>Each game set will have 5 questions.</p> 
+              <p>Answer all 5 correctly from any category to add to your highscore.</p>
+              <p>When you are finished, reselect categories and difficulty and try again!</p> 
+              <p>Hint: The harder the questions, the higher your highscore increases. </p>
+              <h4>Select your Category and Difficulty Level Below:</h4>
+              <select name="Category" id="Cat" onClick={(event) => onCategorySelection(event)}>
+                <option>Category</option>
+                <option>Animals</option>
+                <option>Art</option>
+                <option>Books</option>
+                <option>Celebrities</option>
+                <option>History</option>
+                <option>Music</option>
+                <option>Mythology</option>
+                <option>Nature</option>
+                <option>Politics</option>
+                <option>Sports</option>
+              </select>
+              <select name="Difficulty" id="Difficulty" onClick={(event) => onDifficultySelection(event)}>
+                <option>Difficulty</option>
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+              </select> <br /><br />
+              <button
+                type="button"
+                className="btn btn-warning btn-lg"
+                onClick={() => handlePlayClick()}
+              >Start!
+              </button> <br /><br />
+            </div> 
+          )}  
         <div id="scores" className="container-sm text-center">
           {showScore ? <div> You scored {score} out of {resDataQuestions.length}</div> : null}
           {highScore ? <div> Congrats! New high score! </div> : null}
