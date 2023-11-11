@@ -69,7 +69,7 @@ const NavBar = ({ partyHatSpin }) => {
         </span>
         <span>
           <button type="button" id="navButton" onClick={() => handleNavigation('/protected/question-builder')}>
-            QuestionBuilder
+            Your Quizzes
           </button>
         </span>
         <span>
