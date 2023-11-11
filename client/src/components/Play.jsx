@@ -141,20 +141,22 @@ const Play = () => {
       return false;
     };
     return ( // map this out instead
-      <div id="Question">
-        <b>Question {count + 1} of {questions.length}</b><br />
-        <div>{questionDecoded}</div> 
-        <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
-        {answers[0]} 
-        <br /> 
-        <input type="radio" id="Choice2" name="Choice" value={answers[1]} onClick={(e) => { setTrueFalse(e); }} />  
-        {answers[1]}
-        <br /> 
-        <input type="radio" id="Choice3" name="Choice" value={answers[2]} onClick={(e) => { setTrueFalse(e); }} />  
-        {answers[2]} 
-        <br /> 
-        <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
-        {answers[3]}
+      <div id="Question" className="card mx-auto w-75">
+        <div className="card-body">
+          <h3 className="card-title">Question {count + 1} of {questions.length}</h3><br />
+          <div>{questionDecoded}</div> 
+          <input type="radio" id="Choice1" name="Choice" value={answers[0]} onClick={(e) => { setTrueFalse(e); }} /> 
+          {answers[0]} 
+          <br /> 
+          <input type="radio" id="Choice2" name="Choice" value={answers[1]} onClick={(e) => { setTrueFalse(e); }} />  
+          {answers[1]}
+          <br /> 
+          <input type="radio" id="Choice3" name="Choice" value={answers[2]} onClick={(e) => { setTrueFalse(e); }} />  
+          {answers[2]} 
+          <br /> 
+          <input type="radio" id="Choice4" name="Choice" value={answers[3]} onClick={(e) => { setTrueFalse(e); }} />  
+          {answers[3]}
+        </div>
         <br /> 
         <div className="d-flex flex-row mb-3">
           <div id="Buttons">
@@ -163,7 +165,7 @@ const Play = () => {
                 <div className="p-2"> 
                   <button
                     type="button"
-                    className="btn btn-warning btn-sm"
+                    className="btn btn-warning btn-lg"
                     onClick={() => { 
                       updateCount(); 
                       randomizeAnswers(questions[count + 1]);
@@ -172,7 +174,7 @@ const Play = () => {
                       onSubmitButton();
                       updateQuestionScore();
                     }}
-                  > Next 
+                  > Next Question
                   </button>  
                 </div>
               )
@@ -184,7 +186,7 @@ const Play = () => {
                 <div> 
                   <button
                     type="button"
-                    className="btn btn-warning btn-sm" 
+                    className="btn btn-warning btn-lg" 
                     onClick={() => {
                       updateQuestionScore();
                       handleCelebrate();
@@ -201,8 +203,8 @@ const Play = () => {
             {favoritesButton
               ? (
                 <div className="ml-auto p-2"> 
-                  <button type="button" className="btn btn-warning btn-sm" onClick={() => addToFavorites()}>
-                    Add Question To Favorites
+                  <button type="button" className="btn btn-warning btn-lg" onClick={() => addToFavorites()}>
+                    Add Question To Your Favorites
                   </button>
                 </div>
               )
@@ -312,7 +314,7 @@ const Play = () => {
           className="btn btn-warning btn-lg"
           onClick={() => handlePlayClick()}
         >Start!
-        </button> <br /><br /><br />
+        </button> <br /><br />
       </div> 
       <div id="Questions" className="container-sm">
         {showQuestion
@@ -332,30 +334,3 @@ const Play = () => {
 };
 
 export default Play;
-
-/*  NOTES:
-  1. This has to be a post request instead of get bc I need to pass an obj with the 
-  parameters that the api search needs. You can't use a get request with a req.body
-  You can only send params and those are for the URL... not what I needed. 
-
-*/
-
-// const scoreModal = () => {  
-//   return (
-//     <div className="modal fade" id="scoreModal" tabIndex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
-//       <div className="modal-content">
-//         <div className="modal-header">
-//           <h1 className="modal-title fs-5" id="scoreModalLabel">Modal title</h1>
-//           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-//         </div>
-//         <div className="modal-body">
-//           ...
-//         </div>
-//         <div className="modal-footer">
-//           <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//           <button type="button" className="btn btn-primary" onClick={() => setShowModal(false)}>Play again</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
