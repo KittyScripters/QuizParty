@@ -84,8 +84,10 @@ const Play = () => {
   // handles the confetti at the end of the game!
   const handleCelebrate = () => {
     setCelebrate(true);
+    setPartyHatSpin(true); // enable spinning
     setTimeout(() => {
       setCelebrate(false);
+      setPartyHatSpin(false); // disable spinning
     }, 6000);
   };
 
@@ -115,16 +117,6 @@ const Play = () => {
     }
   }, []);
   
-  const handleCelebrate = () => {
-    setCelebrate(true);
-    setPartyHatSpin(true); // enable spinning
-    setTimeout(() => {
-      setCelebrate(false);
-      setPartyHatSpin(false); // disable spinning
-    }, 6000);
-  };
-
-
   // displays the question after start button/ handlePlayClick is called
   const displayQuestion = (questions, answers) => {
     // starts with one question from the array and decodes it
