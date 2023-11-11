@@ -190,12 +190,11 @@ app.post('/createQuestion', (req, res) => {
 
 app.delete('/deleteUserQuestions', (req, res) => {
   const { questionIds } = req.body;
-  console.log('question ids in delete: ', questionIds);
   Question.destroy({
     where: { id: questionIds },
   })
     .then((deletedQs) => {
-      console.log('deletedQs:', deletedQs);
+      res.sendStatus(200);
     })
     .catch((err) => {
       console.error('error deleting questions: ', err);
@@ -247,7 +246,6 @@ app.patch('/updateUserQuiz/:userId', (req, res) => {
     updateOnDuplicate: ['question', 'correct_answer', 'incorrect_answer_1', 'incorrect_answer_2', 'incorrect_answer_3'],
   })
     .then(() => {
-      console.log('data update as:', editedQuestions);
       res.sendStatus(200);
     })
     .catch((err) => {

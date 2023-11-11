@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ContentEditable from 'react-contenteditable';
+import UserCreatedQuizList from './userCreatedQuizList';
+import QuizEditor from './quizEditor';
 
 const YourQuizzes = ({ userId = 1 }) => {
   const [selectedQuiz, setSelectedQuiz] = useState([]);
@@ -32,7 +33,6 @@ const YourQuizzes = ({ userId = 1 }) => {
         .then(({ data }) => {
           console.log('data in retrieve quiz:', data);
           setSelectedQuiz(data);
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -43,7 +43,7 @@ const YourQuizzes = ({ userId = 1 }) => {
   };
   
   const handlePlayClick = async (e) => {
-    const quizData = await handleQuizSelect(e.target.value);
+    const quizData = await handleQuizSelect(e);
     navigate('/protected/play', { state: { quizData } });
   };
 
@@ -71,87 +71,22 @@ const YourQuizzes = ({ userId = 1 }) => {
   return (
     <div>
       <h1>Edit Your Quizzes</h1>
-         
-      {quizNames.length === 0 ? (
-        <div>No user created Quizzes.</div>
-      )
-        : quizNames.map((quizName) => {
-          return (
-            <div key={quizName} className="col">
-              {quizName}{' '}
-              <span className="button-container">
-                <button
-                  type="button"
-                  className="playUserQuizButton"
-                  value={quizName}
-                  onClick={(e) => handlePlayClick(e)}
-                >Play
-                </button>
-                <button
-                  type="button"
-                  className="editUserQuizButton"
-                  value={quizName}
-                  onClick={(e) => { handleQuizSelect(e.target.value); }}
-                >Edit
-                </button>
-                <button
-                  type="button"
-                  className="deleteUserQuizButton"
-                  value={quizName}
-                  onClick={(e) => { handleDeleteClick(e.target.value); }}
-                >Delete
-                </button>
-              </span>
-            </div>
-          );
-        })}
+      <UserCreatedQuizList 
+        quizNames={quizNames}
+        handlePlayClick={handlePlayClick}
+        handleQuizSelect={handleQuizSelect}
+        handleDeleteClick={handleDeleteClick}
+      />
       {selectedQuiz.length > 0 ? (
         <div>
           <h2>Quiz Name: {selectedQuiz[0].question_set}</h2>
-          {selectedQuiz.map((quiz, index) => (
-            <div key={quiz.id}>
-              <div>
-                <span><b>{index + 1}.</b>
-                  <ContentEditable
-                    html={quiz.question}
-                    onChange={(e) => handleQuizEdit(index, 'question', e.target.value)}
-                  />
-                </span>
-              </div>
-              <div>
-                <span><b>Correct Answer:</b>
-                  <ContentEditable
-                    html={quiz.correct_answer}
-                    onChange={(e) => handleQuizEdit(index, 'correct_answer', e.target.value)}
-                  />
-                </span>
-              </div>
-              <div>
-                <span><b>Incorrect Answer 1:</b> 
-                  <ContentEditable
-                    html={quiz.incorrect_answer_1}
-                    onChange={(e) => handleQuizEdit(index, 'incorrect_answer_1', e.target.value)}
-                  />
-                
-                </span>
-              </div>
-              <div>
-                <span><b>Incorrect Answer 2:</b> 
-                  <ContentEditable
-                    html={quiz.incorrect_answer_2}
-                    onChange={(e) => handleQuizEdit(index, 'incorrect_answer_2', e.target.value)}
-                  />
-                </span>
-              </div>
-              <div>
-                <span><b>Incorrect Answer 3:</b> 
-                  <ContentEditable
-                    html={quiz.incorrect_answer_3}
-                    onChange={(e) => handleQuizEdit(index, 'incorrect_answer_3', e.target.value)}
-                  />
-                </span>
-              </div>
-            </div>
+          {selectedQuiz.map((question, index) => (
+            <QuizEditor 
+              index={index}
+              key={question.id}
+              question={question}
+              handleQuizEdit={handleQuizEdit} 
+            />
           )) }
           <div>
             <button type="button" onClick={handleSubmit}>Save</button>
