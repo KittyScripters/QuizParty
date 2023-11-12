@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const UserCreatedQuiz = ({
   quizName, handlePlayClick, handleQuizSelect, handleDeleteClick, 
+  handleShareClick, following, handleSendClick,
 }) => {
+  const [followingSelect, setFollowingSelect] = useState([false]);
+  const [selectedUser, setSelectedUser] = useState('');
+
+  const handleSelectChange = (e) => {
+    setSelectedUser(e.target.value);
+  };
+  console.log(following);
+  console.log(selectedUser);
   return (
     <div key={quizName} className="col">
       {quizName}{' '}
@@ -28,6 +37,21 @@ const UserCreatedQuiz = ({
           onClick={(e) => { handleDeleteClick(e.target.value); }}
         >Delete
         </button>
+        <button type="button" onClick={() => { handleShareClick(); setFollowingSelect(true); }}>Share</button>
+        {followingSelect === true
+        && (
+          <span>
+            <select value={selectedUser} onChange={handleSelectChange}>
+              <option value="" disabled>Select Followed User</option>
+              {following.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
+            <button value={quizName} type="button" onClick={(e) => handleSendClick(e.target.value, selectedUser)}>Send</button>
+          </span>
+        )}
       </span>
     </div>
   );
