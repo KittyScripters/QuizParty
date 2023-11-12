@@ -18,7 +18,6 @@ const LeaderBoard = () => {
   //use state hooks for top x users, default to 10 for init render
   const [topNum, setTopNum] = useState(10);
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
-
   //state for followers leaderboard 
   const [followersLeaderBoard, setFollowersLeaderBoard] = useState([]);
   //state for followers list for leaderboard/follow fuction
