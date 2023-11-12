@@ -83,8 +83,9 @@ const LeaderBoard = () => {
   
   return (
     <div className="container-fluid">
+      <NavBar />
       <div id="leaderboard" className=" container-fluid align-text-center">
-        <h1 id='search-title'>Leaderboard</h1>
+        <h1 id="search-title">Leaderboard</h1>
         {/* Search bar for user */}
         <input 
           id="search-input"

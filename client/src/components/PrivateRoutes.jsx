@@ -13,7 +13,7 @@ const PrivateRoutes = () => {
       {auth.isAuthenticated ? (
         <div>
           {/* render navbar here so it renders in the same place for all comps */}
-          <NavBar />
+          
           {/* render outlet here so that the comps render in the same place */}
           <Outlet />
         </div>

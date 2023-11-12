@@ -15,6 +15,7 @@ const QuestionBuilder = () => {
 
   return (
     <span>
+      <NavBar />
       {celebrate && <Confetti />}
       <div id="MainPlay" className="container-sm text-center">
         <h1>Create A Quiz!</h1>

@@ -303,9 +303,9 @@ const Play = () => {
   return ( //this is the return for the main Play component. the elements are all conditionally rendered depening on state 
     <div>
       {celebrate && <Confetti />}
-      <div className="navbar">
-        <NavBar partyHatSpin={partyHatSpin} />
-      </div>
+     
+      <NavBar partyHatSpin={partyHatSpin} />
+      
       {celebrate && (
         <div>
           <img
