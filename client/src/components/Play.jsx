@@ -38,8 +38,8 @@ const Play = () => {
   };
   
   // sets difficulty state based on dropdown selection
-  const onDifficultySelection = (event) => {
-    setDifficulty(event.currentTarget.value);
+  const onDifficultySelection = (event, dynamicValue) => {
+    setDifficulty(dynamicValue || event.currentTarget.value);
   };
   
   // randomize function to shuffle the response answers
@@ -333,27 +333,52 @@ const Play = () => {
               <p>When you are finished, reselect categories and difficulty and try again!</p> 
               <p>Hint: The harder the questions, the higher your highscore increases. </p>
               <h4>Select your Category and Difficulty Level Below:</h4>
-              <select name="Category" id="Cat" onClick={(event) => onCategorySelection(event)}>
-                <option>Category</option>
-                <option>Animals</option>
-                <option>Art</option>
-                <option>Books</option>
-                <option>Celebrities</option>
-                <option>History</option>
-                <option>Music</option>
-                <option>Mythology</option>
-                <option>Nature</option>
-                <option>Politics</option>
-                <option>Sports</option>
-              </select>
-              <select name="Difficulty" id="Difficulty" onClick={(event) => onDifficultySelection(event)}>
-                <option>Difficulty</option>
-                <option>Easy</option>
-                <option>Medium</option>
-                <option>Hard</option>
-              </select> <br /><br />
+              <div className="dropdown">
+                <button
+                  className="btn btn-warning dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {/* if category is empty, render category, else render the selected category */}
+                  {category === '' ? 'Category' : category}
+                </button>
+                {/* drop down menu, each item is an on click button that sets category*/}
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Animals')}>Animals</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Art')}>Art</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Books')}>Books</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Celebrities')}>Celebrities</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('History')}>History</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Music')}>Music</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Mythology')}>Mythology</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Nature')}>Nature</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Politics')}>Politics</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Sports')}>Sports</button></li>
+                </ul>
+              </div>
+              <div className="dropdown">
+                <button
+                  className="btn btn-warning dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {/* if difficulty is empty, render Difficulty, else render the selected difficulty */}
+                  {difficulty === '' ? 'Difficulty' : difficulty}
+                </button>
+                {/* drop down menu, each item is an on click button that sets difficulty*/}
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Easy')}>Easy</button></li> 
+                  <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Medium')}>Medium</button></li> 
+                  <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Hard')}>Hard</button></li> 
+                </ul>
+              </div>
               <button
                 type="button"
+                id="play-btn"
                 className="btn btn-warning btn-lg"
                 onClick={() => handlePlayClick()}
               >Play!
