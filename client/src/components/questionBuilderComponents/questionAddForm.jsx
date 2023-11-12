@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation } from 'react-router-dom';
 import NameNewQuiz from './nameNewQuiz';
 
 const QuestionAddForm = () => {
@@ -13,7 +13,8 @@ const QuestionAddForm = () => {
   const [incorrectAnswer3, setincorrectAnswer3] = useState('');
   const [questionSet, setQuestionSet] = useState('');
   const [createdQuestions, setCreatedQuestions] = useState([]);
-
+  const location = useLocation();
+  const { state } = location;
   const clearForm = () => {
     setQuestion('');
     setCorrectAnswer('');
@@ -25,6 +26,14 @@ const QuestionAddForm = () => {
   const setParentView = () => {
     QAsetView('addQuestion');
   };
+
+  useEffect(() => {
+    if (state) {
+      setQuestionSet(state.quizName);
+      setCreatedQuestions(state.existingQuestions);
+      QAsetView('addQuestion');
+    }
+  }, [state]);
 
   const submitValue = () => {
     const postQuestion = (questionContents) => {
@@ -56,6 +65,7 @@ const QuestionAddForm = () => {
       {QAview === 'nameQuiz'
       && (
         <NameNewQuiz
+          userId={userId}
           questionSet={questionSet}
           setQuestionSet={setQuestionSet}
           setParentView={setParentView}
@@ -111,7 +121,7 @@ const QuestionAddForm = () => {
             </div>
             <div>
               <button type="button" onClick={submitValue}>Add Question</button>
-              <button type="button" onClick={() => QAsetView('nameQuiz')}>
+              <button type="button" onClick={() => { QAsetView('nameQuiz'); setCreatedQuestions([]); }}>
                 Back
               </button>
             </div>

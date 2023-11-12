@@ -170,7 +170,6 @@ app.get('/api/current-user', (req, res) => {
     },
   })
     .then((data) => {
-      console.log('this is data id', data.id);
       res.send({ id: data.id });
     })
     .catch((err) => {
@@ -237,6 +236,34 @@ app.post('/retrieveUserQuiz/:userId', (req, res) => {
     .catch((err) => { 
       console.error('Error in retrieveUserQuiz:', err); 
       res.sendStatus(500).json({ error: 'server side error getting user quiz' });
+    });
+});
+
+app.get('/checkQuizExists/:userId/:questionSet', (req, res) => {
+  const { userId, questionSet } = req.params;
+  Question.findOne({
+    where: {
+      question_set: questionSet,
+      user_id: userId,
+    },
+  })
+    .then((exists) => {
+      const exist = !!exists;
+      res.send({ exists: exist });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.post('/bulkCreateQuestions', (req, res) => {
+  const { questionData } = req.body;
+  Question.bulkCreate(questionData)
+    .then(() => {
+      res.sendStatus(200);
+    }).catch((err) => {
+      console.error(err);
     });
 });
 
