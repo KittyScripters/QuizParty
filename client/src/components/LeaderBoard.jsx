@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLoaderData } from 'react-router-dom';
@@ -50,7 +51,7 @@ const LeaderBoard = () => {
         console.error('Failed to follow user:', error);
       });
   };
-  
+
   const renderFollowersLeaderBoard = () => {
     setFollowersLeaderBoard(followers);
     setLeaderBoard(false);
@@ -81,51 +82,121 @@ const LeaderBoard = () => {
   }, [setFollowers]);
   
   return (
-    <div>
-      <div>
-        <NavBar />
+    <div className="container-fluid">
+      <div id="leaderboard" className=" container-fluid align-text-center">
+        <h1 id='search-title'>Leaderboard</h1>
+        {/* Search bar for user */}
+        <input 
+          id="search-input"
+          type="text" 
+          placeholder="Search for a user"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              getLeaderBoard(topNum, search);
+            }
+          }}
+        />
+        <button
+          id="search-button" 
+          className="btn btn-success"
+          type="button"
+          onClick={() => getLeaderBoard(topNum, search)}
+        >
+          Search Users stats
+        </button>
+        <br />
+        {/* Top x users leaderboard grab */}
+        <div className="dropdown">
+          <button
+            className="btn btn-warning dropdown-toggle"
+            type="button"
+            id="leaderboard-Dropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Top
+            {' '}
+            {' '}
+            Users
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <a 
+                className="dropdown-item" 
+                href="#"
+                onClick={() => getLeaderBoard(5, null)}
+              >
+                5
+              </a>
+            </li>
+            <li>
+              <a 
+                className="dropdown-item" 
+                href="#"
+                onClick={() => getLeaderBoard(10, null)}
+              >
+                10
+              </a>
+            </li>
+            <li>
+              <a 
+                className="dropdown-item" 
+                href="#"
+                onClick={() => getLeaderBoard(15, null)}
+              >
+                15
+              </a>
+            </li>
+            <li>
+              <a 
+                className="dropdown-item" 
+                href="#"
+                onClick={() => getLeaderBoard(50, null)}
+              >
+                50
+              </a>
+            </li>
+            <li>
+              <a 
+                className="dropdown-item" 
+                href="#"
+                onClick={() => getLeaderBoard(100, null)}
+              >
+                100
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <h1>LeaderBoard</h1>
-      {/* Search bar for user */}
-      <input 
-        type="text" 
-        placeholder="Search for a user"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button 
-        type="button"
-        onClick={() => getLeaderBoard(topNum, search)}
-      >
-        Search Users stats
-      </button>
-      <br />
-      {/* Top x users leaderboard grab */}
-      <select 
-        id="topNum" 
-        value={topNum} 
-        onChange={(e) => setTopNum(Number(e.target.value))}
-      >
-        <option value={5}>5</option>
-        <option value={10}>10</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-      </select>
-      {/* on click tied to our getLeaderboard func */}
-      <button type="button" onClick={() => getLeaderBoard(topNum)}>Get LeaderBoard</button>
-      <button type="button" onClick={() => renderFollowersLeaderBoard()}>
-        Get Followers Leaderboard
-      </button>
       {/* upon leaderboard being flicked to true, render the div below */}
       {leaderBoard ? (
-        <div>
-          <h2>Top {leaderBoardData.length} Scores:</h2>
-          <ol>
-            {console.log('leaderboarddata state', leaderBoardData)}
-            {console.log('leaderboarddata type', typeof leaderBoardData)}
+        <div id="leaderboard" className="container-lg">
+          <h2 id="top-scores-title">Top {leaderBoardData.length} Scores:</h2>
+          <ul className="nav nav-tabs">
+            <li className="nav-item">
+              <a 
+                className={`nav-link ${leaderBoard ? 'active' : ''}`} 
+                onClick={() => { getLeaderBoard(10, null); }}
+              >
+                All Users
+              </a>
+            </li>
+            <li className="nav-item">
+              <a 
+                className={`nav-link ${!leaderBoard ? 'active' : ''}`} 
+                onClick={() => { renderFollowersLeaderBoard(); }}
+              >
+                Get Followers Leaderboard
+              </a>
+            </li>
+          </ul>
+          <ol className="list-group list-group-numbered">
             {/* in an ordered list, map through the data, using a user and an index (keys) */}
             {leaderBoardData.map((user, index) => (
-              <li key={index}>
+              <li key={index} id="leaderboard-list-item" className="list-group-item d-flex justify-content-center">
                 <div>
                   <span>
                     <b>Username</b>
@@ -136,39 +207,64 @@ const LeaderBoard = () => {
                     <b>Highscore</b>
                     :
                     {' '}
-                    {user.highscore}
+                    <span className="badge bg-success rounded-pill">
+                      {user.highscore}
+                    </span>
+                    {' '}
                   </span>
-                  <br />
                   {/* check for at least one element is satisfied, check for if follower id is user id */}
                   {followers.some((follower) => follower.id === user.id) ? (
                     <span>Already Followed</span>
                   ) : (
-                    <button type="button" onClick={() => handleFollow(user.id)}>
-                      Follow
-                    </button>
+                    //div to utilize bootstrap to place button on the right of the li
+                    <div className="float-end">
+                      <button type="button" id="follow-btn" className="btn btn-warning" onClick={() => handleFollow(user.id)}>
+                        Follow
+                      </button>
+                    </div>
                   )}
                 </div>
               </li>
             ))}
           </ol>
-          <span>
-            <Link to="/protected/play">
-              <button type="button">Play</button>
-            </Link>
-          </span>
-          <span>
-            <Link to="/protected/profile">
-              <button type="button">Profile</button>
-            </Link>
-          </span>
+          <div id="secondary-button-group" className="d-flex justify-content-center">
+            <span>
+              <Link to="/protected/play">
+                <button id="secondary-play-button" className="btn btn-warning" type="button">Play</button>
+              </Link>
+            </span>
+            <span>
+              <Link to="/protected/profile">
+                <button id="secondary-profile-button" className="btn btn-warning" type="button">Profile</button>
+              </Link>
+            </span>
+          </div>
         </div>
       ) 
         : (
-          <div>
-            <h2>Followers Leaderboard:</h2>
-            <ol>
+          <div id="leaderboard">
+            <h2 id="followers-leaderboard-title">Followers Leaderboard:</h2>
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <a 
+                  className={`nav-link ${leaderBoard ? 'active' : ''}`} 
+                  onClick={() => { getLeaderBoard(10, null); }}
+                >
+                  All Users
+                </a>
+              </li>
+              <li className="nav-item">
+                <a 
+                  className={`nav-link ${!leaderBoard ? 'active' : ''}`} 
+                  onClick={() => { renderFollowersLeaderBoard(); }}
+                >
+                  Get Followers Leaderboard
+                </a>
+              </li>
+            </ul>
+            <ol className="list-group list-group-numbered">
               {followersLeaderBoard.map((follower, index) => (
-                <li key={index}>
+                <li key={index} id="leaderboard-list-item" className="list-group-item d-flex justify-content-center">
                   <div>
                     <span>
                       <b>Username</b>: {follower.username}{' '}
@@ -178,6 +274,18 @@ const LeaderBoard = () => {
                 </li>
               ))}
             </ol>
+            <div id="secondary-button-group" className="d-flex justify-content-center">
+              <span>
+                <Link to="/protected/play">
+                  <button id="secondary-play-button" className="btn btn-warning" type="button">Play</button>
+                </Link>
+              </span>
+              <span>
+                <Link to="/protected/profile">
+                  <button id="secondary-profile-button" className="btn btn-warning" type="button">Profile</button>
+                </Link>
+              </span>
+            </div>
           </div>
         )}
       

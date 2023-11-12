@@ -1,5 +1,6 @@
 import { Outlet, Navigate, useLoaderData } from 'react-router-dom';
 import React from 'react';
+import NavBar from './NavBar';
 
 const PrivateRoutes = () => {
   //create a loader const that uses the useLoaderData hook
@@ -9,7 +10,16 @@ const PrivateRoutes = () => {
   const auth = { isAuthenticated: loader };
   return (
     <div>
-      {auth.isAuthenticated ? <Outlet /> : <Navigate to="/" />}
+      {auth.isAuthenticated ? (
+        <div>
+          {/* render navbar here so it renders in the same place for all comps */}
+          <NavBar />
+          {/* render outlet here so that the comps render in the same place */}
+          <Outlet />
+        </div>
+      )
+      // if the user is not logged in, redirect to the login page
+        : <Navigate to="/" />}
     </div>
   );
 };

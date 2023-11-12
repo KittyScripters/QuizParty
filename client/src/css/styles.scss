@@ -1,46 +1,42 @@
 // Import all of Bootstrap's CSS
-@import "bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
+
+//Colors/////////////////////////////////////
+$theme-colors: (
+  "primary": rgb(242, 209, 75),
+  "secondary": rgb(255, 255, 220),
+  "success": rgb(100, 237, 166),
+  "danger": rgb(255, 0, 0),
+  "warning": rgb(255, 255, 0),
+  "info": rgb(0, 0, 255),
+  "light": rgb(255, 255, 255),
+  "dark": rgb(0, 0, 0),
+);
+
+
+
+
 
 //App///////////////////////////////
 body{
-  background-color: rgb(242, 209, 75)
+  background-color: rgb(242, 209, 75);
+  // background-color: $pink-100;
 }
 
 
 #login {
-  /* Set rules to fill background */
-  // min-height: 100%;
-  // min-width: 100%;
-	
-  // /* Set up proportionate scaling */
-  // width: 100%;
-  // height: auto;
-	
-  // /* Set up positioning */
-  // position: fixed;
-  // top: 0;
-  // left: 0;
 
   position: relative;
-  background-image: url('./pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
+  background-image: url('/client/src/css/pictures/QUIZ\ PARTY\ LOGIN\ 2.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh; 
+  height: 100vh;
 }
 
 #navbar {
   background-image: url('./pictures/balloonHeader.png');
-  // border: border;
-  // border-radius: 30px;
-  // border: border-primary;
-  // border-radius: rounded-bottom;
-  
 }
-
-// .navButton {
-//   background-color: rgb(100, 237, 166);
-// }
 
 #Header{
   // color:rgb(0, 0, 0);
@@ -55,24 +51,154 @@ body{
 
 //Play/////////////////////////////////////
 #MainPlay{
-  background-color: rgb(255, 239, 254);   
+  background-color: rgb(255, 239, 254); 
+  font-size: 18px;  
 }
 
 #Questions{ 
   background-color: rgb(255, 239, 254);   
-  font-size: 25px;
+  font-size: 18px;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+#buttonAnswers{
+  background-color: rgb(255, 239, 254);  
+  //background-color: $orange-500; 
 }
 
 #Question{
-  padding: 20px 40px 20px 20px;
+  background-color: rgb(249, 145, 136)  ;
 }
+
+#scores{
+  font-size: 30px;
+  font-weight: bold; 
+  // color: rgb(249, 145, 136);
+}
+
 //PROFILE//////////////////////////////////
 #profile-background{
   //background-color: rgb(255, 255, 220);
-  background-color: rgb(255, 239, 254);  
+  border-radius: 10px;
+  background-color: rgb(110, 124, 215);  
 }
 
 #profile-button{
   margin-left: 4px;
   margin-right: 4px;
 }
+
+
+//LEADERBOARD //////////////////////////
+//making cool leaderboard box
+#leaderboard{
+  background-color: $pink-100;
+  border: 2px solid $pink-900;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  // center
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.leaderboard-main
+{
+  background-color: rgb(220, 235, 255);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  // center
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+#top-scores-title{
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+#followers-leaderboard-title {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+#leaderboard-list {
+  background-color: rgb(249, 145, 136);
+}
+.dropdown {
+  padding-top: 10px;
+}
+#search-button {
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+.nav-item {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: rgb(249, 145, 136);
+  border-radius: 8px;
+}
+#follow-btn {
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+#leaderboard-list-item {
+  background-color: rgb(249, 145, 136);
+}
+.nav-tabs .nav-item .nav-link.active {
+  background-color: rgb(249, 145, 136);
+}
+
+#secondary-play-button {
+  background-color: rgb(249, 145, 136);
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+#secondary-profile-button {
+  background-color: rgb(249, 145, 136);
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+#search-input {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+#search-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+
+
+.custom-image {
+  background-color: transparent; 
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 2s linear infinite; 
+}
+
+#profile-text{
+  font-weight: bold;
+}
+

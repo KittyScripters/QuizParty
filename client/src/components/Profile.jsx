@@ -10,11 +10,12 @@ import NavBar from './NavBar';
 
 // user's profile
 const Profile = () => {
+  const userData = useLoaderData();
   const [user, setUser] = useState({});
   const [view, setView] = useState('Profile');
   const [achievements, setAchievements] = useState([]);
-  const userData = useLoaderData();
 
+  console.log(userData);
   const userId = userData.id;
   // USER STATE UPDATE
   useEffect(() => {
@@ -40,9 +41,6 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="navbar">
-        <NavBar />
-      </div>
       <div id="profile-background" className="container-lg pt-5 pb-5">
         <div>
           <div
@@ -63,17 +61,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="
-        align-middle
-        mt-5
-        text-center
-        container-sm"
-        >
-          <button id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
-          <button id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
-          <button id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Followers</button>
-          <button id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
-          <button id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
+        <div className="mx-auto text-center container-sm">
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('StatsTab')}>Stats</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('AchievementsTab')}>Achievements</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('FollowersTab')}>Following</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('QuestionsTab')}>Questions</button>
+          <button className="rounded bg-success border-info m-1 text-white" id="profile-button" type="button" onClick={() => setView('UpdateTab')}>Update</button>
         </div>
         <div>
           <Outlet />
@@ -83,7 +76,7 @@ const Profile = () => {
           {view === 'AchievementsTab' && <AchievementsTab achievements={achievements} />}
           {view === 'FollowersTab' && <FollowersTab userId={userId} />}
           {view === 'QuestionsTab' && <QuestionsTab userId={userId} />}
-          {view === 'UpdateTab' && <UpdateTab userId={userId} />}
+          {view === 'UpdateTab' && <UpdateTab userId={userId} setView={setView} />}
         </div>
       </div>
     </div>

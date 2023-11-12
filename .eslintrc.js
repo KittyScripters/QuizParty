@@ -59,6 +59,6 @@ module.exports = {
     "react/prop-types": 0,
     'react/jsx-one-expression-per-line' : 0,
     'import/no-extraneous-dependencies': 0,
-    'no-alert': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
   },
 };
