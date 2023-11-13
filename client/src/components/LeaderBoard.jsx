@@ -16,7 +16,7 @@ const LeaderBoard = () => {
   //use state hooks for search
   const [search, setSearch] = useState('');
   //use state hooks for top x users, default to 10 for init render
-  const [topNum, setTopNum] = useState(10);
+  const [topNum, setTopNum] = useState(5);
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
   //state for followers leaderboard 
   const [followersLeaderBoard, setFollowersLeaderBoard] = useState([]);
@@ -24,7 +24,7 @@ const LeaderBoard = () => {
   const [followers, setFollowers] = useState([]);
 
   // function to get the leaderboard data
-  const getLeaderBoard = (topNumVal, searchVal) => {
+  const getLeaderBoard = (topNum, search) => {
     // deconstruct the topNum and search values from the params
     const params = { topNum, search };
     //get /leaderboard, pass in params
@@ -32,7 +32,6 @@ const LeaderBoard = () => {
     // then, log success and set the leaderboard state to true and the data to the response data so
     // it can be mapped over and rendered
       .then((res) => {
-        console.log('successfully fetched data from leaderboard');
         // set the leaderboard data to the response data, set leaderboard to true for condit render
         setLeaderBoardData(res.data);
         setLeaderBoard(true);
