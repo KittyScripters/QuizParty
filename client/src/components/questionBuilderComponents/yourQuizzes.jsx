@@ -3,6 +3,7 @@ import { useNavigate, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 import UserCreatedQuizList from './userCreatedQuizList';
 import QuizEditor from './quizEditor';
+import envelopePic from './envelope.png';
 
 const YourQuizzes = () => {
   const data = useLoaderData();
@@ -13,6 +14,7 @@ const YourQuizzes = () => {
   const navigate = useNavigate();
   const [following, setFollowing] = useState([]);
   const [userFirstname, setUserFirstname] = useState('');
+  const [flyingEnvelope, setFlyingEnvelope] = useState(false);
   
   const getQuizNames = () => {
     axios.get(`/getUserQuizNames/${userId}`)
@@ -80,6 +82,7 @@ const YourQuizzes = () => {
             })
             .then((response) => {
               setSelectedQuiz([]);
+              setFlyingEnvelope(true);
             })
             .catch((err) => console.error('Error on client side submitting updated questions: ', err));
         }
@@ -136,6 +139,12 @@ const YourQuizzes = () => {
   };
   return (
     <div className="container">
+      {flyingEnvelope
+      && (
+        <div className="envelope-container flying-envelope">
+          <img src={envelopePic} alt="envelope" className="envelope-image" />
+        </div>
+      )}
       <h1 className="text-center">Edit Your Quizzes</h1>
       <UserCreatedQuizList 
         quizNames={quizNames}
