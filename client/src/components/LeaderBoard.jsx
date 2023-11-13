@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -5,14 +6,16 @@ import { Link, useLoaderData } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const LeaderBoard = () => {
+  // use loader data hook to get the user data
   const userData = useLoaderData();
+  // set the current user id to the user data id
   const currUserId = userData.id;
   // use state hooks for leaderboard to render conditionally and to store data
   const [leaderBoard, setLeaderBoard] = useState(false);
   const [leaderBoardData, setLeaderBoardData] = useState([]);
   //use state hooks for search
   const [search, setSearch] = useState('');
-  //use state hooks for top x users
+  //use state hooks for top x users, default to 10 for init render
   const [topNum, setTopNum] = useState(10);
   //axios get req to retrieve the leaderboard data from the /leaderboard endpoint I specified
 
@@ -21,16 +24,17 @@ const LeaderBoard = () => {
   //state for followers list for leaderboard/follow fuction
   const [followers, setFollowers] = useState([]);
 
-  const getLeaderBoard = (topNum, search) => {
+  // function to get the leaderboard data
+  const getLeaderBoard = (topNumVal, searchVal) => {
+    // deconstruct the topNum and search values from the params
     const params = { topNum, search };
-    // console.log('params', params);
-    //get /leaderboard
+    //get /leaderboard, pass in params
     axios.get('/api/leaderboard', { params })
     // then, log success and set the leaderboard state to true and the data to the response data so
     // it can be mapped over and rendered
       .then((res) => {
-        // console.log('res log', res);
         console.log('successfully fetched data from leaderboard');
+        // set the leaderboard data to the response data, set leaderboard to true for condit render
         setLeaderBoardData(res.data);
         setLeaderBoard(true);
       })
@@ -40,7 +44,9 @@ const LeaderBoard = () => {
       });
   };
 
+  // handlefollow function takes in a user id
   const handleFollow = (userId) => {
+    // post req to the follow end point, passing in the userId as a param
     axios.post(`/follow/${userId}`)
       .then(() => {
         //if the post req is successful and the user is added to follower, update followers state
@@ -51,28 +57,23 @@ const LeaderBoard = () => {
         console.error('Failed to follow user:', error);
       });
   };
-
+  // function to render the followers leaderboard
   const renderFollowersLeaderBoard = () => {
+    // set the followers leaderboard to the followers hook
     setFollowersLeaderBoard(followers);
+    // set the leaderboard to false so the followers leaderboard will render
     setLeaderBoard(false);
   };
-  // useEffect(() => {
-  //   renderFollowersLeaderBoard();
-  // }, [followers]);
-  // currently using useEffect to render the leaderboard on page load
+  // use effect for initial render, get the leaderboard data
   useEffect(() => {
+    // get the leaderboard data
     getLeaderBoard(topNum, null);
   }, []);
-  //test logs to check state 
-  // useEffect(() => {
-  //   console.log('leaderboarddata state', leaderBoardData);
-  // }, [leaderBoardData]);
-  // useEffect(() => {
-  //   console.log('leaderboard state', leaderBoardData);
-  // }, [leaderBoard]);
-  
+  // use effect for followers list
   useEffect(() => {
+    // axios get req to the join_followers endpoint, passing in the current user id
     axios.get(`/api/join_followers/${currUserId}`)
+    // then, set the followers state to the response data
       .then((response) => {
         //set followers to the res data 
         setFollowers(response.data);
@@ -88,12 +89,14 @@ const LeaderBoard = () => {
         <h1 id="search-title">Leaderboard</h1>
         {/* Search bar for user */}
         <input 
+        // id for styling, value is the search state, on change set the search state to the value
           id="search-input"
           type="text" 
           placeholder="Search for a user"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={(e) => {
+            // if the key is enter, prevent default and get the leaderboard data
             if (e.key === 'Enter') {
               e.preventDefault();
               getLeaderBoard(topNum, search);
@@ -101,6 +104,7 @@ const LeaderBoard = () => {
           }}
         />
         <button
+        // id for styling, on click get the leaderboard data with the topNum and search values
           id="search-button" 
           className="btn btn-success"
           type="button"
@@ -109,9 +113,10 @@ const LeaderBoard = () => {
           Search Users stats
         </button>
         <br />
-        {/* Top x users leaderboard grab */}
+        {/* Drop down to select number of users to search*/}
         <div className="dropdown">
           <button
+          // id for styling, button class for bootstrap, type button, data-bs-toggle for dropdowns
             className="btn btn-warning dropdown-toggle"
             type="button"
             id="leaderboard-Dropdown"
@@ -125,6 +130,7 @@ const LeaderBoard = () => {
           </button>
           <ul className="dropdown-menu">
             <li>
+              {/* each number for drop down selection */}
               <a 
                 className="dropdown-item" 
                 href="#"
@@ -178,16 +184,20 @@ const LeaderBoard = () => {
           <h2 id="top-scores-title">Top {leaderBoardData.length} Scores:</h2>
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <a 
+              <a
+              // if the leaderboard is true, set the class to active, else set it to empty
                 className={`nav-link ${leaderBoard ? 'active' : ''}`} 
+                // on click, get the leaderboard data with the topNum and null for search
                 onClick={() => { getLeaderBoard(10, null); }}
               >
                 All Users
               </a>
             </li>
             <li className="nav-item">
-              <a 
+              <a
+              // if the leaderboard is false, set the class to active, else set it to empty
                 className={`nav-link ${!leaderBoard ? 'active' : ''}`} 
+                // on click, render the followers leaderboard
                 onClick={() => { renderFollowersLeaderBoard(); }}
               >
                 Get Followers Leaderboard
@@ -215,7 +225,9 @@ const LeaderBoard = () => {
                   </span>
                   {/* check for at least one element is satisfied, check for if follower id is user id */}
                   {followers.some((follower) => follower.id === user.id) ? (
-                    <span>Already Followed</span>
+                    <span>
+                      <button type="button" className="btn btn-success">Following</button>
+                    </span>
                   ) : (
                     //div to utilize bootstrap to place button on the right of the li
                     <div className="float-end">
@@ -292,11 +304,6 @@ const LeaderBoard = () => {
       
     </div>
   );
-};
-
-// test loader
-export const testLoader = () => {
-  return 'test loader is working';
 };
 
 export default LeaderBoard;
