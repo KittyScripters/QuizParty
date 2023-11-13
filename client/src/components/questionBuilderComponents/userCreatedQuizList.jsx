@@ -5,7 +5,7 @@ const UserCreatedQuizList = ({
   quizNames, handlePlayClick, handleQuizSelect, handleDeleteClick, handleShareClick,
   following, handleSendClick,
 }) => (
-  <div>
+  <div className="user-created-quiz-list">
     { quizNames.length === 0 ? (
       <div>No user created Quizzes.</div>
     ) : (quizNames.map((quizName) => (

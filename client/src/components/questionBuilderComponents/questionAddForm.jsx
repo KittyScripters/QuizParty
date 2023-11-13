@@ -61,7 +61,7 @@ const QuestionAddForm = () => {
   };
   
   return (
-    <div>
+    <div id="question-add-form">
       {QAview === 'nameQuiz'
       && (
         <NameNewQuiz
@@ -75,13 +75,14 @@ const QuestionAddForm = () => {
       {QAview === 'addQuestion' && (
         <> 
           <h2>{questionSet}</h2>
-          <div>
+          <div className="form-group">
             Question: 
             {' '}
             <input 
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
+              className="form-control"
             />
           </div>
           <div>
@@ -91,43 +92,54 @@ const QuestionAddForm = () => {
               type="text"
               value={correctAnswer}
               onChange={(e) => setCorrectAnswer(e.target.value)}
+              className="form-control"
             />
           </div>
-          <div>
+          <div className="form-group">
             First Incorrect Answer: 
             {' '}
             <input 
               type="text"
               value={incorrectAnswer1}
               onChange={(e) => setincorrectAnswer1(e.target.value)}
+              className="form-control"
             />     
           </div>
-          <div>
+          <div className="form-group">
             Second Incorrect Answer: 
             {' '}
             <input 
               type="text"
               value={incorrectAnswer2}
               onChange={(e) => setincorrectAnswer2(e.target.value)}
+              className="form-control"
             />
-            <div>
+            <div className="form-group">
               Third Incorrect Answer: 
               {' '}
               <input 
                 type="text"
                 value={incorrectAnswer3}
                 onChange={(e) => setincorrectAnswer3(e.target.value)}
+                className="form-control"
               />
             </div>
             <div>
               <button type="button" onClick={submitValue}>Add Question</button>
-              <button type="button" onClick={() => { QAsetView('nameQuiz'); setCreatedQuestions([]); }}>
+              <button
+                type="button"
+                onClick={() => { 
+                  QAsetView('nameQuiz'); 
+                  setCreatedQuestions([]); 
+                }}
+                className="btn btn-secondary"
+              >
                 Back
               </button>
             </div>
             <div>
               {createdQuestions.map((createdQuestion, index) => (
-                <div key={createdQuestion.id}>
+                <div key={createdQuestion.id} className="created-question">
                   <div>
                     <br />
                     <span><b>{index + 1}.</b> {createdQuestion.question}</span>
