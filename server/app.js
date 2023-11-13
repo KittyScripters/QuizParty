@@ -127,6 +127,7 @@ app.get('/api/leaderboard', (req, res) => {
   //then take the users 'leaderboard' and send them back to the client
     .then((users) => {
       // send back the users
+      console.log(req.query);
       res.send(users);
     })
     // error handling
