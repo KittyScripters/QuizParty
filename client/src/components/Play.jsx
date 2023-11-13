@@ -186,13 +186,29 @@ const Play = () => {
           <div id="favoriteButton">
             {favoritesButton
               ? (
-                <div className="p-2"> 
-                  <button type="button" className="btn btn-warning btn-lg" onClick={() => addToFavorites()}>
+                <div className="p-2">
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-lg"
+                    onClick={() => {
+                      addToFavorites();
+                      setFavoritesButton(false);
+                    }}
+                  >
                     Add Question To Your Favorites
                   </button>
                 </div>
-              )
-              : null}
+              ) : (
+                <div className="p-2">
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-lg"
+                    disabled
+                  >
+                    Question Added!
+                  </button>
+                </div>
+              )}
           </div><br />
           <div id="nextButton">
             {nextButton
@@ -208,6 +224,7 @@ const Play = () => {
                       resetRadioButton(); 
                       onSubmitButton();
                       updateQuestionScore();
+                      setFavoritesButton(true);
                     }}
                   > Next Question
                   </button>  
@@ -333,52 +350,49 @@ const Play = () => {
               <p>When you are finished, reselect categories and difficulty and try again!</p> 
               <p>Hint: The harder the questions, the higher your highscore increases. </p>
               <h4>Select your Category and Difficulty Level Below:</h4>
-              <div className="btn-group" role="group">
-                <div className="dropdown">
-                  <button
-                    className="btn btn-warning dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {/* if category is empty, render category, else render the selected category */}
-                    {category === '' ? 'Category' : category}
-                  </button>
-                  {/* drop down menu, each item is an on click button that sets category*/}
-                  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Animals')}>Animals</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Art')}>Art</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Books')}>Books</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Celebrities')}>Celebrities</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('History')}>History</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Music')}>Music</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Mythology')}>Mythology</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Nature')}>Nature</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Politics')}>Politics</button></li>
-                    <li><button className="dropdown-item" type="button" onClick={() => setCategory('Sports')}>Sports</button></li>
-                  </ul>
-                </div>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-warning dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton2"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {/* if difficulty is empty, render Difficulty, else render the selected difficulty */}
-                    {difficulty === '' ? 'Difficulty' : difficulty}
-                  </button>
-                  {/* drop down menu, each item is an on click button that sets difficulty*/}
-                  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Easy')}>Easy</button></li> 
-                    <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Medium')}>Medium</button></li> 
-                    <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Hard')}>Hard</button></li> 
-                  </ul>
-                </div>
+              <div className="dropdown">
+                <button
+                  className="btn btn-warning dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {/* if category is empty, render category, else render the selected category */}
+                  {category === '' ? 'Category' : category}
+                </button>
+                {/* drop down menu, each item is an on click button that sets category*/}
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Animals')}>Animals</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Art')}>Art</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Books')}>Books</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Celebrities')}>Celebrities</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('History')}>History</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Music')}>Music</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Mythology')}>Mythology</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Nature')}>Nature</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Politics')}>Politics</button></li>
+                  <li><button className="dropdown-item" type="button" onClick={() => setCategory('Sports')}>Sports</button></li>
+                </ul>
               </div>
-              <br />
+              <div className="dropdown">
+                <button
+                  className="btn btn-warning dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {/* if difficulty is empty, render Difficulty, else render the selected difficulty */}
+                  {difficulty === '' ? 'Difficulty' : difficulty}
+                </button>
+                {/* drop down menu, each item is an on click button that sets difficulty*/}
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Easy')}>Easy</button></li> 
+                  <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Medium')}>Medium</button></li> 
+                  <li><button className="dropdown-item" type="button" onClick={() => setDifficulty('Hard')}>Hard</button></li> 
+                </ul>
+              </div>
               <button
                 type="button"
                 id="play-btn"
