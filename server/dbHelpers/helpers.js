@@ -143,26 +143,42 @@ const checkHighScores = (userObjects, joinAch) => {
 
 // used to check the highest category score and confirm there is no tie
 const checkTopCatScore = (users, category, attribute) => {
+  // sorting the array of user objects by the current attribute (high to low)
   const scores = users.sort((a, b) => b[attribute] - a[attribute]);
+  // top two scores
+  const topScore = scores[0];
+  const secondPlace = scores[1];
+  // find the achievement by the category
   Achievement.findOne({ where: { name: category } })
     // title === achievement
     .then((title) => {
+      // get all joined achievements
       joinAchievement.findAll({ attributes: ['user_id', 'achievement_id'] })
         .then((joinAch) => {
+          // iterate through the joined achievemnts
           joinAch.forEach((ach) => {
-            if (ach.achievement_id === title.id && ach.user_id !== scores[0].id && scores[0][attribute] > scores[1][attribute]) {
+            // if the achievement's user_id property does not equal topScore.id and there is no tie
+            if (ach.achievement_id === title.id && ach.user_id !== topScore.id && topScore[attribute] > secondPlace[attribute]) {
+              // update the joined achievement's user_id property
               joinAchievement.update(
-                { user_id: scores[0].id },
+                { user_id: topScore.id },
                 { where: { achievement_id: title.id } },
-              );
+              )
+                .then((update) => {
+                  // feel free to update this
+                  // console.log('UPDATE', update);
+                })
+                .catch((err) => console.error(err));
             }
           });
         })
         .then(() => {
-          joinAchievement.findOne({ where: { user_id: scores[0].id, achievement_id: title.id } })
+          // then find the one joined achievement by topScore.id and title.id
+          joinAchievement.findOne({ where: { user_id: topScore.id, achievement_id: title.id } })
             .then((achievement) => {
-              if (achievement === null && scores[0][attribute] > scores[1][attribute]) {
-                joinAchievement.create({ user_id: scores[0].id, achievement_id: title.id });
+              // if achievement is null and there is no tie between the top two scores => create the joined achievement
+              if (achievement === null && topScore[attribute] > secondPlace[attribute]) {
+                joinAchievement.create({ user_id: topScore.id, achievement_id: title.id });
               }
             })
             .catch((err) => console.error(err));
