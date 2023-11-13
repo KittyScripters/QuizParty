@@ -46,7 +46,6 @@ const YourQuizzes = () => {
     return new Promise((resolve, reject) => {
       axios.post(`/retrieveUserQuiz/${userId}`, { question_set: quizName })
         .then(({ data }) => {
-          console.log('data in retrieve quiz:', data);
           setSelectedQuiz(data);
           resolve(data);
         })
@@ -64,6 +63,7 @@ const YourQuizzes = () => {
           // eslint-disable-next-line no-alert
           alert('They already have a quiz with that name. Please try again.');
         } else {
+          console.log('handle send click triggered');
           handleQuizSelect(quizName)
             .then((quizData) => {
               const newUserQuiz = quizData.map((question) => ({
@@ -135,8 +135,8 @@ const YourQuizzes = () => {
       .catch((err) => console.error('Error on client side submitting updated questions: ', err));
   };
   return (
-    <div>
-      <h1>Edit Your Quizzes</h1>
+    <div className="container">
+      <h1 className="text-center">Edit Your Quizzes</h1>
       <UserCreatedQuizList 
         quizNames={quizNames}
         handlePlayClick={handlePlayClick}

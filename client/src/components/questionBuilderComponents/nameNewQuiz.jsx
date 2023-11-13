@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const NameNewQuiz = ({
-  questionSet, setQuestionSet, setParentView, userId, 
+  questionSet, setQuestionSet, setParentView, userId,
 }) => {
   const navigate = useNavigate();
   const cancelClick = () => {
@@ -23,23 +23,30 @@ const NameNewQuiz = ({
   };
  
   return (
-    <>
+    <div id="name-new-quiz" className="name-new-quiz">
       Quiz Name: 
       {' '}
       <input 
         type="text"
         value={questionSet}
         onChange={(e) => setQuestionSet(e.target.value)}
+        className="form-control"
       />
       <div>
         <button
           type="button"
           onClick={checkQuizExists}
+          className="btn btn-primary"
         >Create
         </button>
-        <button type="button" onClick={cancelClick}>Cancel</button>
+        <button 
+          type="button" 
+          onClick={cancelClick}
+          className="btn btn-secondary"
+        >Cancel
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 

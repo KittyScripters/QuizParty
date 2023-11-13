@@ -10,12 +10,11 @@ const UserCreatedQuiz = ({
   const handleSelectChange = (e) => {
     setSelectedUser(e.target.value);
   };
-  console.log(following);
-  console.log(selectedUser);
+
   return (
-    <div key={quizName} className="col">
+    <div className="user-created-quiz" key={quizName}>
       {quizName}{' '}
-      <span className="button-container">
+      <span>
         <button
           type="button"
           className="playUserQuizButton"
