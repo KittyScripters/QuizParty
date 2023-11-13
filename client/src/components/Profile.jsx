@@ -43,7 +43,7 @@ const Profile = () => {
     <div>
       <NavBar />
       <div id="profile-background" className="container-lg pt-5 pb-5">
-        <div>
+        <div id="leaderboard">
           <div
             id="img-name-bio"
             className="
@@ -53,6 +53,8 @@ const Profile = () => {
             w-50
             p-5
             text-center
+            bg-gradient
+            bg-info
             rounded-pill"
           >
             <img className="rounded w-25 h-25" alt="user" src={user ? user.image_url : ''} referrerPolicy="no-referrer" />
