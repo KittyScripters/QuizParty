@@ -20,7 +20,6 @@ const QuestionAddForm = () => {
     setCorrectAnswer('');
     setincorrectAnswer1('');
     setincorrectAnswer2('');
-    setincorrectAnswer3('');
   };
   
   const setParentView = () => {
