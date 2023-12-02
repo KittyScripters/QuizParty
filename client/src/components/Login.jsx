@@ -5,7 +5,7 @@ import kittyHat from '../css/pictures/kittyhat.png';
 import '../css/styles.scss';
 
 const authHandle = () => {
-  window.location.href = '/auth/google';
+  window.location.href = '/google';
 };
 
 const Login = () => {

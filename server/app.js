@@ -79,7 +79,7 @@ app.get('/protected', (req, res) => {
 });
 
 app.get(
-  '/auth/google',
+  '/google',
   passport.authenticate('google', { scope: ['email', 'profile'] }),
 );
 
@@ -87,7 +87,7 @@ app.get(
   '/google/callback',
   passport.authenticate('google', {
     successRedirect: '/protected',
-    failureRedirect: '/auth/google/failure',
+    failureRedirect: '/google/failure',
   }), 
   (req, res) => {
     // set the current user id
@@ -98,7 +98,7 @@ app.get(
   },
 );
 
-app.get('/auth/google/failure', (req, res) => {
+app.get('/google/failure', (req, res) => {
   res.send('Failed to authenticate..');
 });
 
