@@ -303,5 +303,8 @@ const LeaderBoard = () => {
     </div>
   );
 };
+export const leaderboardLoader = () => {
+  
+}
 
 export default LeaderBoard;
