@@ -15,7 +15,7 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './NavBar';
-import LeaderBoard from './LeaderBoard';
+import LeaderBoard, { leaderboardLoader } from './LeaderBoard';
 import Profile from './Profile';
 import Play from './Play';
 import QuestionBuilder from './QuestionBuilder';
@@ -58,7 +58,6 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-
         <Route element={<PrivateRoutes />} loader={isLoggedInLoader}> 
           <Route path="/protected" index element={<LeaderBoard />} loader={getUserLoader} />
           <Route path="/protected/leaderboard" element={<LeaderBoard />} loader={getUserLoader} />

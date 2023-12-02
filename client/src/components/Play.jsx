@@ -186,13 +186,29 @@ const Play = () => {
           <div id="favoriteButton">
             {favoritesButton
               ? (
-                <div className="p-2"> 
-                  <button type="button" className="btn btn-warning btn-lg" onClick={() => addToFavorites()}>
+                <div className="p-2">
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-lg"
+                    onClick={() => {
+                      addToFavorites();
+                      setFavoritesButton(false);
+                    }}
+                  >
                     Add Question To Your Favorites
                   </button>
                 </div>
-              )
-              : null}
+              ) : (
+                <div className="p-2">
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-lg"
+                    disabled
+                  >
+                    Question Added!
+                  </button>
+                </div>
+              )}
           </div><br />
           <div id="nextButton">
             {nextButton
@@ -208,6 +224,7 @@ const Play = () => {
                       resetRadioButton(); 
                       onSubmitButton();
                       updateQuestionScore();
+                      setFavoritesButton(true);
                     }}
                   > Next Question
                   </button>  
