@@ -12,11 +12,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 - Google Chrome
 - Gmail Account
+- Google Client ID for Authenication
 - API key from https://opentdb.com/api_config.php
 
 ### Setup:
 
-When opening the repo, make sure to do the following steps in the root directory. When finished, open localhost:3000 to see the rendered app.
+Create a Google Client ID for Google Authentication and save the Google client ID and Google client secret as GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in the .env file. When opening the repo, make sure to do the following steps in the root directory. When finished, open localhost:3000 to see the rendered app. 
+
 ### Scripts:
   - npm install (installs all dependencies)
   - npm run seed (seeds the database)
@@ -38,6 +40,7 @@ Steps to deploy:
   - npm run build:client
   - (update API token, if necessary)
   - start the server
+
 ## Built with: 
 
   - [Axios](https://axios-http.com/docs/api_intro)- handles client side requests
